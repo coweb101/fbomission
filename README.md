@@ -4,7 +4,7 @@ This repository stores code used to analyze behavioural and EEG data of a sample
 Importantly, these omissions entailed contextual valence based on the alternative possible outcome, which could either be a displayed reward or a displayed loss depending on the learning context (Get Reward vs Avoid Loss).
 
 **Overview of pipeline**
-1) PE_modelling: model single-trial prediction errors (PEs) based on behavioural choice data (Matlab)
-2) EEG_preprocessing: preprocessing templates used for data preparation and cleaning (BrainVision)
+1) PE_modelling: modelling of learning rates and single-trial prediction errors (PEs) based on behavioural choice data (Matlab)
+2) EEG_preprocessing: preprocessing templates used for data preparation and cleaning (BrainVision Analyzer)
 3) Behavioural_analysis: statistical analysis of choice accuracy data and modelled learning rates (R)
 4) Multitemporal_analysis: statistical analysis of effects of contextual valence and PEs on display- and omission-related amplitudes (R)
