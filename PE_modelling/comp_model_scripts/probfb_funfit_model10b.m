@@ -1,7 +1,7 @@
 % Model 10b: Fit rl model with separate learning rates for valence, rew
 % prob, appearance
 % PLUS learning rate update in each trial with an exponential decay
-% parameter (lambda)
+% parameter (lambda) in presentations of the same stimulus
 
 addpath(genpath('./interim_datasets/'));
 
@@ -18,8 +18,8 @@ ntrials = length(datastruc_choice(1,:)); % number of trials
 %niter = 50; % number of iterations of fmincon (now globally set in batch file for all functions)
 
 % lower and upper bound for fit (alphas (12),beta, lambda)
-LB = [0 0 0 0 0 0 0 0 0 0 0 0 0 0]; % lower bound
-UB = [1 1 1 1 1 1 1 1 1 1 1 1 100 1]; % upper bound
+LB = [0 0 0 0 0 0 0 0 0 0 0 0 0 1]; % lower bound
+UB = [1 1 1 1 1 1 1 1 1 1 1 1 100 1000]; % upper bound
 
 % loop throught subjects
 for i = 1:nsubs
@@ -35,6 +35,8 @@ for i = 1:nsubs
     sub_outcome = cell2mat(sub_outcome);
     sub_stimuli = cell2mat(sub_stimuli);
     sub_feedback_type = cell2mat(sub_feedback_type);
+    
+    n_valid = sum(~isnan(sub_choice) & ~isnan(sub_outcome));
     
     % loop through iterations
     for j = 1:niter
@@ -55,7 +57,9 @@ for i = 1:nsubs
         
         beta = rand*100; % one exploration parameter
         
-        lambda = rand; % decaying parameter
+       % half-life in presentations, log-uniform in [1, 1000]
+        lambda = exp(rand*log(1000));
+
        
         
         params = [alpha_90_presented_pos,alpha_70_presented_pos,...
@@ -90,7 +94,7 @@ for i = 1:nsubs
         
         % save fit indices
         all_ll(j) = LL;
-        all_bic(j) = aicbic(-LL,  length(params), ntrials);
+        all_bic(j) = 2*LL + length(params)*log(n_valid);
     end
     
     % save best fit according to -LL
