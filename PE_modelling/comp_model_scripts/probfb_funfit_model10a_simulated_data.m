@@ -31,6 +31,7 @@ for i = 1:nsubs
         sub_stimuli = data_nsim.stim;
         sub_feedback_type = data_nsim.feedback_type;
 
+        n_valid = sum(~isnan(sub_choice) & ~isnan(sub_outcome));
   
             for j = 1:niter % iterations of fmincon
 
@@ -80,7 +81,7 @@ for i = 1:nsubs
 
                 % save fit indices
                 all_ll(j) = LL;
-                all_bic(j) = aicbic(-LL,  length(params), ntrials);
+                all_bic(j) = 2*LL + length(params)*log(n_valid);
             end
         
     % save best fit according to -LL
