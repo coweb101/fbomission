@@ -7,8 +7,39 @@ tic % start stopwatch | duration for 50 iterations: ~313 minutes
 
 %% 1. Read data
 
-% Omitted for anonymization
-% everything below is reproducable with anonymized matlab data files
+% Change path to folder with data preparation scripts
+addpath(genpath('./read_logfile_scripts_and_data_preparation/'));
+
+% Call batch that runs the functions to read all relevant logfiles
+% read_logfile_om_aktiv_batch_paper %% included hard coded filenames
+% changed to loop to upload all prep scripts to address reviewer comment
+read_data;
+
+% Create data structure expected by rl-model functions and save in folder
+% 'interim_datasets' (specified in dataprep script)
+[datastruc_stimuli, datastruc_choice,datastruc_not_choice,datastruc_feedback,datastruc_feedback_type,filenames,stim_rew_prob]=dataprep_PE_paper;
+
+% Calculate means of feedback for each stimuli and each participant to
+% identify which stimulus had which reward probability
+stim_rew_prob.id = categorical(cellstr(stim_rew_prob.id));
+stim_rew_prob.stim = cell2mat(stim_rew_prob.stim);
+stim_rew_prob.feedback = cell2mat(stim_rew_prob.feedback);
+stim_rew_prob.modality = cell2mat(stim_rew_prob.modality);
+stim_rew_prob.choice = cell2mat(stim_rew_prob.choice);
+stim_rew_prob.correct = cell2mat(stim_rew_prob.correct);
+
+% Custom function to calculate mean while omitting NaN values in grpstats
+omitnan_mean = @(x) mean(x, 'omitnan');
+omitnan_sum = @(x) sum(x, 'omitnan'); % or sum
+
+% Calculate the mean of feedback grouped by id and correct answers
+stim_rew_prob_proportion_rewards = grpstats(stim_rew_prob, {'stim', 'correct'}, omitnan_mean, 'DataVars', 'feedback');
+% stim 1&2 = 90% reward probability; stim 3&4 = 70%; stim 5&6 = 50%
+
+% Create tables in which for each participant mappings of correct responses
+% and learning contexts to each stimuli are saved for later use in data
+% simulation for parameter recovery:
+create_correct_response_key;
 
 %% 2. Fit rl models with varying complexity to the behavioural data (extract
 % best fit and compare indices)
@@ -511,7 +542,7 @@ expandedNames = cellfun(@(b) arrayfun( ...
     @(x) sprintf('%s_%02d', b, x), 1:25, 'UniformOutput', false), ...
     baseNames, 'UniformOutput', false);
 
-expandedNames = [expandedNames{:}];   % flatten into 1×N cell
+expandedNames = [expandedNames{:}];   % flatten into 1Ã—N cell
 varNames = ['filename', expandedNames];
 parameter_export = cell2table(parameter_export, 'VariableNames', varNames);
 
