@@ -9,7 +9,7 @@
 
 clear all; % clear workspace
 rng(17, 'twister'); % fix random number generator for reproducibility
-tic % start stopwatch | duration for 100 iterations: 313 minutes
+tic % start stopwatch | duration for 50 iterations: 313 minutes Elapsed time is 28318.576671 seconds. for Step 1 & 2
 
 %% 1. Reading logfiles and data preparation
 
@@ -125,9 +125,9 @@ r=r+1;
 clear fit fit_BIC params
 
 % Model 2c: separate learning rates for confirmatory and disconfirmatory
-% trials (i.e. positive and negative feedback valence) across stimuli/
-% feedback type/context/reward probability + update of chosen and unchosen
-% option
+% trials (i.e. positive and negative feedback valence) and chosen and 
+% unchosen
+% + update of chosen and unchosen option
 
 probfb_funfit_model2c
 modelfits(r,:) = {'2c',5,'valence + choice (+ unchosen update)',mean(fit.ll), mean(fit_BIC.bic)};
@@ -497,7 +497,26 @@ r=r+1;
 clear fit fit_BIC params
 
 % save table with modelfits of each model       
-writetable(modelfits,'comp_model_fit_export\modelfits_immediate.csv');   
+writetable(modelfits,'comp_model_fit_export\modelfits_immediate.csv');
+
+% add AIC to model fits
+modelfits.AIC = 2*modelfits.ll + 2*modelfits.no_free_parameter;
+
+% model with the lowest -LL (best raw fit, no penalty for parameters)
+[~, idx_ll] = min(modelfits.ll);
+disp('Model with lowest -LL:');
+disp(modelfits(idx_ll,:)); % best model: 10acc
+
+% model with the lowest AIC (fit penalized for number of parameters (less strongly than BIC)
+[~, idx_aic] = min(modelfits.AIC);
+disp('Model with lowest AIC:');
+disp(modelfits(idx_aic,:)); % best model: 10ab
+
+% model with the lowest BIC (fit penalized for number of parameters)
+[~, idx_bic] = min(modelfits.BIC);
+disp('Model with lowest BIC:');
+disp(modelfits(idx_bic,:)); % best model: 5b
+ 
 
 %% 3. Simulate PE for each trial with fitted parameters of best fitting
 % model and save simulated values as well as parameters (caution this is 
@@ -511,7 +530,7 @@ probfb_simulation_best_model
 probfb_simulation_data_parameter_recovery
 
 % 2. Fit simulated data to previously identified model
-probfb_funfit_model10a_simulated_data
+probfb_funfit_model5b_simulated_data
 save('comp_model_fit_export\fit_model_recovery_ll','fit');
 save('comp_model_fit_export\fit_model_recovery_bic','fit_BIC');
 
@@ -520,36 +539,27 @@ save('comp_model_fit_export\fit_model_recovery_bic','fit_BIC');
 % concatenate filenames, BICs and recovered alphas & beta
 load filenames;
 parameter_export = cat(2, filenames,num2cell(transpose(fit_BIC.bic)), ...
-    num2cell(transpose(fit_BIC.alpha_90_presented_pos)), ...
-    num2cell(transpose(fit_BIC.alpha_70_presented_pos)), ...
-    num2cell(transpose(fit_BIC.alpha_50_presented_pos)), ...
-    num2cell(transpose(fit_BIC.alpha_90_omitted_pos)), ...
-    num2cell(transpose(fit_BIC.alpha_70_omitted_pos)), ...
-    num2cell(transpose(fit_BIC.alpha_50_omitted_pos)), ...
-    num2cell(transpose(fit_BIC.alpha_90_presented_neg)), ...
-    num2cell(transpose(fit_BIC.alpha_70_presented_neg)), ...
-    num2cell(transpose(fit_BIC.alpha_50_presented_neg)), ...
-    num2cell(transpose(fit_BIC.alpha_90_omitted_neg)), ...
-    num2cell(transpose(fit_BIC.alpha_70_omitted_neg)), ...
-    num2cell(transpose(fit_BIC.alpha_50_omitted_neg)), ...    
+    num2cell(transpose(fit_BIC.alpha_pospresented)), ...
+    num2cell(transpose(fit_BIC.alpha_posomitted)), ...
+    num2cell(transpose(fit_BIC.alpha_negpresented)), ...
+    num2cell(transpose(fit_BIC.alpha_negomitted)), ...
     num2cell(transpose(fit_BIC.beta)));
 % columns: filenames, BIC, alphas..., beta
 
 % assign column labels
 baseNames = {'BIC', ...
-    'alpha_90_presented_pos', 'alpha_70_presented_pos', 'alpha_50_presented_pos', ...
-    'alpha_90_omitted_pos',   'alpha_70_omitted_pos',   'alpha_50_omitted_pos', ...
-    'alpha_90_presented_neg', 'alpha_70_presented_neg', 'alpha_50_presented_neg', ...
-    'alpha_90_omitted_neg',   'alpha_70_omitted_neg',   'alpha_50_omitted_neg', ...
+    'alpha_pospresented', 'alpha_posomitted', ...
+    'alpha_negpresented', 'alpha_negomitted', ...
     'beta'};
 
 expandedNames = cellfun(@(b) arrayfun( ...
     @(x) sprintf('%s_%02d', b, x), 1:25, 'UniformOutput', false), ...
     baseNames, 'UniformOutput', false);
 
-expandedNames = [expandedNames{:}];   % flatten into 1×N cell
+expandedNames = [expandedNames{:}];   % flatten into 1?N cell
 varNames = ['filename', expandedNames];
 parameter_export = cell2table(parameter_export, 'VariableNames', varNames);
+
 
 % export as csv
 writetable(parameter_export,'comp_model_fit_export\FBOmiss_learning_parameter_recovered.csv');
