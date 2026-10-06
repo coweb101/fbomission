@@ -149,11 +149,13 @@ end
 % sort by id and stim
 correct_response_table = sortrows(correct_response_table, {'id','stim'});
 % save for later reuse
+correct_response_table.id = removecats(correct_response_table.id); % drop old codes
 save('interim_datasets\datastruc_correct_response_key.mat', 'correct_response_table');
 
 % sort by id and stim
 stim_context_mapping = sortrows(stim_context_mapping, {'id','stim'});
 % save for later reuse
+stim_context_mapping.id = removecats(stim_context_mapping.id); % drop old codes
 save('interim_datasets\datastruc_stim_context_mapping.mat', 'stim_context_mapping');
 
 % add "new id" also to filenames table
@@ -164,6 +166,24 @@ save('interim_datasets\filenames_old_new.mat', 'filenames');
 
 % save also as csv to anonnymize behav data in R
 writetable(filenames, 'interim_datasets\filenames_old_new.csv');
+
+% anonymized behavioural data for the R analyses
+behav = readtable('interim_datasets/FBOmiss_behaviour_immediate.csv', 'TextType', 'string');
+% run-2 logfiles carry the participant code plus "2": keep the first 6 characters
+behav.id = extractBefore(behav.id, 7);
+% replace each code by its anonymous id; stop if any code is not in the key
+[found, idx] = ismember(behav.id, string(fname));
+assert(all(found), 'Participant code without entry in the key');
+ids = string(new_ids);
+behav.id = reshape(ids(idx), [], 1);
+% check: exactly 48 ids, 480 trials each
+% check: exactly 48 ids, 480 trials each
+[~, ~, g] = unique(behav.id);      % group index per row
+counts = accumarray(g, 1);         % number of rows per id
+assert(numel(counts) == 48 && all(counts == 480), ...
+       'Expected 48 participants with 480 trials each');
+   
+writetable(behav, 'interim_datasets/FBOmiss_behaviour_immediate_anonymized.csv');
 
 % overwrite non-anonymized filenames and save in wd
 filenames = filenames.new_id;
