@@ -1,6 +1,6 @@
 ## FBOmission - Behavioural Data Analysis
 
-## CW, 01/2026
+## CW, last modified 10/2026
 
 #### General settings & loading of packages ####
 remove(list = ls()) # clear workspace
@@ -43,34 +43,10 @@ set.seed(17)
 # or wrong response for the 50% stimulus. Non-learners are defined as having 
 # responded less accurate than chance and will be excluded from all further analyses.
 
+# Read behavioural data
 
-# Read behavioural data (not anonymized)
+behav_not_anonymized <- data.table::fread("behavioural_data/immediate/interim_datasets/FBOmiss_behaviour_immediate_anonymized.csv")
 
-# data
-behav_not_anonymized <- data.table::fread("behavioural_data/immediate/interim_datasets/FBOmiss_behaviour_immediate.csv")
-
-# old/new id key
-id_key <- data.table::fread("behavioural_data/immediate/interim_datasets/filenames_old_new.csv")
-
-# replace pseudonymized code with anonymous id
-
-for (i in 1:length(unique(id_key$original_id))){
-
-  id_current <- unique(id_key$original_id)[i]
-  behav_not_anonymized[which(behav_not_anonymized$id== id_current), "id"] <- id_key[which(id_key$original_id==id_current),2]
-
-}
-
-# save
-data.table::fwrite(behav_not_anonymized,"aggregated_data/FBOmiss_behaviour_immediate_anonymized.csv", row.names=F) # save data in folder
-
-rm(behav_not_anonymized)
-rm(id_key)
-rm(id_current)
-
-# read again (everything from hereon reproducable with data sets within this folder)
-behav <- data.table::fread("aggregated_data/FBOmiss_behaviour_immediate_anonymized.csv")
-behav <- as.data.frame(behav)
 
 # Create new columns for feedback valence, type (omission/presentation), learning context (reward/loss), and reward probability
 
