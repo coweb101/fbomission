@@ -1,4 +1,4 @@
-The file FBOmiss_PE_immediate_pipeline.m was run to read logfiles, prepare raw data and fit and compare 
+The file FBOmiss_PE_modelling_pipeline.m was run to read logfiles, prepare raw data and fit and compare 
 the different models to the behavioural data. It works as a batch file that calls functions in the subfolders 
 within this folder. The folder structure (and names) should therefore not be changed.
 
