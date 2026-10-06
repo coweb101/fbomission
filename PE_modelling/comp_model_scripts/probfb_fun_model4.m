@@ -66,6 +66,6 @@ for i = 1:ntrials
         % as the first argument (Q))
     end
 end
-p(p<=1e-10) = 1e-5; % avoid 0s or negatives, "underflow"
+p(p<1e-10) = 1e-10; % avoid 0s or negatives, "underflow"
 
 error = -sum(log(p),'omitnan');
