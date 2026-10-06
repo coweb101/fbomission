@@ -1,14 +1,19 @@
-% 2. Simulate prediction error for each trial based on best model (model
-% 5b)
+% 3. Simulate action values and prediction errors for each trial with the
+% fitted parameters of the best model (lowest BIC: model 2b)
+% Model 2b: separate learning rates for positive and negative feedback (+ update of chosen and unchosen option)
+% (generated from probfb_fun_model2b.m; model update copied verbatim)
 
 % set directory for model fit
 addpath(genpath('./comp_model_fit_export/'));
 
-% load parameters of best BIC fit of model 5b which performed best
-load fit_model_5b_bic; 
+% load parameters of best fit of model 2b (fit_BIC: within a model the
+% iteration with the lowest BIC is also the one with the lowest -LL and AIC)
+load fit_model_2b_bic;
 
+% names of the free parameters in the order of params(1), params(2), ...
+param_names = {'alpha_pos', 'alpha_neg', 'beta'};
 
-% set directory for behavioural data (prepared with dataprep
+% set directory for behavioural data (prepared with dataprep)
 addpath(genpath('./interim_datasets/'));
 
 % load data
@@ -17,36 +22,29 @@ load datastruc_not_choice; % created with dataprep
 load datastruc_feedback; % created with dataprep
 load datastruc_stimuli; % created with dataprep
 load datastruc_feedback_type; % created with dataprep
-load filenames; %(anonymous; created with with create_correct_response_key;)
+load filenames; % anonymous ids (created with create_correct_response_key)
 
-ntrials=480;
+ntrials = 480;
 
 for i = 1:length(fit_BIC.bic) % loop through participants
-    
+
     i
-    
+
     % retrieve parameters of best fit
-    params(1) = fit_BIC.alpha_pospresented(i);
-    params(2) = fit_BIC.alpha_posomitted(i);
-    params(3) = fit_BIC.alpha_negpresented(i);
-    params(4) = fit_BIC.alpha_negomitted(i);
-    params(5) = fit_BIC.beta(i);    
+    params = zeros(1, numel(param_names));
+    for k = 1:numel(param_names)
+        params(k) = fit_BIC.(param_names{k})(i);
+    end
 
     % prepare choice and outcome for simulation function
-    sub_choice = datastruc_choice(i,:);
-    sub_not_choice = datastruc_not_choice(i,:);
-    sub_outcome = datastruc_feedback(i,:);
-    sub_stimuli = datastruc_stimuli(i,:);
-    sub_feedback_type = datastruc_feedback_type(i,:);
-    
-    sub_choice = cell2mat(sub_choice);
-    sub_not_choice = cell2mat(sub_not_choice);
-    sub_outcome = cell2mat(sub_outcome);
-    sub_stimuli = cell2mat(sub_stimuli);
-    sub_feedback_type = cell2mat(sub_feedback_type);
-   
+    sub_choice = cell2mat(datastruc_choice(i,:));
+    sub_not_choice = cell2mat(datastruc_not_choice(i,:));
+    sub_outcome = cell2mat(datastruc_feedback(i,:));
+    sub_stimuli = cell2mat(datastruc_stimuli(i,:));
+    sub_feedback_type = cell2mat(datastruc_feedback_type(i,:));
+
     % simulate values based on parameters of best fit
-    currsim = sim_values_model5b(params,sub_choice,sub_not_choice, sub_outcome, sub_stimuli, sub_feedback_type);
+    currsim = sim_values_best_model(params, sub_choice, sub_outcome, sub_stimuli, sub_feedback_type);
 
     % save simulated values of current participant
     datastruc.p1l(i,:) = currsim.p(1,:);
@@ -191,124 +189,86 @@ results = cell2table(results,...
 % Export simulated values and PEs as csv
 writetable(results,'comp_model_fit_export\FBOmiss_immediate_Q_values_and_PEs.csv');
 
-% Export fits and learning rates
-
-% concatenate filenames and ll/alphas/beta
-parameter_export = cat(2, filenames,num2cell(transpose(fit_BIC.bic)), ...
-    num2cell(transpose(fit_BIC.alpha_pospresented)), ...
-    num2cell(transpose(fit_BIC.alpha_posomitted)), ...
-    num2cell(transpose(fit_BIC.alpha_negpresented)), ...
-    num2cell(transpose(fit_BIC.alpha_negomitted)), ...
-    num2cell(transpose(fit_BIC.beta)));
-% columns: filenames, BIC, alphas..., beta
-
-parameter_export = cell2table(parameter_export,...
-    'VariableNames',{'filename' ...
-    'BIC' ...
-    'alpha_pospresented'  ...
-    'alpha_posomitted'  ...
-    'alpha_negpresented'  ...
-    'alpha_negomitted'  ...
-    'beta'});
+% Export fits and parameters (BIC + all free parameters of the model)
+parameter_export = [filenames, num2cell(fit_BIC.bic(:))];
+for k = 1:numel(param_names)
+    parameter_export = [parameter_export, num2cell(fit_BIC.(param_names{k})(:))];
+end
+parameter_export = cell2table(parameter_export, 'VariableNames', [{'filename', 'BIC'}, param_names]);
 
 % export as csv
 writetable(parameter_export,'comp_model_fit_export\FBOmiss_learning_parameter.csv');
 
 
-function sim_data = sim_values_model5b(params,sub_choice,sub_not_choice, sub_fb, sub_stimuli, sub_feedback_type)
+function sim_data = sim_values_best_model(params, sub_choice, sub_fb, sub_stimuli, sub_feedback_type)
+% Trial-wise action values, choice probabilities and prediction errors of
+% model 2b for the observed choices and outcomes of one participant.
+% The parameter assignment and the update of action values are copied
+% verbatim from probfb_fun_model2b.m.
 
-% set parameters
+    % Separate learning rates for positive and negative FB
+    % + chosen and unchosen action updated
 
-   alpha_pospresented = params(1);
-   alpha_posomitted = params(2);
-   alpha_negpresented = params(3);
-   alpha_negomitted = params(4);
-   
-   beta = params(5);
+    % set parameters
+    alpha_pos = params(1);
+    alpha_neg = params(2);
+    beta = params(3);
 
-   % save number of trials
-   ntrials = length(sub_choice);
-    
-   % set action values for each action (right or left) for each of the six
-   % stimuli (i.e. a total of 12) initially to .5
-   Q = [0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5];
-   p = NaN(1,ntrials);
-   % NaN(M,N) is an M-by-N matrix of NaNs.
+    ntrials = length(sub_choice);
 
-   % create empty objects
-   sim_data.PE = NaN(1,ntrials);
-   sim_data.p = NaN(12,ntrials); % six stimuli with two possible actions each
-   sim_data.Q = NaN(12,ntrials);
-  
-   % fit loop
+    % action values for each action (left/right) for each of the six stimuli
+    Q = [0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5];
+
+    % create empty objects
+    sim_data.PE = NaN(1,ntrials);
+    sim_data.p = NaN(12,ntrials); % six stimuli with two possible actions each
+    sim_data.Q = NaN(12,ntrials);
+
     for i = 1:ntrials
-        % trial valid?
         if isnan(sub_choice(i)) || isnan(sub_fb(i))
-            p(1,i) = NaN;
+            continue % invalid trial (no response or no feedback)
+        end
+
+
+        % action values of the two options (chosen action first)
+        if sub_choice(i) == 1
+            chosen_index = sub_stimuli(i)+sub_stimuli(i)-1;
+            unchosen_index = sub_stimuli(i)+sub_stimuli(i);
         else
-            % save in temporal variable q_i the current expectation values of
-            % the two choice options in current trial (order depending on
-            % choice:        
-            if sub_choice(i) == 1
-                q_i = [Q(sub_stimuli(i)+sub_stimuli(i)-1) Q(sub_stimuli(i)+sub_stimuli(i))];
-                chosen_index = sub_stimuli(i)+sub_stimuli(i)-1; % save index for chosen action Q-value
-                unchosen_index = sub_stimuli(i)+sub_stimuli(i);
-            else
-                q_i = [Q(sub_stimuli(i)+sub_stimuli(i)) Q(sub_stimuli(i)+sub_stimuli(i)-1)];
-                chosen_index = sub_stimuli(i)+sub_stimuli(i); % save index for chosen action Q-value
-                unchosen_index = sub_stimuli(i)+sub_stimuli(i)-1;
-            end
+            chosen_index = sub_stimuli(i)+sub_stimuli(i);
+            unchosen_index = sub_stimuli(i)+sub_stimuli(i)-1;
+        end
+        q_i = [Q(chosen_index) Q(unchosen_index)];
 
-            % estimate probablity of each choice based on softmax function
-            p_i = probfb_softmax(q_i,beta);
+        % choice probabilities (softmax)
+        p_i = probfb_softmax(q_i,beta);
 
-            % calculate prediction error of current trial with expected value
-            % of chosen action
-            PE_c = sub_fb(i) - Q(chosen_index);
-            % for unchosen option
-			PE_u = 1 - sub_fb(i) - Q(unchosen_index);
-			
-            % save probability of each choice option and action value for this trial
+        % prediction errors of chosen and unchosen action
+        PE_c = sub_fb(i) - Q(chosen_index);
+        PE_u = 1 - sub_fb(i) - Q(unchosen_index);
 
-            sim_data.p(chosen_index,i) = p_i(1); % chosen action
-            sim_data.p(unchosen_index,i) = p_i(2); % unchosen action
-            
-            sim_data.Q(:,i) = Q; % save all action values
-            
-            % save prediction error
-            sim_data.PE(1,i) = PE_c;
-       
+        % save probabilities, action values (before the update) and PE
+        sim_data.p(chosen_index,i) = p_i(1);
+        sim_data.p(unchosen_index,i) = p_i(2);
+        sim_data.Q(:,i) = Q;
+        sim_data.PE(1,i) = PE_c;
 
-            % update action value of chosen action for next trial
+        % ---- update (copied from probfb_fun_model2b.m) ----
+        % separate learning rates for confirmatory and disconfirmatory
+        % trials (i.e., positive and negative fb which is associated with a
+        % positive and negative PE, repsectively)
+        if sub_fb(i) == 1 % if fb is positive
 
-            % update action values with one learning rate per feedback type
-            % (valence x appearance; same learning rate for chosen and unchosen)
-            if sub_feedback_type(i) == 1 & sub_fb(i) == 1 % presented positive FB
-                Q(chosen_index) = Q(chosen_index) + alpha_pospresented*PE_c;
-                Q(unchosen_index) = Q(unchosen_index) + alpha_pospresented*PE_u;
-            elseif sub_feedback_type(i) == 0 & sub_fb(i) == 1 % omitted positive FB
-                Q(chosen_index) = Q(chosen_index) + alpha_posomitted*PE_c;
-                Q(unchosen_index) = Q(unchosen_index) + alpha_posomitted*PE_u;
-            elseif sub_feedback_type(i) == 1 & sub_fb(i) == 0 % presented negative FB
-                Q(chosen_index) = Q(chosen_index) + alpha_negpresented*PE_c;
-                Q(unchosen_index) = Q(unchosen_index) + alpha_negpresented*PE_u;
-            elseif sub_feedback_type(i) == 0 & sub_fb(i) == 0 % omitted negative FB
-                Q(chosen_index) = Q(chosen_index) + alpha_negomitted*PE_c;
-                Q(unchosen_index) = Q(unchosen_index) + alpha_negomitted*PE_u;
-            end
+            % update action value of chosen action with alpha_pos
+            Q(chosen_index) = Q(chosen_index) + alpha_pos*PE_c;
+            Q(unchosen_index) = Q(unchosen_index) + alpha_pos*PE_u;
+
+        elseif sub_fb(i) == 0 % if fb is negative
+
+            % use alpha_neg to update action value of chosen 
+            Q(chosen_index) = Q(chosen_index)+ alpha_neg*PE_c;
+            Q(unchosen_index) = Q(unchosen_index) + alpha_neg*PE_u;
+
         end
     end
 end
-
-function [probs] = probfb_softmax(Q,beta)
-
-% INPUT:
-% Q is the two estimated action values, e.g. [0.5 0.5]
-% beta is the inverse temperature
-% OUTPUT:
-% the probability of the choices
-
-probs = (exp(beta*Q))/(exp(beta*Q(1))+exp(beta*Q(2)));
-% Softmax/Boltzmann Function zur Berechnung der W'keit der Auswahl der Akt.
-end
- 
