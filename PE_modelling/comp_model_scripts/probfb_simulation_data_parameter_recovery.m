@@ -1,4 +1,6 @@
-% Simulate data for parameter recovery; CW, 2025
+% Simulate data for parameter recovery;
+
+% last modified, CW, 10/2026
 
 %clear;
 
@@ -6,7 +8,7 @@
 
     % load fit and parameter information of best model
     addpath(genpath('./comp_model_fit_export/'));
-    load('fit_model_10a_bic');
+    load('fit_model_5b_bic');
 
     % load overview of
     % (a) correct response mapping for stimuli and participants
@@ -26,26 +28,15 @@ for sub_i =1:nsubs % simulate data for each participant
     % 1. Extract individual parameter estimates of winning model of current
     % participant and concatenate:
     
-    alpha_90_presented_pos = fit_BIC.alpha_90_presented_pos(sub_i);
-    alpha_70_presented_pos = fit_BIC.alpha_70_presented_pos(sub_i);
-    alpha_50_presented_pos = fit_BIC.alpha_50_presented_pos(sub_i);
-    alpha_90_omitted_pos = fit_BIC.alpha_90_omitted_pos(sub_i);
-    alpha_70_omitted_pos = fit_BIC.alpha_70_omitted_pos(sub_i);
-    alpha_50_omitted_pos = fit_BIC.alpha_50_omitted_pos(sub_i);
-    alpha_90_presented_neg = fit_BIC.alpha_90_presented_neg(sub_i);
-    alpha_70_presented_neg = fit_BIC.alpha_70_presented_neg(sub_i);
-    alpha_50_presented_neg = fit_BIC.alpha_50_presented_neg(sub_i);
-    alpha_90_omitted_neg = fit_BIC.alpha_90_omitted_neg(sub_i);
-    alpha_70_omitted_neg = fit_BIC.alpha_70_omitted_neg(sub_i);
-    alpha_50_omitted_neg = fit_BIC.alpha_50_omitted_neg(sub_i);  
+    alpha_pospresented = fit_BIC.alpha_pospresented(sub_i);
+    alpha_posomitted = fit_BIC.alpha_posomitted(sub_i);
+    alpha_negpresented = fit_BIC.alpha_negpresented(sub_i);
+    alpha_negomitted = fit_BIC.alpha_negomitted(sub_i);
 
     beta = fit_BIC.beta(sub_i);
     
-    params_est = [alpha_90_presented_pos,alpha_70_presented_pos,...
-       alpha_50_presented_pos,alpha_90_omitted_pos,alpha_70_omitted_pos,...
-       alpha_50_omitted_pos,alpha_90_presented_neg,alpha_70_presented_neg,...
-       alpha_50_presented_neg,alpha_90_omitted_neg,alpha_70_omitted_neg,...
-       alpha_50_omitted_neg,beta];
+    params_est = [alpha_pospresented, alpha_posomitted, ...
+       alpha_negpresented, alpha_negomitted, beta];
     
     % 2. Simulate data (stimuli, feedback, choices, action values based on
     % stimulus-context-outcome mapping and estimated learning parameter):
@@ -90,20 +81,12 @@ function sim_data = recovery_simulation(sub_i, params, correct_response_table, s
     % (datastruc_not_choice), and probabilistic feedback (datastruc_feedback)
     % based on modelled learning parameter
 
-    alpha_90_presented_pos = params(1);
-    alpha_70_presented_pos = params(2);
-    alpha_50_presented_pos = params(3);
-    alpha_90_omitted_pos = params(4);
-    alpha_70_omitted_pos = params(5);
-    alpha_50_omitted_pos = params(6);
-    alpha_90_presented_neg = params(7);
-    alpha_70_presented_neg = params(8);
-    alpha_50_presented_neg = params(9);
-    alpha_90_omitted_neg = params(10);
-    alpha_70_omitted_neg = params(11);
-    alpha_50_omitted_neg = params(12);  
+    alpha_pospresented = params(1);
+    alpha_posomitted = params(2);
+    alpha_negpresented = params(3);
+    alpha_negomitted = params(4);
 
-    beta = params(13);
+    beta = params(5);
 
     % initialise action values for each action (right or left) in response to
     % each of the six stimuli (i.e. a total of 12)
@@ -223,101 +206,24 @@ function sim_data = recovery_simulation(sub_i, params, correct_response_table, s
     % initialize feedback type variable to add that in the loop
     sim_data.feedback_type(t) = NaN;
 
-    if current_stim == 1 || current_stim == 2 % 90% stim
-
-      if context == "getreward" & sim_data.feedback(t) == 1 % presented pos FB
-
-          Q(chosen_index) = Q(chosen_index) + alpha_90_presented_pos*PE_c;
-          Q(unchosen_index) = Q(unchosen_index) + alpha_90_presented_pos*PE_u;
-
-          sim_data.feedback_type(t) = 1;
-
-        elseif context == "getreward" & sim_data.feedback(t) == 0 % omitted neg FB
-
-          Q(chosen_index) = Q(chosen_index) + alpha_90_omitted_neg*PE_c;
-          Q(unchosen_index) = Q(unchosen_index) + alpha_90_omitted_neg*PE_u;
-
-          sim_data.feedback_type(t) = 0;
-
-        elseif context == "avoidloss" & sim_data.feedback(t) == 1 % omitted pos FB
-
-          Q(chosen_index) = Q(chosen_index)+ alpha_90_omitted_pos*PE_c;
-          Q(unchosen_index) = Q(unchosen_index)+ alpha_90_omitted_pos*PE_u;
-
-          sim_data.feedback_type(t) = 0;
-
-        elseif context == "avoidloss" & sim_data.feedback(t) == 0 % presented neg FB
-
-          Q(chosen_index) = Q(chosen_index)+ alpha_90_presented_neg*PE_c;
-          Q(unchosen_index) = Q(unchosen_index)+ alpha_90_presented_neg*PE_u;
-
-          sim_data.feedback_type(t) = 1;
-
-      end
-
-
-    elseif current_stim == 3 || current_stim == 4 % 70% stim
-
-      if context == "getreward" & sim_data.feedback(t) == 1 % presented pos FB
-
-          Q(chosen_index) = Q(chosen_index) + alpha_70_presented_pos*PE_c;
-          Q(unchosen_index) = Q(unchosen_index) + alpha_70_presented_pos*PE_u;
-
-          sim_data.feedback_type(t) = 1;
-
-        elseif context == "getreward" & sim_data.feedback(t) == 0 % omitted neg FB
-
-          Q(chosen_index) = Q(chosen_index) + alpha_70_omitted_neg*PE_c;
-          Q(unchosen_index) = Q(unchosen_index) + alpha_70_omitted_neg*PE_u;
-
-          sim_data.feedback_type(t) = 0;
-
-        elseif context == "avoidloss" & sim_data.feedback(t) == 1 % omitted pos FB
-
-          Q(chosen_index) = Q(chosen_index)+ alpha_70_omitted_pos*PE_c;
-          Q(unchosen_index) = Q(unchosen_index)+ alpha_70_omitted_pos*PE_u;
-
-          sim_data.feedback_type(t) = 0;
-
-        elseif context == "avoidloss" & sim_data.feedback(t) == 0 % presented neg FB
-
-          Q(chosen_index) = Q(chosen_index)+ alpha_70_presented_neg*PE_c;
-          Q(unchosen_index) = Q(unchosen_index)+ alpha_70_presented_neg*PE_u;
-
-          sim_data.feedback_type(t) = 1;
-      end           
-
-    elseif current_stim == 5 || current_stim == 6 % 50%
-
-      if context == "getreward" & sim_data.feedback(t) == 1 % presented pos FB
-
-          Q(chosen_index) = Q(chosen_index) + alpha_50_presented_pos*PE_c;
-          Q(unchosen_index) = Q(unchosen_index) + alpha_50_presented_pos*PE_u;
-
-          sim_data.feedback_type(t) = 1;
-
-      elseif context == "getreward" & sim_data.feedback(t) == 0 % omitted neg FB
-
-          Q(chosen_index) = Q(chosen_index) + alpha_50_omitted_neg*PE_c;
-          Q(unchosen_index) = Q(unchosen_index) + alpha_50_omitted_neg*PE_u;
-
-          sim_data.feedback_type(t) = 0;
-
-      elseif context == "avoidloss" & sim_data.feedback(t) == 1 % omitted pos FB
-
-          Q(chosen_index) = Q(chosen_index)+ alpha_50_omitted_pos*PE_c;
-          Q(unchosen_index) = Q(unchosen_index)+ alpha_50_omitted_pos*PE_u;
-
-          sim_data.feedback_type(t) = 0;
-
-      elseif context == "avoidloss" & sim_data.feedback(t) == 0 % presented neg FB
-
-          Q(chosen_index) = Q(chosen_index)+ alpha_50_presented_neg*PE_c;
-          Q(unchosen_index) = Q(unchosen_index)+ alpha_50_presented_neg*PE_u;
-
-          sim_data.feedback_type(t) = 1;
-      end
-
+    % feedback type follows from learning context and outcome; learning
+    % rates differ only by valence x appearance (not by stimulus)
+    if context == "getreward" & sim_data.feedback(t) == 1 % presented pos FB
+        Q(chosen_index) = Q(chosen_index) + alpha_pospresented*PE_c;
+        Q(unchosen_index) = Q(unchosen_index) + alpha_pospresented*PE_u;
+        sim_data.feedback_type(t) = 1;
+    elseif context == "getreward" & sim_data.feedback(t) == 0 % omitted neg FB
+        Q(chosen_index) = Q(chosen_index) + alpha_negomitted*PE_c;
+        Q(unchosen_index) = Q(unchosen_index) + alpha_negomitted*PE_u;
+        sim_data.feedback_type(t) = 0;
+    elseif context == "avoidloss" & sim_data.feedback(t) == 1 % omitted pos FB
+        Q(chosen_index) = Q(chosen_index) + alpha_posomitted*PE_c;
+        Q(unchosen_index) = Q(unchosen_index) + alpha_posomitted*PE_u;
+        sim_data.feedback_type(t) = 0;
+    elseif context == "avoidloss" & sim_data.feedback(t) == 0 % presented neg FB
+        Q(chosen_index) = Q(chosen_index) + alpha_negpresented*PE_c;
+        Q(unchosen_index) = Q(unchosen_index) + alpha_negpresented*PE_u;
+        sim_data.feedback_type(t) = 1;
     end
 
     end

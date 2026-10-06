@@ -1,11 +1,11 @@
 % 2. Simulate prediction error for each trial based on best model (model
-% 10)
+% 5b)
 
 % set directory for model fit
 addpath(genpath('./comp_model_fit_export/'));
 
-% load parameters of best BIC fit of model 10a which performed best
-load fit_model_10a_bic; 
+% load parameters of best BIC fit of model 5b which performed best
+load fit_model_5b_bic; 
 
 
 % set directory for behavioural data (prepared with dataprep
@@ -26,18 +26,12 @@ for i = 1:length(fit_BIC.bic) % loop through participants
     i
     
     % retrieve parameters of best fit
-    params(1) = fit_BIC.alpha_90_presented_pos(i);
-    params(2) = fit_BIC.alpha_70_presented_pos(i);
-    params(3) = fit_BIC.alpha_50_presented_pos(i);
-    params(4) = fit_BIC.alpha_90_omitted_pos(i);
-    params(5) = fit_BIC.alpha_70_omitted_pos(i);
-    params(6) = fit_BIC.alpha_50_omitted_pos(i);
-    params(7) = fit_BIC.alpha_90_presented_neg(i);
-    params(8) = fit_BIC.alpha_70_presented_neg(i);
-    params(9) = fit_BIC.alpha_50_presented_neg(i);
-    params(10) = fit_BIC.alpha_90_omitted_neg(i);
-    params(11) = fit_BIC.alpha_70_omitted_neg(i);
-    params(12) = fit_BIC.alpha_50_omitted_neg(i);
+    params(1) = fit_BIC.alpha_pospresented(i);
+    params(2) = fit_BIC.alpha_posomitted(i);
+    params(3) = fit_BIC.alpha_negpresented(i);
+    params(4) = fit_BIC.alpha_negomitted(i);
+    params(5) = fit_BIC.beta(i);    
+
     
     params(13) = fit_BIC.beta(i);    
       
@@ -55,8 +49,8 @@ for i = 1:length(fit_BIC.bic) % loop through participants
     sub_feedback_type = cell2mat(sub_feedback_type);
    
     % simulate values based on parameters of best fit
-    currsim = sim_values_model10a(params,sub_choice,sub_not_choice, sub_outcome, sub_stimuli, sub_feedback_type);
-    
+    currsim = sim_values_model5b(params,sub_choice,sub_not_choice, sub_outcome, sub_stimuli, sub_feedback_type);
+
     % save simulated values of current participant
     datastruc.p1l(i,:) = currsim.p(1,:);
     datastruc.p1r(i,:) = currsim.p(2,:);
@@ -204,60 +198,36 @@ writetable(results,'comp_model_fit_export\FBOmiss_immediate_Q_values_and_PEs.csv
 
 % concatenate filenames and ll/alphas/beta
 parameter_export = cat(2, filenames,num2cell(transpose(fit_BIC.bic)), ...
-    num2cell(transpose(fit_BIC.alpha_90_presented_pos)), ...
-    num2cell(transpose(fit_BIC.alpha_70_presented_pos)), ...
-    num2cell(transpose(fit_BIC.alpha_50_presented_pos)), ...
-    num2cell(transpose(fit_BIC.alpha_90_omitted_pos)), ...
-    num2cell(transpose(fit_BIC.alpha_70_omitted_pos)), ...
-    num2cell(transpose(fit_BIC.alpha_50_omitted_pos)), ...
-    num2cell(transpose(fit_BIC.alpha_90_presented_neg)), ...
-    num2cell(transpose(fit_BIC.alpha_70_presented_neg)), ...
-    num2cell(transpose(fit_BIC.alpha_50_presented_neg)), ...
-    num2cell(transpose(fit_BIC.alpha_90_omitted_neg)), ...
-    num2cell(transpose(fit_BIC.alpha_70_omitted_neg)), ...
-    num2cell(transpose(fit_BIC.alpha_50_omitted_neg)), ...    
+    num2cell(transpose(fit_BIC.alpha_pospresented)), ...
+    num2cell(transpose(fit_BIC.alpha_posomitted)), ...
+    num2cell(transpose(fit_BIC.alpha_negpresented)), ...
+    num2cell(transpose(fit_BIC.alpha_negomitted)), ...
     num2cell(transpose(fit_BIC.beta)));
 % columns: filenames, BIC, alphas..., beta
 
 parameter_export = cell2table(parameter_export,...
     'VariableNames',{'filename' ...
     'BIC' ...
-    'alpha_90_presented_pos'  ...
-    'alpha_70_presented_pos'  ...
-    'alpha_50_presented_pos'  ...
-    'alpha_90_omitted_pos'  ...
-    'alpha_70_omitted_pos'  ...
-    'alpha_50_omitted_pos'  ...
-    'alpha_90_presented_neg'  ...
-    'alpha_70_presented_neg'  ...
-    'alpha_50_presented_neg'  ...
-    'alpha_90_omitted_neg'  ...
-    'alpha_70_omitted_neg'  ...
-    'alpha_50_omitted_neg'  ...
+    'alpha_pospresented'  ...
+    'alpha_posomitted'  ...
+    'alpha_negpresented'  ...
+    'alpha_negomitted'  ...
     'beta'});
 
 % export as csv
 writetable(parameter_export,'comp_model_fit_export\FBOmiss_learning_parameter.csv');
 
 
-function sim_data = sim_values_model10a(params,sub_choice,sub_not_choice, sub_fb, sub_stimuli, sub_feedback_type)
+function sim_data = sim_values_model5b(params,sub_choice,sub_not_choice, sub_fb, sub_stimuli, sub_feedback_type)
 
 % set parameters
 
-   alpha_90_presented_pos = params(1);
-   alpha_70_presented_pos =  params(2);
-   alpha_50_presented_pos = params(3);
-   alpha_90_omitted_pos = params(4);
-   alpha_70_omitted_pos = params(5);
-   alpha_50_omitted_pos = params(6);
-   alpha_90_presented_neg = params(7);
-   alpha_70_presented_neg = params(8);
-   alpha_50_presented_neg = params(9);
-   alpha_90_omitted_neg = params(10);
-   alpha_70_omitted_neg = params(11);
-   alpha_50_omitted_neg = params(12);
+   alpha_pospresented = params(1);
+   alpha_posomitted = params(2);
+   alpha_negpresented = params(3);
+   alpha_negomitted = params(4);
    
-   beta = params(13);
+   beta = params(5);
 
    % save number of trials
    ntrials = length(sub_choice);
@@ -314,98 +284,20 @@ function sim_data = sim_values_model10a(params,sub_choice,sub_not_choice, sub_fb
 
             % update action value of chosen action for next trial
 
-            if sub_stimuli(i) == 1 | sub_stimuli(i) == 2 % if current stimulus is 90%
-
-                % if fb is presented and the feedback is positive 
-                if sub_feedback_type(i) == 1 & sub_fb(i) == 1 
-
-                    Q(chosen_index) = Q(chosen_index) + alpha_90_presented_pos*PE_c;
-					Q(unchosen_index) = Q(unchosen_index) + alpha_90_presented_pos*PE_u;
-
-                elseif sub_feedback_type(i) == 0 & sub_fb(i) == 0
-                % else if feedback is omitted and feedback is negative
-
-                    Q(chosen_index) = Q(chosen_index) + alpha_90_omitted_neg*PE_c;
-					Q(unchosen_index) = Q(unchosen_index) + alpha_90_omitted_neg*PE_u;
-					
-                elseif sub_feedback_type(i) == 0 & sub_fb(i) == 1
-                % else if feedback is omitted and feedback is positive
-
-                    % use alpha_posomitted to update action value of chosen
-                    Q(chosen_index) = Q(chosen_index)+ alpha_90_omitted_pos*PE_c;
-					Q(unchosen_index) = Q(unchosen_index)+ alpha_90_omitted_pos*PE_u;
-					
-                elseif sub_feedback_type(i) == 1 & sub_fb(i) == 0
-                % else if feedback is presented and feedback is negative
-
-                    % use alpha_negpresented to update action value of chosen
-                    Q(chosen_index) = Q(chosen_index)+ alpha_90_presented_neg*PE_c;
-					Q(unchosen_index) = Q(unchosen_index)+ alpha_90_presented_neg*PE_u;
-
-                end
-
-
-            elseif sub_stimuli(i) == 3 | sub_stimuli(i) == 4 % 70%
-
-                % if fb is presented and the feedback is positive 
-                if sub_feedback_type(i) == 1 & sub_fb(i) == 1 
-
-                    Q(chosen_index) = Q(chosen_index) + alpha_70_presented_pos*PE_c;
-					Q(unchosen_index) = Q(unchosen_index) + alpha_70_presented_pos*PE_u;
-
-                elseif sub_feedback_type(i) == 0 & sub_fb(i) == 0
-                % else if feedback is omitted and feedback is negative
-
-                    Q(chosen_index) = Q(chosen_index) + alpha_70_omitted_neg*PE_c;
-					Q(unchosen_index) = Q(unchosen_index) + alpha_70_omitted_neg*PE_u;
-
-                elseif sub_feedback_type(i) == 0 & sub_fb(i) == 1
-                % else if feedback is omitted and feedback is positive
-
-                    % use alpha_posomitted to update action value of chosen
-                    Q(chosen_index) = Q(chosen_index)+ alpha_70_omitted_pos*PE_c;
-					Q(unchosen_index) = Q(unchosen_index)+ alpha_70_omitted_pos*PE_u;
-
-                elseif sub_feedback_type(i) == 1 & sub_fb(i) == 0
-                % else if feedback is presented and feedback is negative
-
-                    % use alpha_negpresented to update action value of chosen
-                    Q(chosen_index) = Q(chosen_index)+ alpha_70_presented_neg*PE_c;
-					Q(unchosen_index) = Q(unchosen_index)+ alpha_70_presented_neg*PE_u;
-
-                end
-
-
-            elseif sub_stimuli(i) == 5 | sub_stimuli(i) == 6 % 50%
-
-                        % if fb is presented and the feedback is positive 
-                if sub_feedback_type(i) == 1 & sub_fb(i) == 1 
-
-                    Q(chosen_index) = Q(chosen_index) + alpha_50_presented_pos*PE_c;
-					Q(unchosen_index) = Q(unchosen_index) + alpha_50_presented_pos*PE_u;
-
-                elseif sub_feedback_type(i) == 0 & sub_fb(i) == 0
-                % else if feedback is omitted and feedback is negative
-
-                    Q(chosen_index) = Q(chosen_index) + alpha_50_omitted_neg*PE_c;
-					Q(unchosen_index) = Q(unchosen_index) + alpha_50_omitted_neg*PE_u;
-
-                elseif sub_feedback_type(i) == 0 & sub_fb(i) == 1
-                % else if feedback is omitted and feedback is positive
-
-                    % use alpha_posomitted to update action value of chosen
-                    Q(chosen_index) = Q(chosen_index)+ alpha_50_omitted_pos*PE_c;
-					Q(unchosen_index) = Q(unchosen_index)+ alpha_50_omitted_pos*PE_u;
-
-                elseif sub_feedback_type(i) == 1 & sub_fb(i) == 0
-                % else if feedback is presented and feedback is negative
-
-                    % use alpha_negpresented to update action value of chosen
-                    Q(chosen_index) = Q(chosen_index)+ alpha_50_presented_neg*PE_c;
-					Q(unchosen_index) = Q(unchosen_index)+ alpha_50_presented_neg*PE_u;
-
-                end
-
+            % update action values with one learning rate per feedback type
+            % (valence x appearance; same learning rate for chosen and unchosen)
+            if sub_feedback_type(i) == 1 & sub_fb(i) == 1 % presented positive FB
+                Q(chosen_index) = Q(chosen_index) + alpha_pospresented*PE_c;
+                Q(unchosen_index) = Q(unchosen_index) + alpha_pospresented*PE_u;
+            elseif sub_feedback_type(i) == 0 & sub_fb(i) == 1 % omitted positive FB
+                Q(chosen_index) = Q(chosen_index) + alpha_posomitted*PE_c;
+                Q(unchosen_index) = Q(unchosen_index) + alpha_posomitted*PE_u;
+            elseif sub_feedback_type(i) == 1 & sub_fb(i) == 0 % presented negative FB
+                Q(chosen_index) = Q(chosen_index) + alpha_negpresented*PE_c;
+                Q(unchosen_index) = Q(unchosen_index) + alpha_negpresented*PE_u;
+            elseif sub_feedback_type(i) == 0 & sub_fb(i) == 0 % omitted negative FB
+                Q(chosen_index) = Q(chosen_index) + alpha_negomitted*PE_c;
+                Q(unchosen_index) = Q(unchosen_index) + alpha_negomitted*PE_u;
             end
         end
     end
@@ -422,3 +314,4 @@ function [probs] = probfb_softmax(Q,beta)
 probs = (exp(beta*Q))/(exp(beta*Q(1))+exp(beta*Q(2)));
 % Softmax/Boltzmann Function zur Berechnung der W'keit der Auswahl der Akt.
 end
+ 
