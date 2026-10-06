@@ -527,9 +527,8 @@ disp('Model with lowest BIC:');
 disp(modelfits(idx_bic,:)); % best model: 5b
  
 
-%% 3. Simulate PE for each trial with fitted parameters of best fitting
-% model and save simulated values as well as parameters (caution this is 
-% hardcoded/manually prepared once the best model was identified)
+%% 3. Simulate PE for each trial with fitted parameters of the best model
+% (here: model 2b, lowest BIC) and save simulated values and parameters
 
 probfb_simulation_best_model
 
@@ -538,37 +537,26 @@ probfb_simulation_best_model
 % 1. Simulate data
 probfb_simulation_data_parameter_recovery
 
-% 2. Fit simulated data to previously identified model
-probfb_funfit_model5b_simulated_data
+% 2. Fit simulated data to the best model
+probfb_funfit_model2b_simulated_data
 save('comp_model_fit_export\fit_model_recovery_ll','fit');
 save('comp_model_fit_export\fit_model_recovery_bic','fit_BIC');
 
-% 3. Rebuild fit object and export fits and recovered parameter as csv
+% 3. Export BICs and recovered parameters as csv
+% (one column per parameter and simulated data set, e.g. beta_01 ... beta_25)
 
-% concatenate filenames, BICs and recovered alphas & beta
 load filenames;
-parameter_export = cat(2, filenames,num2cell(transpose(fit_BIC.bic)), ...
-    num2cell(transpose(fit_BIC.alpha_pospresented)), ...
-    num2cell(transpose(fit_BIC.alpha_posomitted)), ...
-    num2cell(transpose(fit_BIC.alpha_negpresented)), ...
-    num2cell(transpose(fit_BIC.alpha_negomitted)), ...
-    num2cell(transpose(fit_BIC.beta)));
-% columns: filenames, BIC, alphas..., beta
-
-% assign column labels
-baseNames = {'BIC', ...
-    'alpha_pospresented', 'alpha_posomitted', ...
-    'alpha_negpresented', 'alpha_negomitted', ...
-    'beta'};
-
-expandedNames = cellfun(@(b) arrayfun( ...
-    @(x) sprintf('%s_%02d', b, x), 1:25, 'UniformOutput', false), ...
-    baseNames, 'UniformOutput', false);
-
-expandedNames = [expandedNames{:}];   % flatten 
-varNames = ['filename', expandedNames];
+export_names = [{'bic'}, param_names]; % fields of fit_BIC (matrices nsim x nsubs)
+parameter_export = filenames;
+varNames = {'filename'};
+for p = 1:numel(export_names)
+    vals = transpose(fit_BIC.(export_names{p})); % participants x simulations
+    parameter_export = [parameter_export, num2cell(vals)];
+    base = export_names{p};
+    if strcmp(base, 'bic'), base = 'BIC'; end
+    varNames = [varNames, arrayfun(@(x) sprintf('%s_%02d', base, x), 1:size(vals,2), 'UniformOutput', false)];
+end
 parameter_export = cell2table(parameter_export, 'VariableNames', varNames);
-
 
 % export as csv
 writetable(parameter_export,'comp_model_fit_export\FBOmiss_learning_parameter_recovered.csv');
