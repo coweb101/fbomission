@@ -11,7 +11,10 @@ clear all; % clear workspace
 rng(17, 'twister'); % fix random number generator for reproducibility
 tic % start stopwatch
 
-% duration for steps 1 & 2 with 50 iterations: ~7.9 h
+% duration for steps 1: ~19 s
+% duration for step 2 with 50 iterations: ~7.9 h
+% duration for steps 3 & 4: ~2.9 h
+
 
 %% 1. Reading logfiles and data preparation
 
@@ -38,11 +41,13 @@ stim_rew_prob.correct = cell2mat(stim_rew_prob.correct);
 
 % Custom function to calculate mean while omitting NaN values in grpstats
 omitnan_mean = @(x) mean(x, 'omitnan');
-omitnan_sum = @(x) sum(x, 'omitnan'); % or sum
 
-% Calculate the mean of feedback grouped by id and correct answers
+
+% Calculate the mean of feedback grouped by id and correct answers to
+% verify stim numbering and positive outcome probability
 stim_rew_prob_proportion_rewards = grpstats(stim_rew_prob, {'stim', 'correct'}, omitnan_mean, 'DataVars', 'feedback');
-% stim 1&2 = 90% reward probability; stim 3&4 = 70%; stim 5&6 = 50%
+% stim 1&2 = 90% reward probability; stim 3&4 = 70%; stim 5&6 = 50% -
+% confirmed
 
 % Create tables in which for each participant mappings of correct responses
 % and learning contexts to each stimuli are saved for later use in data
@@ -503,7 +508,7 @@ clear fit fit_BIC params
 modelfits.AIC = 2*modelfits.ll + 2*modelfits.no_free_parameter;
 
 % save table with modelfits of each model       
-writetable(modelfits,'comp_model_fit_export\modelfits_immediate.csv');
+writetable(modelfits,'comp_model_fit_export\modelfits.csv');
 
 
 % model with the lowest -LL (best raw fit, no penalty for parameters)
