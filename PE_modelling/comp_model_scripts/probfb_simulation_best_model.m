@@ -32,9 +32,6 @@ for i = 1:length(fit_BIC.bic) % loop through participants
     params(4) = fit_BIC.alpha_negomitted(i);
     params(5) = fit_BIC.beta(i);    
 
-    
-    params(13) = fit_BIC.beta(i);    
-      
     % prepare choice and outcome for simulation function
     sub_choice = datastruc_choice(i,:);
     sub_not_choice = datastruc_not_choice(i,:);
