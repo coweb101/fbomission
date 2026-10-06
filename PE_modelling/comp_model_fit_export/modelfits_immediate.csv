@@ -1,37 +1,37 @@
-model,no_free_parameter,features,ll,BIC
-1,2,global,268.553041065702,541.106082131404
-1b,2,global (+ unchosen update),273.117961343673,550.235922687346
-1c,3,choice (+ unchosen update),267.718922503166,541.437845006333
-2,3,valence,242.08906659387,490.17813318774
-2b,3,valence (+ unchosen update),236.687405965414,479.374811930828
-2c,5,valence + choice (+ unchosen update),233.938709662589,477.877419325177
-3,3,appearance,249.172884666772,504.345769333544
-3b,3,appearance (+ unchosen update),258.54693398568,523.09386797136
-3c,5,appearance + choice (+ unchosen update),246.877019539831,503.754039079662
-4,3,context,264.185720643636,534.371441287272
-4b,3,context (+ unchosen update),268.251657204726,542.503314409451
-4c,5,context + choice (+ unchosen update),262.967127103822,535.934254207645
-5,5,valence + appearance,235.256429823869,480.512859647739
-5b,5,valence + appearance (+ unchosen update),230.899005137049,471.798010274098
-5c,9,valence + appearance + choice (+ unchosen update),227.622008216246,473.244016432493
-6,4,reward probability,258.963166516973,525.926333033946
-6b,4,reward probability (+ unchosen update),264.91496125924,537.829922518479
-6c,7,reward probability + choice (+ unchosen update),257.165778080701,528.331556161403
-7,7,valence + reward probability,233.870931029467,481.741862058933
-7b,7,valence + reward probability (+ unchosen update),231.396359162112,476.792718324224
-7c,13,valence + reward probability + choice (+ unchosen update),225.723272659719,477.446545319438
-8,7,appearance + reward probability,236.149374800671,486.298749601341
-8b,7,appearance + reward probability (+ unchosen update),247.984528284294,509.969056568588
-8c,13,appearance + reward probability + choice (+ unchosen update),232.092344931765,490.18468986353
-9,7,learning context + reward probability,245.722103519609,505.444207039218
-9b,7,learning context + reward probability (+ unchosen update),253.796987217571,521.593974435142
-9c,13,learning context + reward probability + choice (+ unchosen update),244.446207669334,514.892415338669
-10,13,valence + reward probability + appearance,222.652312306132,471.304624612264
-10a,13,valence + reward probability + appearance (+ unchosen update),221.368427498273,468.736854996545
-10aac,25,valence + reward probability + appearance + choice (+ unchosen update),216.05332717048,482.10665434096
-10b,14,valence + reward probability + appearance (+ exponential decay),279.565632898145,587.131265796291
-10ab,14,valence + reward probability + appearance (+ exponential decay + unchosen update),275.158703519044,578.317407038088
-10abc,26,valence + reward probability + appearance + choice (+ exponential decay + unchosen update),275.358813264937,602.717626529875
-10c,15,valence + reward probability + appearance (+ RL-PH dynamic),220.92265865028,471.84531730056
-10ac,15,valence + reward probability + appearance (+ RL-PH dynamic + unchosen update),220.765546483047,471.531092966094
-10acc,27,valence + reward probability + appearance + choice (+ RL-PH dynamic + unchosen update),269.379031003426,592.758062006852
+model,no_free_parameter,features,ll,BIC,AIC
+1,2,global,268.553041056033,549.444931597082,541.106082112065
+1b,2,global (+ unchosen update),273.117961317308,558.574772119633,550.235922634617
+1c,3,choice (+ unchosen update),267.718922483646,553.946119194816,541.437844967292
+2,3,valence,242.08906660278,502.686407433085,490.178133205561
+2b,3,valence (+ unchosen update),236.687405963174,491.883086153873,479.374811926349
+2c,5,valence + choice (+ unchosen update),233.938709630067,498.724542972676,477.877419260135
+3,3,appearance,249.172884664555,516.854043556635,504.345769329111
+3b,3,appearance (+ unchosen update),258.515485709394,535.539245646313,523.030971418789
+3c,5,appearance + choice (+ unchosen update),246.736810467532,524.320744647604,503.473620935064
+4,3,context,264.185720635735,546.879715498995,534.37144127147
+4b,3,context (+ unchosen update),268.251657196347,555.011588620219,542.503314392695
+4c,5,context + choice (+ unchosen update),262.964723657154,556.776571026848,535.929447314308
+5,5,valence + appearance,235.256429836664,501.359983385868,480.512859673327
+5b,5,valence + appearance (+ unchosen update),230.899005147576,458.87132452067,471.798010295151
+5c,9,valence + appearance + choice (+ unchosen update),227.771139431639,511.067101545851,473.542278863278
+6,4,reward probability,258.963166503433,542.604031976899,525.926333006867
+6b,4,reward probability (+ unchosen update),264.914961300394,554.50762157082,537.829922600788
+6c,7,reward probability + choice (+ unchosen update),257.185393466758,557.556760131073,528.370786933516
+7,7,valence + reward probability,233.649394639681,510.484762476919,481.298789279362
+7b,7,valence + reward probability (+ unchosen update),231.377196606074,505.940366409704,476.754393212147
+7c,13,valence + reward probability + choice (+ unchosen update),225.674933810036,531.552389272677,477.349867620071
+8,7,appearance + reward probability,236.151277783482,515.48852876452,486.302555566963
+8b,7,appearance + reward probability (+ unchosen update),248.000943060591,539.187859318738,510.001886121181
+8c,13,appearance + reward probability + choice (+ unchosen update),232.114235151661,544.430991955928,490.228470303322
+9,7,learning context + reward probability,245.766155875754,534.718284949064,505.532311751507
+9b,7,learning context + reward probability (+ unchosen update),253.796987235808,550.779947669172,521.593974471615
+9c,13,learning context + reward probability + choice (+ unchosen update),244.281891121038,568.766303894681,514.563782242075
+10,13,valence + reward probability + appearance,222.724755501505,525.652032655615,471.449511003009
+10a,13,valence + reward probability + appearance (+ unchosen update),221.20984683788,522.622215328366,468.41969367576
+10aac,25,valence + reward probability + appearance + choice (+ unchosen update),216.083396169867,586.402410902438,482.166792339735
+10b,14,valence + reward probability + appearance (+ exponential decay),221.410937626781,529.193821648675,470.821875253561
+10ab,14,valence + reward probability + appearance (+ exponential decay + unchosen update),219.88671017766,526.145366750435,467.773420355321
+10abc,26,valence + reward probability + appearance + choice (+ exponential decay + unchosen update),215.19789710094,590.800837507091,482.395794201879
+10c,15,valence + reward probability + appearance (+ RL-PH dynamic),220.781876291626,534.105123720875,471.563752583253
+10ac,15,valence + reward probability + appearance (+ RL-PH dynamic + unchosen update),220.779146305034,534.099663747691,471.558292610069
+10acc,27,valence + reward probability + appearance + choice (+ RL-PH dynamic + unchosen update),215.146394549229,596.867257146178,484.292789098458
