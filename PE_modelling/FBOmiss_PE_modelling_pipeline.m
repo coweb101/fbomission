@@ -9,7 +9,9 @@
 
 clear all; % clear workspace
 rng(17, 'twister'); % fix random number generator for reproducibility
-tic % start stopwatch | duration for 50 iterations: 313 minutes Elapsed time is 28318.576671 seconds. for Step 1 & 2
+tic % start stopwatch
+
+% duration for steps 1 & 2 with 50 iterations: ~7.9 h
 
 %% 1. Reading logfiles and data preparation
 
@@ -417,8 +419,8 @@ clear fit fit_BIC params
 % Model 10b: learning rates separately for reward probabilities, and
 % each possible feedback type (e.g. positive presented, positive omitted 
 % etc.)
-% PLUS learning rate update in each trial with an exponential decay
-% parameter (lambda)
+% PLUS exponential decay of learning rates over presentations of the
+% current stimulus (half-life lambda)
   
 probfb_funfit_model10b %calls function
 modelfits(r,:) = {'10b',14,'valence + reward probability + appearance (+ exponential decay)',mean(fit.ll), mean(fit_BIC.bic)};
@@ -430,8 +432,8 @@ clear fit fit_BIC params
 % Model 10ab: learning rates separately for reward probabilities, and
 % each possible feedback type (e.g. positive presented, positive omitted 
 % etc.)
-% PLUS learning rate update in each trial with an exponential decay
-% parameter (lambda)
+% PLUS exponential decay of learning rates over presentations of the
+% current stimulus (half-life lambda)
 % PLUS update of unchosen option
 
 probfb_funfit_model10ab %calls function
@@ -444,8 +446,8 @@ clear fit fit_BIC params
 % Model 10abc: learning rates separately for reward probabilities,
 % each possible feedback type (e.g. positive presented, positive omitted 
 % etc.) and choice (unchosen vs chosen)
-% PLUS learning rate update in each trial with an exponential decay
-% parameter (lambda)
+% PLUS exponential decay of learning rates over presentations of the
+% current stimulus (half-life lambda)
 % PLUS update of unchosen option
 
 probfb_funfit_model10abc %calls function
@@ -496,11 +498,13 @@ save('comp_model_fit_export\fit_model_10acc_bic','fit_BIC');
 r=r+1;
 clear fit fit_BIC params
 
-% save table with modelfits of each model       
-writetable(modelfits,'comp_model_fit_export\modelfits_immediate.csv');
 
 % add AIC to model fits
 modelfits.AIC = 2*modelfits.ll + 2*modelfits.no_free_parameter;
+
+% save table with modelfits of each model       
+writetable(modelfits,'comp_model_fit_export\modelfits_immediate.csv');
+
 
 % model with the lowest -LL (best raw fit, no penalty for parameters)
 [~, idx_ll] = min(modelfits.ll);
@@ -556,7 +560,7 @@ expandedNames = cellfun(@(b) arrayfun( ...
     @(x) sprintf('%s_%02d', b, x), 1:25, 'UniformOutput', false), ...
     baseNames, 'UniformOutput', false);
 
-expandedNames = [expandedNames{:}];   % flatten into 1?N cell
+expandedNames = [expandedNames{:}];   % flatten 
 varNames = ['filename', expandedNames];
 parameter_export = cell2table(parameter_export, 'VariableNames', varNames);
 
