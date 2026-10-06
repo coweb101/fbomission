@@ -66,7 +66,7 @@ for i = 1:nsubs
         
         % save fit indices
         all_ll(j) = LL;
-        aall_bic(j) = 2*LL + length(params)*log(n_valid);
+        all_bic(j) = 2*LL + length(params)*log(n_valid);
     end
     
     % save best fit according to -LL
