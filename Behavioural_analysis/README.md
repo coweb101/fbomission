@@ -47,4 +47,4 @@ install.packages(c("data.table", "plyr", "dplyr", "reshape2", "tidyr", "rstatix"
 
 ## Note
 
-The learning-rate analysis (part 3) and the parameter recovery plots (part 4) refer to the parameters of the model that was selected as the best model in `PE_modelling` (see `comp_model_fit_export/modelfits_immediate.csv` and the README in `PE_modelling`).
+The learning-rate analysis (part 3) and the parameter recovery plots (part 4) refer to the parameters of the model that was selected as the best model in `PE_modelling` (see `comp_model_fit_export/modelfits.csv` and the README in `PE_modelling`).
