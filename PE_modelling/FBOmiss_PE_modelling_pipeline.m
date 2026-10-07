@@ -11,9 +11,8 @@ clear all; % clear workspace
 rng(17, 'twister'); % fix random number generator for reproducibility
 tic % start stopwatch
 
-% duration for steps 1: ~19 s
-% duration for step 2 with 50 iterations: ~7.9 h
-% duration for steps 3 & 4: ~2.9 h
+% total duration with 50 iterations: ~9.41h (step 2 ~7.9 h)
+
 
 
 %% 1. Reading logfiles and data preparation
@@ -524,7 +523,7 @@ disp(modelfits(idx_aic,:)); % best model: 10ab
 % model with the lowest BIC (fit penalized for number of parameters)
 [~, idx_bic] = min(modelfits.BIC);
 disp('Model with lowest BIC:');
-disp(modelfits(idx_bic,:)); % best model: 5b
+disp(modelfits(idx_bic,:)); % best model: 2b
  
 
 %% 3. Simulate PE for each trial with fitted parameters of the best model
