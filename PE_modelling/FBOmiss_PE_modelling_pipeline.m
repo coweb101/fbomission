@@ -513,7 +513,7 @@ writetable(modelfits,'comp_model_fit_export\modelfits.csv');
 % model with the lowest -LL (best raw fit, no penalty for parameters)
 [~, idx_ll] = min(modelfits.ll);
 disp('Model with lowest -LL:');
-disp(modelfits(idx_ll,:)); % best model: 10acc
+disp(modelfits(idx_ll,:)); % best model: 10abc
 
 % model with the lowest AIC (fit penalized for number of parameters (less strongly than BIC)
 [~, idx_aic] = min(modelfits.AIC);
