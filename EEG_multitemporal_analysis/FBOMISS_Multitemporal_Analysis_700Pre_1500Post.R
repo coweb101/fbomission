@@ -8,7 +8,7 @@ remove(list = ls()) # clear workspace
 setwd("//psychologie.ad.hhu.de/biopsych_experimente/Studien_Daten/2024_CB_CW_FBOmiss") # set working directory
 
 #### Read data  ####
-data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym.csv", quote="") # read concatenated data
+data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym.csv") # read concatenated data
 
 data_presentation <- subset(data, omission==-1)
 data_omission <- subset(data, omission==1)
@@ -97,6 +97,9 @@ withCallingHandlers({
     # ensure that amplitude data is numeric
     data_temp$samplepointx <- as.numeric(data_temp$samplepointx)
     
+    pe_coefficients[i, "convergence_false"] <- 0
+    # enter default value for non-convergence (which is overwritten when a 
+    # warning is caught with calling handlers (see below)
     
     
     ### Calculate mixed model ###
@@ -116,9 +119,7 @@ withCallingHandlers({
       pe_coefficients[i, "singular"] <- 1
     } else {pe_coefficients[i, "singular"] <- 0}
     
-    pe_coefficients[i, "convergence_false"] <- 0
-    # enter default value for non-convergence (which is overwritten when a 
-    # warning is caught with calling handlers (see below)
+
     
     # compute effectsizes and save (again only of effects with preference level)
     effectsizes <- effectsize::eta_squared(samplepoint_regression)
@@ -127,15 +128,7 @@ withCallingHandlers({
     pe_coefficients[i,"effectsize_pe"] <- effectsizes[which(effectsizes$Parameter=="pe_absolute"),"Eta2_partial"]
     pe_coefficients[i,"effectsize_interaction"] <-  effectsizes[which(effectsizes$Parameter=="pe_absolute:valence"),"Eta2_partial"]
     
-    # compute effectsizes and save (again only of effects with preference level)
-    effectsizes <- effectsize::eta_squared(samplepoint_regression)
-    
-    pe_coefficients[i,"effectsize_valence"] <- effectsizes[which(effectsizes$Parameter=="valence"),"Eta2_partial"]
-    pe_coefficients[i,"effectsize_pe"] <- effectsizes[which(effectsizes$Parameter=="pe_absolute"),"Eta2_partial"]
-    pe_coefficients[i,"effectsize_interaction"] <-  effectsizes[which(effectsizes$Parameter=="pe_absolute:valence"),"Eta2_partial"]
-    
-    
-    
+
     ### Extract fixed effects coefficients, SEs, dfs, t- and p-values ###
     
     # Intercept
@@ -198,7 +191,7 @@ withCallingHandlers({
   }
 }, warning = function(w){
   
-  pe_coefficients[i, "convergence_false_message"] <<- w$message # save convergence message
+  pe_coefficients[i, "convergence_false_message"] <<- w$message #  save warning message
   pe_coefficients[i, "convergence_false"] <<- length(w$message) # overwrite 0 for dummy-coded convergence index
   
 })
@@ -293,7 +286,9 @@ withCallingHandlers({
     # ensure that amplitude data is numeric
     data_temp$samplepointx <- as.numeric(data_temp$samplepointx)
     
-    
+    pe_coefficients[i, "convergence_false"] <- 0
+    # enter default value for non-convergence (which is overwritten when a 
+    # warning is caught with calling handlers (see below)
     
     ### Calculate mixed model ###
     
@@ -312,9 +307,7 @@ withCallingHandlers({
       pe_coefficients[i, "singular"] <- 1
     } else {pe_coefficients[i, "singular"] <- 0}
     
-    pe_coefficients[i, "convergence_false"] <- 0
-    # enter default value for non-convergence (which is overwritten when a 
-    # warning is caught with calling handlers (see below)
+
     
     # compute effectsizes and save (again only of effects with preference level)
     effectsizes <- effectsize::eta_squared(samplepoint_regression)
@@ -387,7 +380,7 @@ withCallingHandlers({
   }
 }, warning = function(w){
   
-  pe_coefficients[i, "convergence_false_message"] <<- w$message # save convergence message
+  pe_coefficients[i, "convergence_false_message"] <<- w$message #  save warning message
   pe_coefficients[i, "convergence_false"] <<- length(w$message) # overwrite 0 for dummy-coded convergence index
   
 })
@@ -410,7 +403,7 @@ library(lmerTest) # generates p-values and automatically loads lme4
 
 # subset data
 #aggr_data <- data # save full data in other object
-data <- data_presentation # subset only omission trials
+data <- data_presentation # subset only display trials
 data <- as.data.frame(data) # ensure that data is a data frame (and not a list)
 
 gc()
@@ -485,7 +478,9 @@ withCallingHandlers({
     # ensure that amplitude data is numeric
     data_temp$samplepointx <- as.numeric(data_temp$samplepointx)
     
-    
+    pe_coefficients[i, "convergence_false"] <- 0
+    # enter default value for non-convergence (which is overwritten when a 
+    # warning is caught with calling handlers (see below)
     
     ### Calculate mixed model ###
     
@@ -504,9 +499,7 @@ withCallingHandlers({
       pe_coefficients[i, "singular"] <- 1
     } else {pe_coefficients[i, "singular"] <- 0}
     
-    pe_coefficients[i, "convergence_false"] <- 0
-    # enter default value for non-convergence (which is overwritten when a 
-    # warning is caught with calling handlers (see below)
+
     
     # compute effectsizes and save (again only of effects with preference level)
     effectsizes <- effectsize::eta_squared(samplepoint_regression)
@@ -579,25 +572,12 @@ withCallingHandlers({
   }
 }, warning = function(w){
   
-  pe_coefficients[i, "convergence_false_message"] <<- w$message # save convergence message
+  pe_coefficients[i, "convergence_false_message"] <<- w$message #  save warning message
   pe_coefficients[i, "convergence_false"] <<- length(w$message) # overwrite 0 for dummy-coded convergence index
   
 })
 
 
-
-## Calculate conditional coefficients of the effect of prediction error (i.e.
-## separate coefficients for each feedback timing group and valence (which are
-## dummy-coded and therefore additive))
-
-#pe_coefficients$coef_pos <- pe_coefficients$coef_pe
-####pe_coefficients$coef_pos_immediate <- pe_coefficients$coef_pe + pe_coefficients$coef_pe_absolute_fb_timing_dummy
-#pe_coefficients$coef_neg <- pe_coefficients$coef_pe + pe_coefficients$coef_pe_absolute_valence_dummy
-####pe_coefficients$coef_neg_immediate <- pe_coefficients$coef_pe + pe_coefficients$coef_pe_absolute_fb_timing_dummy + 
-####  pe_coefficients$coef_pe_absolute_valence_dummy + pe_coefficients$coef_pe_absolute_fb_timing_dummy_valence_dummy
-
-#pe_coefficients$time <- 1:segment_length # add number of samplepoints for plotting
-# as my model loop above was interrupted due to 
 pe_coefficients$time <- 1:nrow(pe_coefficients) 
 
 #### Save data in working directory
@@ -612,7 +592,7 @@ library(lmerTest) # generates p-values and automatically loads lme4
 
 # subset data
 #aggr_data <- data # save full data in other object
-data <- data_presentation # subset only omission trials
+data <- data_presentation # subset only display trials
 data <- as.data.frame(data) # ensure that data is a data frame (and not a list)
 
 gc()
@@ -687,7 +667,9 @@ withCallingHandlers({
     # ensure that amplitude data is numeric
     data_temp$samplepointx <- as.numeric(data_temp$samplepointx)
     
-    
+    pe_coefficients[i, "convergence_false"] <- 0
+    # enter default value for non-convergence (which is overwritten when a 
+    # warning is caught with calling handlers (see below)
     
     ### Calculate mixed model ###
     
@@ -706,9 +688,7 @@ withCallingHandlers({
       pe_coefficients[i, "singular"] <- 1
     } else {pe_coefficients[i, "singular"] <- 0}
     
-    pe_coefficients[i, "convergence_false"] <- 0
-    # enter default value for non-convergence (which is overwritten when a 
-    # warning is caught with calling handlers (see below)
+
     
     # compute effectsizes and save (again only of effects with preference level)
     effectsizes <- effectsize::eta_squared(samplepoint_regression)
@@ -781,7 +761,7 @@ withCallingHandlers({
   }
 }, warning = function(w){
   
-  pe_coefficients[i, "convergence_false_message"] <<- w$message # save convergence message
+  pe_coefficients[i, "convergence_false_message"] <<- w$message # save warning message
   pe_coefficients[i, "convergence_false"] <<- length(w$message) # overwrite 0 for dummy-coded convergence index
   
 })
