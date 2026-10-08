@@ -280,7 +280,6 @@ library(plyr) # to use join() (merging data while preserving row order (merge() 
 
 data <- plyr::join(pe_data, data, by = c("id", "trial"))
 
-data[, c("filename","filename.1"):=NULL] 
 
 data.table::fwrite(data, file="aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym.csv", row.names=F) # wanna save data in between?
 #data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym.csv")
