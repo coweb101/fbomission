@@ -5,7 +5,7 @@
 remove(list = ls()) # clear workspace
 getwd() # show current working directory
 setwd("\\\\psychologie.ad.hhu.de/biopsych_experimente/Studien_Daten/2024_CB_CW_FBOmiss")
-data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym.csv", quote="") # read concatenated data
+data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym.csv") # read concatenated data
 
 data$valid_trial <- ifelse(!is.na(data$F7_1), 1, 0)
 
