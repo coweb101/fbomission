@@ -45,7 +45,7 @@ set.seed(17)
 
 # Read behavioural data
 
-behav_not_anonymized <- data.table::fread("behavioural_data/immediate/interim_datasets/FBOmiss_behaviour_immediate_anonymized.csv")
+behav <- data.table::fread("aggregated_data/FBOmiss_behaviour_immediate_anonymized.csv")
 
 
 # Create new columns for feedback valence, type (omission/presentation), learning context (reward/loss), and reward probability
@@ -124,10 +124,8 @@ behav$rew_prob <- ifelse(behav$rew_prob==70,1,-1)
 ## GLMM
 
 accuracy_glmer<- glmer(correct ~ trialno_centered*context*rew_prob + (1+trialno_centered*context*rew_prob|id), family=binomial, data=behav, control = glmerControl(optimizer ="bobyqa", optCtrl=list(maxfun=1e5)))
-
 summary(accuracy_glmer)
 performance::r2(accuracy_glmer,  tolerance = 1e-10) # model fit/explanatory power
-
 
 #### Resolve interaction
 
@@ -174,6 +172,9 @@ behav$trial_bin <- cut(behav$trialno_centered,
 
 # create empty dataframe
 agg_data <- data.frame()
+
+# convert behav to data.frame which is needed for the indexing as done in the following loop
+behav <- as.data.frame(behav)
 
 
 for (ctx in c(-1, 1)) { # loop through contexts 
@@ -296,8 +297,7 @@ dev.off()
 
 #### Analysis of accuracy data from simulated_data ####
 
-behav_sim <- read.csv("behavioural_data/immediate/comp_model_fit_export/FBOmiss_behav_recovered.csv", sep=",", header=T)
-# no filenames etc. in the file (no need to anonymize)
+behav_sim <- read.csv("aggregated_data/FBOmiss_behav_recovered.csv", sep=",", header=T)
 
 behav_obs <- behav # rename observed data
 behav <- behav_sim
@@ -491,27 +491,24 @@ dev.off()
 ## Data preparation
 
 # read data
-parameter <- read.csv("behavioural_data/immediate/comp_model_fit_export/FBOmiss_learning_parameter.csv")
+parameter <- read.csv("aggregated_data/FBOmiss_learning_parameter.csv")
 
 # show descriptive statistics for parameters of rl model
-params <- names(parameter)[3:15]
+params <- names(parameter)[-which(names(parameter)=="filename"|names(parameter)=="BIC")]
 psych::describeBy(parameter[,params])
 
-## reduce data (to learning rates, and participant ids):
-parameter <- parameter[,c(3:14,16)]
+## reduce data (to learning rates, and filenames):
+parameter <- parameter[,c(grep("filename", names(parameter)), grep("alpha", names(parameter)))]
 
 # and reshape
-data_learning_rates <- reshape2::melt(parameter, id = c("id"))
+data_learning_rates <- reshape2::melt(parameter, id = c("filename"))
 
 # recode variables
 data_learning_rates$learning_rate <- as.numeric(data_learning_rates$value)
 
-data_learning_rates$rew_prob <- substr(data_learning_rates$variable, 7,8)
 data_learning_rates[grep("pos", data_learning_rates$variable), "valence"] <- "pos"
 data_learning_rates[grep("neg", data_learning_rates$variable), "valence"] <- "neg"
 
-data_learning_rates[grep("omitted", data_learning_rates$variable), "type"] <- "omission"
-data_learning_rates[grep("presented", data_learning_rates$variable), "type"] <- "presentation"
 
 ## Transform data for approximating normal distribution
 
@@ -566,19 +563,13 @@ data_learning_rates$learning_rate <- data_learning_rates$learning_rate^(1/3)
 
 data <- data_learning_rates
 
-# recode variables
+# code fixed effect of valence
 data$valence <- ifelse(data$valence == "pos", 1, ifelse(data$valence == "neg", -1, NA))
-data$omission <- ifelse(data$type == "omission", 1, ifelse(data$type == "presentation", -1, NA))
-data$rew_prob <- ifelse(data$rew_prob == "90", 1, ifelse(data$rew_prob == "70", -1, NA)) # only 70% and 90% included as done for accuracy
-
-data$context <- ifelse((data$valence==1 & data$omission==-1) | (data$valence==-1 & data$omission==1), 1,
-                       ifelse((data$valence==1 & data$omission==1) | (data$valence==-1 & data$omission==-1), -1,NA))
-# reward context = 1; loss context = -1
 
 ## LME
 
-model_learning_rates <- lmer(learning_rate ~ rew_prob*valence*omission + 
-                               (1|id),
+model_learning_rates <- lmer(learning_rate ~ valence + 
+                               (1|filename),
                              data=data, REML=T, 
                              control=lmerControl(optimizer='bobyqa', optCtr = list(maxfun = 1e9)))
 summary(model_learning_rates)
@@ -594,62 +585,34 @@ qqline(residuals(model_learning_rates))
 library(ggeffects)
 library(ggplot2)
 
-plotdata <- ggeffect(model_learning_rates, terms = c("omission", "valence", "rew_prob"))
+plotdata <- ggeffect(model_learning_rates, terms = c("valence"))
 
-# Rename columns
-names(plotdata)[1] <- "omission"
-names(plotdata)[6] <- "valence"
-names(plotdata)[7] <- "rew_prob"
-
-# Define facetvariable + factorize levels
-plotdata$facet_group <- ifelse(plotdata$omission==-1,"Display","Omission")
-plotdata$rew_prob <- factor(plotdata$rew_prob, levels = c(-1, 1), labels = c("70%", "90%"))
-plotdata$valence <- factor(plotdata$valence, levels = c(-1, 1), labels = c("Negative", "Positive"))
-
-# Split for facetting
-facet_split <- split(plotdata, plotdata$facet_group)
+# Rename column and factorize
+names(plotdata)[1] <- "valence"
+plotdata$valence <- factor(plotdata$valence, levels = c(1, -1), labels = c("Positive", "Negative"))
 
 # define colors
 valence_colors <- c("blue", "green3")
 names(valence_colors) <- c("Positive", "Negative")
 
-# Plotting order
-facet_order <- c("Display", "Omission")
+png("plots/learning_rates_predicted.png", width = 1.9, height = 1.9, units = "in", res = 2400)
 
-png("plots/learning_rates_predicted.png", width = 3.8, height = 1.9, units = "in", res = 2400)
+par(mfrow = c(1, 1), mai = c(0.38, 0.4, 0.3, 0.05), mgp = c(1.6, 0.35, 0), tcl = -0.25, cex = 0.8)
 
-par(mfrow = c(1, 2), mai = c(0.38, 0.4, 0.3, 0.05), mgp = c(1.6, 0.35, 0), tcl = -0.25, cex = 0.8)
-
-for (facet_name in facet_order) {
-  df <- facet_split[[facet_name]]
-  
-  # Subset raw data for this facet
-  raw_subset <- subset(data, 
-                       (valence == 1 & omission == -1 & facet_name == "Display") |
-                         (valence == -1 & omission == 1 & facet_name == "Omission") |
-                         (valence == -1 & omission == -1 & facet_name == "Display") |
-                         (valence == 1 & omission == 1 & facet_name == "Omission")
-  )
+  raw_subset <- data
   
   # Map categorical vars for consistency
-  raw_subset$valence <- factor(raw_subset$valence, levels = c(-1, 1), labels = c("Negative", "Positive"))
-  raw_subset$omission <- ifelse(raw_subset$omission == -1, "Displayed", "Omitted")
-  raw_subset$rew_prob <- factor(raw_subset$rew_prob, levels = c(-1, 1), labels = c("70%", "90%"))
-  raw_subset$x <- as.numeric(raw_subset$rew_prob) +
-    ifelse(raw_subset$valence == "Positive", -0.15, 0.15) +
-    runif(nrow(raw_subset), -0.05, 0.05)  # jitter
+  raw_subset$valence <- factor(raw_subset$valence, levels = c(1, -1), labels = c("Positive", "Negative"))
+
+  raw_subset$x <- as.numeric(raw_subset$valence) +
+    #ifelse(raw_subset$valence == "Positive", -0.15, 0.15) +
+    runif(nrow(raw_subset), -0.3, 0.3)  # jitter
   
-  # Base plot
-  if (facet_name == "Display"){
-    # Create empty plot
+  # Create empty plot
     plot(1, type = "n", ylim = c(0, 1), xlim = c(0.5, 2.5),
          xaxt = "n", xlab = "", ylab = "Learning Rate",
-         main = facet_name, las = 1, cex.main = 0.9, cex.lab = 0.9, cex.axis = 0.8, bty="n")
-  } else{ # omit y-lab annotation for second plot
-    plot(1, type = "n", ylim = c(0, 1), xlim = c(0.5, 2.5),
-         xaxt = "n", xlab = "", ylab = "",
-         main = facet_name, las = 1, cex.main = 0.9, cex.lab = 0.9, cex.axis = 0.8, bty="n")
-  }
+          las = 1, cex.main = 0.9, cex.lab = 0.9, cex.axis = 0.8, bty="n")
+
   # Raw points
   points(raw_subset$x, raw_subset$learning_original,
          pch = 16,
@@ -657,68 +620,39 @@ for (facet_name in facet_order) {
          cex = 0.5)
   
   # Error bars
-  x_vals <- as.numeric(df$rew_prob)
-  offset <- ifelse(df$valence == "Positive", -0.15, 0.15)
-  x_dodge <- x_vals + offset
-  
-  arrows(x0 = x_dodge, y0 = df$conf.low, x1 = x_dodge, y1 = df$conf.high,
+  df <- plotdata
+  x_vals <- as.numeric(df$valence)
+
+  arrows(x0 = x_vals, y0 = df$conf.low, x1 = x_vals, y1 = df$conf.high,
          angle = 90, code = 3, length = 0.05,
          col = valence_colors[as.character(df$valence)])
   
   # Predicted points
-  points(x_dodge, df$predicted,
+  points(x_vals, df$predicted,
          pch = 16,
          col = valence_colors[as.character(df$valence)],
          cex = 0.8)
   
   # Axis & label
-  axis(1, at = 1:2, labels = levels(df$rew_prob))
-  text(1.5, -0.31, "P(Pos. Outcome|Correct)", xpd = TRUE, cex = .9)
+  axis(1, at = 1:2, labels = levels(df$valence))
+  text(1.5, -0.31, "Feedback Valence", xpd = TRUE, cex = .9)
   
   
-}
 
 dev.off()
-
-# plot legend separately (will be put together outside of R)
-png("plots/learning_rates_predicted_legend.png", width = 1.9, height = 1.9, units = "in", res = 2400)
-
-par(mfrow = c(1, 1), mai = c(0.38, 0.4, 0.3, 0.05), mgp = c(1.6, 0.35, 0), tcl = -0.25, cex = 0.8)
-
-plot(1, type = "n", ylim = c(0, 1), xlim = c(0.5, 2.5),
-     axes=F,xaxt = "n", xlab = "", ylab = "",
-     las = 1, cex.main = 0.9, cex.lab = 0.9, cex.axis = 0.8, bty="n")
-
-legend("topright", legend = c("Positive", "Negative"),
-       pch = 16, col = valence_colors, pt.cex = 0.9,
-       bty = "n", cex = .8)
-
-
-### Resolve interactions
-
-# Simple effects
-valence_prob_omission <- emmeans::emmeans(model_learning_rates, 
-                                          specs=  ~ valence+rew_prob|omission, 
-                                          var="valence",
-                                          infer=TRUE,
-                                          adj="none", lmer.df="asymp")
-
-pairs(valence_prob_omission)
-pairs(pairs(valence_prob_omission), by=NULL)
 
 
 #### Comparison of fitted with recovered parameters ####
 
 # load fitted (anonymized) parameter
-parameter_fitted <- read.csv("behavioural_data/immediate/comp_model_fit_export/FBOmiss_learning_parameter.csv")
+parameter_fitted <- read.csv("aggregated_data/FBOmiss_learning_parameter.csv")
 
 # load recovered parameter
-parameter_recovered <- read.csv("behavioural_data/immediate/comp_model_fit_export/FBOmiss_learning_parameter_recovered.csv")
-names(parameter_recovered)[names(parameter_recovered)=="filename"] <- "subj"
+parameter_recovered <- read.csv("aggregated_data/FBOmiss_learning_parameter_recovered.csv")
 
 # create list with free parameter
 list_parameter <- names(parameter_fitted)
-list_parameter <- list_parameter[-c(which(list_parameter=="filename"), which(list_parameter=="BIC"), which(list_parameter=="subj"))]
+list_parameter <- list_parameter[-c(which(list_parameter=="filename"), which(list_parameter=="BIC"))]
 
 correlations <- data.frame()
 correlations[1:25,1] <- 1:25
@@ -754,10 +688,9 @@ for (j in 1:length(list_parameter)) {
     ylim_use <- c(0, 1)
     
     valence <- ifelse(grepl("neg",list_parameter[j]), "Negative", "Positive")
-    rew_prob <- ifelse(grepl("50",list_parameter[j]), "50 %", ifelse(grepl("70",list_parameter[j]),"70 %", "90%"))
-    appearance <- ifelse(grepl("omitted",list_parameter[j]), "Omission", "Display")
+
     if (!exists("plot_title")){
-      plot_title <- paste0("LR (", valence, ", ", appearance, ", ", rew_prob, ")")
+      plot_title <- paste0("Learning Rate (", valence, " Feedback)")
     }
     
   } else {
@@ -765,7 +698,7 @@ for (j in 1:length(list_parameter)) {
     xlim_use <- c(0, 100)
     ylim_use <- c(0, 100)
     if (!exists("plot_title")){
-      plot_title <- "Beta"
+      plot_title <- "Inverse Temperature"
     }
   }
   
@@ -778,7 +711,7 @@ for (j in 1:length(list_parameter)) {
   png_filename <- file.path(paste0("plots/scatter_", list_parameter[j], ".png"))  
   png(png_filename, width = 1.9, height = 1.9, units = "in", res = 2400)
   
-  par(mfrow = c(1, 1), mai = c(0.3, 0.35, 0.3, 0.05), mgp = c(1.6, 0.3, 0), tcl = -0.15, cex = 0.8)
+  par(mfrow = c(1, 1), mai = c(0.3, 0.35, 0.3, 0.25), mgp = c(1.6, 0.3, 0), tcl = -0.15, cex = 0.8)
   
   plot(
     recovered_avg, fitted,
@@ -824,10 +757,10 @@ for (j in 1:length(list_parameter)) {
 }
 
 
-#### Visualize Action Value Estimates ####
+#### Merge PE and behavioural data and visualize Action Value Estimates ####
 
 # Read action values derived from reinforcement learning models based on the empirical data
-pe_data <- read.csv("behavioural_data/immediate/comp_model_fit_export/FBOmiss_immediate_Q_values_and_PEs.csv")
+pe_data <- read.csv("aggregated_data/FBOmiss_immediate_Q_values_and_PEs.csv")
 # Rename filename column
 pe_data$id <- pe_data$filename
 
