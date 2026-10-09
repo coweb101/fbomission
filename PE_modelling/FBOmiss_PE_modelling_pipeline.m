@@ -532,6 +532,7 @@ probfb_simulation_best_model_BIC
 %% 4. Validate models by recovering parameter based on simulated data
 
 % 1. Simulate data
+rng(17, 'twister');
 probfb_simulation_data_parameter_recovery_AIC_model % for AIC model
 
 % 2. Fit simulated data to the best model
@@ -598,9 +599,10 @@ columnnames_all = [{'subj','sim_iteration'}, table_colnames];
 behav_table = cell2table(out, 'VariableNames', columnnames_all);
 
 % export as csv
-writetable(behav_table,'comp_model_fit_export\FBOmiss_behav_recovered_BIC.csv');
+writetable(behav_table,'comp_model_fit_export\FBOmiss_behav_recovered_AIC.csv');
 
 % 1. Simulate data
+rng(17, 'twister');
 probfb_simulation_data_parameter_recovery_BIC_model % for BIC model
 
 % 2. Fit simulated data to the best model
