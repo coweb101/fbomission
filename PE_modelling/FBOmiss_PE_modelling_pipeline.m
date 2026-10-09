@@ -510,11 +510,6 @@ modelfits.AIC = 2*modelfits.ll + 2*modelfits.no_free_parameter;
 writetable(modelfits,'comp_model_fit_export\modelfits.csv');
 
 
-% model with the lowest -LL (best raw fit, no penalty for parameters)
-[~, idx_ll] = min(modelfits.ll);
-disp('Model with lowest -LL:');
-disp(modelfits(idx_ll,:)); % best model: 10abc
-
 % model with the lowest AIC (fit penalized for number of parameters (less strongly than BIC)
 [~, idx_aic] = min(modelfits.AIC);
 disp('Model with lowest AIC:');
@@ -526,39 +521,39 @@ disp('Model with lowest BIC:');
 disp(modelfits(idx_bic,:)); % best model: 2b
  
 
-%% 3. Simulate PE for each trial with fitted parameters of the best model
-% (here: model 2b, lowest BIC) and save simulated values and parameters
+%% 3. Simulate PE for each trial with fitted parameters of the best models
+% (here: model 2b (lowest BIC) and 10ab (lowest AIC) and save simulated 
+% values and parameters
 
-probfb_simulation_best_model
+probfb_simulation_best_model_AIC
+probfb_simulation_best_model_BIC
 
-%% 4. Validate model by recovering parameter based on simulated data
+
+%% 4. Validate models by recovering parameter based on simulated data
 
 % 1. Simulate data
-probfb_simulation_data_parameter_recovery
+probfb_simulation_data_parameter_recovery_AIC_model % for AIC model
 
 % 2. Fit simulated data to the best model
-probfb_funfit_model2b_simulated_data
-save('comp_model_fit_export\fit_model_recovery_ll','fit');
-save('comp_model_fit_export\fit_model_recovery_bic','fit_BIC');
+probfb_funfit_model10ab_simulated_data
 
-% 3. Export BICs and recovered parameters as csv
+% 3. Export recovered parameters as csv
 % (one column per parameter and simulated data set, e.g. beta_01 ... beta_25)
 
 load filenames;
-export_names = [{'bic'}, param_names]; % fields of fit_BIC (matrices nsim x nsubs)
+export_names = param_names;
 parameter_export = filenames;
 varNames = {'filename'};
 for p = 1:numel(export_names)
-    vals = transpose(fit_BIC.(export_names{p})); % participants x simulations
+    vals = transpose(fit.(export_names{p})); % participants x simulations
     parameter_export = [parameter_export, num2cell(vals)];
     base = export_names{p};
-    if strcmp(base, 'bic'), base = 'BIC'; end
     varNames = [varNames, arrayfun(@(x) sprintf('%s_%02d', base, x), 1:size(vals,2), 'UniformOutput', false)];
 end
 parameter_export = cell2table(parameter_export, 'VariableNames', varNames);
 
 % export as csv
-writetable(parameter_export,'comp_model_fit_export\FBOmiss_learning_parameter_recovered.csv');
+writetable(parameter_export,'comp_model_fit_export\FBOmiss_learning_parameter_recovered_AIC.csv');
 
 
 % 4. Export simulated_data to calculate accuracy (posterior predictive check)
@@ -603,7 +598,76 @@ columnnames_all = [{'subj','sim_iteration'}, table_colnames];
 behav_table = cell2table(out, 'VariableNames', columnnames_all);
 
 % export as csv
-writetable(behav_table,'comp_model_fit_export\FBOmiss_behav_recovered.csv');
+writetable(behav_table,'comp_model_fit_export\FBOmiss_behav_recovered_BIC.csv');
+
+% 1. Simulate data
+probfb_simulation_data_parameter_recovery_BIC_model % for BIC model
+
+% 2. Fit simulated data to the best model
+probfb_funfit_model2b_simulated_data
+
+% 3. Export recovered parameters as csv
+% (one column per parameter and simulated data set, e.g. beta_01 ... beta_25)
+
+load filenames;
+export_names = param_names;
+parameter_export = filenames;
+varNames = {'filename'};
+for p = 1:numel(export_names)
+    vals = transpose(fit.(export_names{p})); % participants x simulations
+    parameter_export = [parameter_export, num2cell(vals)];
+    base = export_names{p};
+    varNames = [varNames, arrayfun(@(x) sprintf('%s_%02d', base, x), 1:size(vals,2), 'UniformOutput', false)];
+end
+parameter_export = cell2table(parameter_export, 'VariableNames', varNames);
+
+% export as csv
+writetable(parameter_export,'comp_model_fit_export\FBOmiss_learning_parameter_recovered_BIC.csv');
+
+
+% 4. Export simulated_data to calculate accuracy (posterior predictive check)
+
+% simulated_data is a 1x1 struct with 48 fields (nsubs) with each 25 fields
+% with each having a 480x9 table
+firstlevel = fieldnames(simulated_data); 
+nfirst = numel(firstlevel); % get number of fields at first level
+nsecond = 25; % number of second level fields (= number of sim data per participant)
+ntrials = 480; % rows per table in second level field
+nrows = nfirst * nsecond * ntrials; % number of total rows in final table
+
+out = cell(nrows, 11); % prepare output object
+row = 1; % initialize counter
+
+% loop through simulated data struct
+for i = 1:nfirst
+    fieldname_firstlevel = firstlevel{i};
+    substruct = simulated_data.(fieldname_firstlevel);
+    secondlevel = fieldnames(substruct);
+
+    for j = 1:nsecond
+        fieldname_secondlevel = secondlevel{j}; % get current sim label
+        table_tmp = substruct.(fieldname_secondlevel); % get table
+        
+        % prepare row index
+        row_index = row:row+ntrials-1;
+        
+        % fill rows
+        out(row_index,1) = {fieldname_firstlevel};
+        out(row_index,2) = {fieldname_secondlevel};
+        out(row_index,3:11) = table2cell(table_tmp);
+        
+        row = row + ntrials; % add to counter
+    end
+end
+
+% convert to table
+table_colnames = table_tmp.Properties.VariableNames;
+
+columnnames_all = [{'subj','sim_iteration'}, table_colnames];
+behav_table = cell2table(out, 'VariableNames', columnnames_all);
+
+% export as csv
+writetable(behav_table,'comp_model_fit_export\FBOmiss_behav_recovered_BIC.csv');
 
 
 toc % stopwatch end
