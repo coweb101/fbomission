@@ -8,7 +8,7 @@ addpath(genpath('./interim_datasets/'));
 clear fit fit_BIC
 
 % load simulated data (created with probfb_simulation_data_parameter_recovery)
-load simulated_data;
+load simulated_data_BIC;
 
 nsubs = length(fieldnames(simulated_data)); % number of participants
 ntrials = height(simulated_data.sim_data_01.sim_01); % number of trials
