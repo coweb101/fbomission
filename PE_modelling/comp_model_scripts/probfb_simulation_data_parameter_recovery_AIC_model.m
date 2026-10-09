@@ -42,7 +42,7 @@ for sub_i = 1:nsubs % simulate data for each participant
 
 end
 
-save('interim_datasets\simulated_data','simulated_data');
+save('interim_datasets\simulated_data_AIC','simulated_data');
 
 
 function sim_data = recovery_simulation(sub_i, params, correct_response_table, stim_context_mapping, ntrials)
