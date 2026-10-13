@@ -5,17 +5,18 @@ function error = probfb_fun_model5cb(params,sub_choice,sub_fb,sub_not_choice,ntr
 % separate learning rates for chosen and unchosen action
 % + update of chosen and unchosen action value
 % PLUS learning rate updates in each trial (Rescorla Wagner - Pearce Hall
-% hybrid model) and scaling of impact of PE (kappa)
+% hybrid model; learning rates are stimulus-specific) and scaling of
+% impact of PE (kappa)
 
 % set parameters
-alpha_pospresented = params(1);
-alpha_posomitted = params(2);
-alpha_negpresented = params(3);
-alpha_negomitted = params(4);
-alpha_pospresented_unchosen = params(5);
-alpha_posomitted_unchosen = params(6);
-alpha_negpresented_unchosen = params(7);
-alpha_negomitted_unchosen = params(8);
+alpha_pospresented = repmat(params(1), 1, 6); % initial value, one per stimulus
+alpha_posomitted = repmat(params(2), 1, 6); % initial value, one per stimulus
+alpha_negpresented = repmat(params(3), 1, 6); % initial value, one per stimulus
+alpha_negomitted = repmat(params(4), 1, 6); % initial value, one per stimulus
+alpha_pospresented_unchosen = repmat(params(5), 1, 6); % initial value, one per stimulus
+alpha_posomitted_unchosen = repmat(params(6), 1, 6); % initial value, one per stimulus
+alpha_negpresented_unchosen = repmat(params(7), 1, 6); % initial value, one per stimulus
+alpha_negomitted_unchosen = repmat(params(8), 1, 6); % initial value, one per stimulus
 beta = params(9);
 kappa = params(10);
 eta = params(11);
@@ -53,6 +54,7 @@ for i = 1:ntrials
 
         % calculate prediction error of current trial with expected value
         % of chosen and unchosen action
+        s = sub_stimuli(i); % current stimulus (index of its learning rates)
         PE_c = sub_fb(i) - Q(chosen_index);
         PE_u = 1 - sub_fb(i) - Q(unchosen_index);
 
@@ -64,41 +66,41 @@ for i = 1:ntrials
         if sub_feedback_type(i) == 1 & sub_fb(i) == 1 
             
             % update action value of chosen action with scaled alpha_pospresented
-            Q(chosen_index) = Q(chosen_index) + kappa*alpha_pospresented*PE_c;
-            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_pospresented_unchosen*PE_u;
-            % update learning rates for the next trial of this type (Pearce-Hall)
-            alpha_pospresented = eta*abs(PE_c) + (1-eta)*alpha_pospresented;
-            alpha_pospresented_unchosen = eta*abs(PE_u) + (1-eta)*alpha_pospresented_unchosen;
+            Q(chosen_index) = Q(chosen_index) + kappa*alpha_pospresented(s)*PE_c;
+            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_pospresented_unchosen(s)*PE_u;
+            % update learning rates of this stimulus for its next trial of this type (Pearce-Hall)
+            alpha_pospresented(s) = eta*abs(PE_c) + (1-eta)*alpha_pospresented(s);
+            alpha_pospresented_unchosen(s) = eta*abs(PE_u) + (1-eta)*alpha_pospresented_unchosen(s);
         
         elseif sub_feedback_type(i) == 0 & sub_fb(i) == 0
         % else if feedback is omitted and feedback is negative
             
             % update action value of chosen action with scaled alpha_negomitted
-            Q(chosen_index) = Q(chosen_index) + kappa*alpha_negomitted*PE_c;
-            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_negomitted_unchosen*PE_u;
-            % update learning rates for the next trial of this type (Pearce-Hall)
-            alpha_negomitted = eta*abs(PE_c) + (1-eta)*alpha_negomitted;
-            alpha_negomitted_unchosen = eta*abs(PE_u) + (1-eta)*alpha_negomitted_unchosen;
+            Q(chosen_index) = Q(chosen_index) + kappa*alpha_negomitted(s)*PE_c;
+            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_negomitted_unchosen(s)*PE_u;
+            % update learning rates of this stimulus for its next trial of this type (Pearce-Hall)
+            alpha_negomitted(s) = eta*abs(PE_c) + (1-eta)*alpha_negomitted(s);
+            alpha_negomitted_unchosen(s) = eta*abs(PE_u) + (1-eta)*alpha_negomitted_unchosen(s);
         
         elseif sub_feedback_type(i) == 0 & sub_fb(i) == 1
         % else if feedback is omitted and feedback is positive
             
             % update action value of chosen action with scaled alpha_posomitted
-            Q(chosen_index) = Q(chosen_index) + kappa*alpha_posomitted*PE_c;
-            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_posomitted_unchosen*PE_u;
-            % update learning rates for the next trial of this type (Pearce-Hall)
-            alpha_posomitted = eta*abs(PE_c) + (1-eta)*alpha_posomitted;
-            alpha_posomitted_unchosen = eta*abs(PE_u) + (1-eta)*alpha_posomitted_unchosen;
+            Q(chosen_index) = Q(chosen_index) + kappa*alpha_posomitted(s)*PE_c;
+            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_posomitted_unchosen(s)*PE_u;
+            % update learning rates of this stimulus for its next trial of this type (Pearce-Hall)
+            alpha_posomitted(s) = eta*abs(PE_c) + (1-eta)*alpha_posomitted(s);
+            alpha_posomitted_unchosen(s) = eta*abs(PE_u) + (1-eta)*alpha_posomitted_unchosen(s);
         
         elseif sub_feedback_type(i) == 1 & sub_fb(i) == 0
         % else if feedback is presented and feedback is negative
             
             % update action value of chosen action with scaled alpha_negpresented
-            Q(chosen_index) = Q(chosen_index) + kappa*alpha_negpresented*PE_c;
-            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_negpresented_unchosen*PE_u;
-            % update learning rates for the next trial of this type (Pearce-Hall)
-            alpha_negpresented = eta*abs(PE_c) + (1-eta)*alpha_negpresented;
-            alpha_negpresented_unchosen = eta*abs(PE_u) + (1-eta)*alpha_negpresented_unchosen;
+            Q(chosen_index) = Q(chosen_index) + kappa*alpha_negpresented(s)*PE_c;
+            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_negpresented_unchosen(s)*PE_u;
+            % update learning rates of this stimulus for its next trial of this type (Pearce-Hall)
+            alpha_negpresented(s) = eta*abs(PE_c) + (1-eta)*alpha_negpresented(s);
+            alpha_negpresented_unchosen(s) = eta*abs(PE_u) + (1-eta)*alpha_negpresented_unchosen(s);
         
         end
 

@@ -3,11 +3,12 @@ function error = probfb_fun_model2bb(params,sub_choice,sub_fb,sub_not_choice,ntr
 % Model 2bb: Separate learning rates for positive and negative FB (valence)
 % update of chosen and unchosen action value (same learning rates)
 % PLUS learning rate updates in each trial (Rescorla Wagner - Pearce Hall
-% hybrid model) and scaling of impact of PE (kappa)
+% hybrid model; learning rates are stimulus-specific) and scaling of
+% impact of PE (kappa)
 
 % set parameters
-alpha_pos = params(1);
-alpha_neg = params(2);
+alpha_pos = repmat(params(1), 1, 6); % initial value, one per stimulus
+alpha_neg = repmat(params(2), 1, 6); % initial value, one per stimulus
 beta = params(3);
 kappa = params(4);
 eta = params(5);
@@ -45,6 +46,7 @@ for i = 1:ntrials
 
         % calculate prediction error of current trial with expected value
         % of chosen and unchosen action
+        s = sub_stimuli(i); % current stimulus (index of its learning rates)
         PE_c = sub_fb(i) - Q(chosen_index);
         PE_u = 1 - sub_fb(i) - Q(unchosen_index);
 
@@ -55,18 +57,18 @@ for i = 1:ntrials
         if sub_fb(i) == 1 % if fb is positive
             
             % update action value of chosen action with scaled alpha_pos
-            Q(chosen_index) = Q(chosen_index) + kappa*alpha_pos*PE_c;
-            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_pos*PE_u;
-            % update learning rate for the next trial of this type (Pearce-Hall) based on PE of chosen action
-            alpha_pos = eta*abs(PE_c) + (1-eta)*alpha_pos;
+            Q(chosen_index) = Q(chosen_index) + kappa*alpha_pos(s)*PE_c;
+            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_pos(s)*PE_u;
+            % update learning rate of this stimulus for its next trial of this type (Pearce-Hall) based on PE of chosen action
+            alpha_pos(s) = eta*abs(PE_c) + (1-eta)*alpha_pos(s);
         
         elseif sub_fb(i) == 0 % if fb is negative
             
             % update action value of chosen action with scaled alpha_neg
-            Q(chosen_index) = Q(chosen_index) + kappa*alpha_neg*PE_c;
-            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_neg*PE_u;
-            % update learning rate for the next trial of this type (Pearce-Hall) based on PE of chosen action
-            alpha_neg = eta*abs(PE_c) + (1-eta)*alpha_neg;
+            Q(chosen_index) = Q(chosen_index) + kappa*alpha_neg(s)*PE_c;
+            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_neg(s)*PE_u;
+            % update learning rate of this stimulus for its next trial of this type (Pearce-Hall) based on PE of chosen action
+            alpha_neg(s) = eta*abs(PE_c) + (1-eta)*alpha_neg(s);
         
         end
 
