@@ -1,8 +1,5 @@
-% Model 10c: Fit rl model with learning rates separately for reward 
-% probabilities, and each possible feedback type (e.g. positive presented, 
-% positive omitted % etc.)
-% PLUS learning rate updates in each trial (Rescorla Wagner - Pearce Hall
-% Hybrid model) and scaling of impact of PE
+% Model 10c: Fit rl model with separate learning rates for valence + reward 
+% probability + appearance + choice; plus update of unchosen
 
 addpath(genpath('./interim_datasets/'));
 
@@ -16,9 +13,9 @@ load datastruc_feedback_type; % created with dataprep
 nsubs = length(datastruc_choice(:,1)); % number of subjects
 ntrials = length(datastruc_choice(1,:)); % number of trials
 
-% lower and upper bound for fit (alphas (12),beta, kappa, eta)
-LB = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]; % lower bound
-UB = [1 1 1 1 1 1 1 1 1 1 1 1 100 1 1]; % upper bound
+% lower and upper bound for fit (alpha,beta)
+LB = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]; % lower bound
+UB = [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 100]; % upper bound
 
 % loop throught subjects
 for i = 1:nsubs
@@ -53,17 +50,32 @@ for i = 1:nsubs
         alpha_90_omitted_neg  = rand;
         alpha_70_omitted_neg  = rand;  
         alpha_50_omitted_neg  = rand;
+        alpha_90_presented_pos_unchosen = rand; % and separately for chosen
+        alpha_70_presented_pos_unchosen = rand; % and unchosen action 
+        alpha_50_presented_pos_unchosen = rand;
+        alpha_90_omitted_pos_unchosen = rand; 
+        alpha_70_omitted_pos_unchosen = rand;  
+        alpha_50_omitted_pos_unchosen = rand;
+        alpha_90_presented_neg_unchosen = rand; 
+        alpha_70_presented_neg_unchosen  = rand; 
+        alpha_50_presented_neg_unchosen  = rand;
+        alpha_90_omitted_neg_unchosen  = rand;
+        alpha_70_omitted_neg_unchosen  = rand;  
+        alpha_50_omitted_neg_unchosen  = rand;
         
         beta = rand*100; % one exploration parameter
-        
-        kappa = rand; % scaling parameter of impact of dynamic learning rate
-        eta = rand; % volatility scaling of learning rate update
         
         params = [alpha_90_presented_pos,alpha_70_presented_pos,...
             alpha_50_presented_pos,alpha_90_omitted_pos,alpha_70_omitted_pos,...
             alpha_50_omitted_pos,alpha_90_presented_neg,alpha_70_presented_neg,...
             alpha_50_presented_neg,alpha_90_omitted_neg,alpha_70_omitted_neg,...
-            alpha_50_omitted_neg,beta,kappa,eta];
+            alpha_50_omitted_neg,...
+            alpha_90_presented_pos_unchosen,alpha_70_presented_pos_unchosen,...
+            alpha_50_presented_pos_unchosen,alpha_90_omitted_pos_unchosen,alpha_70_omitted_pos_unchosen,...
+            alpha_50_omitted_pos_unchosen,alpha_90_presented_neg_unchosen,alpha_70_presented_neg_unchosen,...
+            alpha_50_presented_neg_unchosen,alpha_90_omitted_neg_unchosen,alpha_70_omitted_neg_unchosen,...
+            alpha_50_omitted_neg_unchosen,...
+            beta];
         
         % set options for fmincon
         options = optimset('display','off','MaxFunEvals',100000,'TolFun',1e-16,'TolX',1e-16); 
@@ -85,10 +97,19 @@ for i = 1:nsubs
         all_alpha_90_omitted_neg(j) = params(10);
         all_alpha_70_omitted_neg(j) = params(11);
         all_alpha_50_omitted_neg(j) = params(12);  
-        
-        all_beta(j) = params(13);
-        all_kappa(j) = params(14);
-        all_eta(j) = params(15);
+        all_alpha_90_presented_pos_unchosen(j) = params(13);
+        all_alpha_70_presented_pos_unchosen(j) = params(14);
+        all_alpha_50_presented_pos_unchosen(j) = params(15);
+        all_alpha_90_omitted_pos_unchosen(j) = params(16);
+        all_alpha_70_omitted_pos_unchosen(j) = params(17);
+        all_alpha_50_omitted_pos_unchosen(j) = params(18);
+        all_alpha_90_presented_neg_unchosen(j) = params(19);
+        all_alpha_70_presented_neg_unchosen(j) = params(20);
+        all_alpha_50_presented_neg_unchosen(j) = params(21);
+        all_alpha_90_omitted_neg_unchosen(j) = params(22);
+        all_alpha_70_omitted_neg_unchosen(j) = params(23);
+        all_alpha_50_omitted_neg_unchosen(j) = params(24);  
+        all_beta(j) = params(25);
         
         % save fit indices
         all_ll(j) = LL;
@@ -111,9 +132,19 @@ for i = 1:nsubs
     fit.alpha_90_omitted_neg(i) = all_alpha_90_omitted_neg(best);
     fit.alpha_70_omitted_neg(i) = all_alpha_70_omitted_neg(best);
     fit.alpha_50_omitted_neg(i) = all_alpha_50_omitted_neg(best);
+    fit.alpha_90_presented_pos_unchosen(i) = all_alpha_90_presented_pos_unchosen(best);
+    fit.alpha_70_presented_pos_unchosen(i) = all_alpha_70_presented_pos_unchosen(best);
+    fit.alpha_50_presented_pos_unchosen(i) = all_alpha_50_presented_pos_unchosen(best);
+    fit.alpha_90_omitted_pos_unchosen(i) = all_alpha_90_omitted_pos_unchosen(best);
+    fit.alpha_70_omitted_pos_unchosen(i) = all_alpha_70_omitted_pos_unchosen(best);
+    fit.alpha_50_omitted_pos_unchosen(i) = all_alpha_50_omitted_pos_unchosen(best);
+    fit.alpha_90_presented_neg_unchosen(i) = all_alpha_90_presented_neg_unchosen(best);
+    fit.alpha_70_presented_neg_unchosen(i) = all_alpha_70_presented_neg_unchosen(best);
+    fit.alpha_50_presented_neg_unchosen(i) = all_alpha_50_presented_neg_unchosen(best);
+    fit.alpha_90_omitted_neg_unchosen(i) = all_alpha_90_omitted_neg_unchosen(best);
+    fit.alpha_70_omitted_neg_unchosen(i) = all_alpha_70_omitted_neg_unchosen(best);
+    fit.alpha_50_omitted_neg_unchosen(i) = all_alpha_50_omitted_neg_unchosen(best);
     fit.beta(i) = all_beta(best);
-    fit.kappa(i) = all_kappa(best);
-    fit.eta(i) = all_eta(best);
     
     % save best fit according to BIC
     [fit_BIC.bic(i),bestBIC] = min(all_bic);
@@ -132,15 +163,19 @@ for i = 1:nsubs
     fit_BIC.alpha_90_omitted_neg(i) = all_alpha_90_omitted_neg(bestBIC);
     fit_BIC.alpha_70_omitted_neg(i) = all_alpha_70_omitted_neg(bestBIC);
     fit_BIC.alpha_50_omitted_neg(i) = all_alpha_50_omitted_neg(bestBIC);
+    fit_BIC.alpha_90_presented_pos_unchosen(i) = all_alpha_90_presented_pos_unchosen(bestBIC);
+    fit_BIC.alpha_70_presented_pos_unchosen(i) = all_alpha_70_presented_pos_unchosen(bestBIC);
+    fit_BIC.alpha_50_presented_pos_unchosen(i) = all_alpha_50_presented_pos_unchosen(bestBIC);
+    fit_BIC.alpha_90_omitted_pos_unchosen(i) = all_alpha_90_omitted_pos_unchosen(bestBIC);
+    fit_BIC.alpha_70_omitted_pos_unchosen(i) = all_alpha_70_omitted_pos_unchosen(bestBIC);
+    fit_BIC.alpha_50_omitted_pos_unchosen(i) = all_alpha_50_omitted_pos_unchosen(bestBIC);
+    fit_BIC.alpha_90_presented_neg_unchosen(i) = all_alpha_90_presented_neg_unchosen(bestBIC);
+    fit_BIC.alpha_70_presented_neg_unchosen(i) = all_alpha_70_presented_neg_unchosen(bestBIC);
+    fit_BIC.alpha_50_presented_neg_unchosen(i) = all_alpha_50_presented_neg_unchosen(bestBIC);
+    fit_BIC.alpha_90_omitted_neg_unchosen(i) = all_alpha_90_omitted_neg_unchosen(bestBIC);
+    fit_BIC.alpha_70_omitted_neg_unchosen(i) = all_alpha_70_omitted_neg_unchosen(bestBIC);
+    fit_BIC.alpha_50_omitted_neg_unchosen(i) = all_alpha_50_omitted_neg_unchosen(bestBIC);
     
     fit_BIC.beta(i) = all_beta(bestBIC);
-    fit_BIC.kappa(i) = all_kappa(bestBIC);
-    fit_BIC.eta(i) = all_eta(bestBIC);
     
-    
-    % print to check whether bic and ll get the same fit
-    best;
-    bestBIC;
 end
-
-%save('probfb_funfit_results_model1','fit');

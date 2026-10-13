@@ -1,8 +1,8 @@
 function error = probfb_fun_model10c(params,sub_choice,sub_fb,sub_not_choice,ntrials, sub_stimuli, sub_feedback_type)
 
-% Separate learning rates for FB type and stimulus reward probability
-% update of learning rate and scaling (rescorla wagner pearce hall hybrid
-% model)
+% Separate learning rates for reward probability, valence, appearance,
+% choice 
+% update of chosen and unchosen action value
 
 % set parameters
 alpha_90_presented_pos = params(1);
@@ -16,12 +16,21 @@ alpha_70_presented_neg = params(8);
 alpha_50_presented_neg = params(9);
 alpha_90_omitted_neg = params(10);
 alpha_70_omitted_neg = params(11);
-alpha_50_omitted_neg = params(12);  
+alpha_50_omitted_neg = params(12);
+alpha_90_presented_pos_unchosen = params(13);
+alpha_70_presented_pos_unchosen  = params(14);
+alpha_50_presented_pos_unchosen  = params(15);
+alpha_90_omitted_pos_unchosen  = params(16);
+alpha_70_omitted_pos_unchosen  = params(17);
+alpha_50_omitted_pos_unchosen  = params(18);
+alpha_90_presented_neg_unchosen  = params(19);
+alpha_70_presented_neg_unchosen  = params(20);
+alpha_50_presented_neg_unchosen  = params(21);
+alpha_90_omitted_neg_unchosen  = params(22);
+alpha_70_omitted_neg_unchosen  = params(23);
+alpha_50_omitted_neg_unchosen  = params(24);
 
-beta = params(13);
-
-kappa = params(14);
-eta = params(15);
+beta = params(25);
 
 % initialise
 
@@ -43,10 +52,12 @@ for i = 1:ntrials
         % choice:        
         if sub_choice(i) == 1
             q_i = [Q(sub_stimuli(i)+sub_stimuli(i)-1) Q(sub_stimuli(i)+sub_stimuli(i))];
-            chosen_index = sub_stimuli(i)+sub_stimuli(i)-1; % save index for Q-values
+            chosen_index = sub_stimuli(i)+sub_stimuli(i)-1; % save index for Q-value of chosen stimulus
+            unchosen_index = sub_stimuli(i)+sub_stimuli(i); % save index for Q-value of unchosen stimulus
         else
             q_i = [Q(sub_stimuli(i)+sub_stimuli(i)) Q(sub_stimuli(i)+sub_stimuli(i)-1)];
-            chosen_index = sub_stimuli(i)+sub_stimuli(i); % save index for Q-values
+            chosen_index = sub_stimuli(i)+sub_stimuli(i); % save index for Q-value of chosen stimulus
+            unchosen_index = sub_stimuli(i)+sub_stimuli(i)-1; % save index for Q-value of unchosen stimulus
         end
 
         % probablity of each choice
@@ -55,43 +66,39 @@ for i = 1:ntrials
         % calculate prediction error of current trial with expected value
         % of chosen action
         PE_c = sub_fb(i) - Q(chosen_index);
+        % for unchosen option
+        PE_u = 1 - sub_fb(i) - Q(unchosen_index);
         
         % update action value of chosen action
-        % PLUS update of dynamic learning rates in Rescorla Wagner-Pearce
-        % Hall hybrid model
         
         if sub_stimuli(i) == 1 | sub_stimuli(i) == 2 % if current stimulus is 90%
             
             % if fb is presented and the feedback is positive 
             if sub_feedback_type(i) == 1 & sub_fb(i) == 1 
                
-                Q(chosen_index) = Q(chosen_index) + kappa*alpha_90_presented_pos*PE_c;
-                
-                alpha_90_presented_pos = eta*abs(PE_c) + (1-eta)*alpha_90_presented_pos;
+                Q(chosen_index) = Q(chosen_index) + alpha_90_presented_pos*PE_c;
+                Q(unchosen_index) = Q(unchosen_index) + alpha_90_presented_pos_unchosen*PE_u;
                 
             elseif sub_feedback_type(i) == 0 & sub_fb(i) == 0
             % else if feedback is omitted and feedback is negative
                 
-                Q(chosen_index) = Q(chosen_index) + kappa*alpha_90_omitted_neg*PE_c;
+                Q(chosen_index) = Q(chosen_index) + alpha_90_omitted_neg*PE_c;
+                Q(unchosen_index) = Q(unchosen_index) + alpha_90_omitted_neg_unchosen *PE_u;
             
-                alpha_90_omitted_neg = eta*abs(PE_c) + (1-eta)*alpha_90_omitted_neg;
-                
             elseif sub_feedback_type(i) == 0 & sub_fb(i) == 1
             % else if feedback is omitted and feedback is positive
         
                 % use alpha_posomitted to update action value of chosen
-                Q(chosen_index) = Q(chosen_index)+ kappa*alpha_90_omitted_pos*PE_c;
-        
-                alpha_90_omitted_pos = eta*abs(PE_c) + (1-eta)*alpha_90_omitted_pos;
+                Q(chosen_index) = Q(chosen_index)+ alpha_90_omitted_pos*PE_c;
+                Q(unchosen_index) = Q(unchosen_index)+ alpha_90_omitted_pos_unchosen *PE_u;
                 
             elseif sub_feedback_type(i) == 1 & sub_fb(i) == 0
             % else if feedback is presented and feedback is negative
         
                 % use alpha_negpresented to update action value of chosen
-                Q(chosen_index) = Q(chosen_index)+ kappa*alpha_90_presented_neg*PE_c;
+                Q(chosen_index) = Q(chosen_index)+ alpha_90_presented_neg*PE_c;
+                Q(unchosen_index) = Q(unchosen_index)+ alpha_90_presented_neg_unchosen *PE_u;
 
-                alpha_90_presented_neg = eta*abs(PE_c) + (1-eta)*alpha_90_presented_neg;
-                
             end
             
                    
@@ -100,33 +107,29 @@ for i = 1:ntrials
             % if fb is presented and the feedback is positive 
             if sub_feedback_type(i) == 1 & sub_fb(i) == 1 
                
-                Q(chosen_index) = Q(chosen_index) + kappa*alpha_70_presented_pos*PE_c;
-            
-                alpha_70_presented_pos = eta*abs(PE_c) + (1-eta)*alpha_70_presented_pos;
+                Q(chosen_index) = Q(chosen_index) + alpha_70_presented_pos*PE_c;
+                Q(unchosen_index) = Q(unchosen_index) + alpha_70_presented_pos_unchosen *PE_u;
                 
             elseif sub_feedback_type(i) == 0 & sub_fb(i) == 0
             % else if feedback is omitted and feedback is negative
                 
-                Q(chosen_index) = Q(chosen_index) + kappa*alpha_70_omitted_neg*PE_c;
+                Q(chosen_index) = Q(chosen_index) + alpha_70_omitted_neg*PE_c;
+                Q(unchosen_index) = Q(unchosen_index) + alpha_70_omitted_neg_unchosen *PE_u;
             
-                alpha_70_omitted_neg = eta*abs(PE_c) + (1-eta)*alpha_70_omitted_neg;
-                
             elseif sub_feedback_type(i) == 0 & sub_fb(i) == 1
             % else if feedback is omitted and feedback is positive
         
                 % use alpha_posomitted to update action value of chosen
-                Q(chosen_index) = Q(chosen_index)+ kappa*alpha_70_omitted_pos*PE_c;
+                Q(chosen_index) = Q(chosen_index)+ alpha_70_omitted_pos*PE_c;
+                Q(unchosen_index) = Q(unchosen_index)+ alpha_70_omitted_pos_unchosen *PE_u;
         
-                alpha_70_omitted_pos = eta*abs(PE_c) + (1-eta)*alpha_70_omitted_pos;
-                
             elseif sub_feedback_type(i) == 1 & sub_fb(i) == 0
             % else if feedback is presented and feedback is negative
         
                 % use alpha_negpresented to update action value of chosen
-                Q(chosen_index) = Q(chosen_index)+ kappa*alpha_70_presented_neg*PE_c;
+                Q(chosen_index) = Q(chosen_index)+ alpha_70_presented_neg*PE_c;
+                Q(unchosen_index) = Q(unchosen_index)+ alpha_70_presented_neg_unchosen *PE_u;
 
-                alpha_70_presented_neg = eta*abs(PE_c) + (1-eta)*alpha_70_presented_neg;
-                
             end
             
             
@@ -135,33 +138,29 @@ for i = 1:ntrials
                     % if fb is presented and the feedback is positive 
             if sub_feedback_type(i) == 1 & sub_fb(i) == 1 
                
-                Q(chosen_index) = Q(chosen_index) + kappa*alpha_50_presented_pos*PE_c;
+                Q(chosen_index) = Q(chosen_index) + alpha_50_presented_pos*PE_c;
+                Q(unchosen_index) = Q(unchosen_index) + alpha_50_presented_pos_unchosen *PE_u;
             
-                alpha_50_presented_pos = eta*abs(PE_c) + (1-eta)*alpha_50_presented_pos;
-                
             elseif sub_feedback_type(i) == 0 & sub_fb(i) == 0
             % else if feedback is omitted and feedback is negative
                 
-                Q(chosen_index) = Q(chosen_index) + kappa*alpha_50_omitted_neg*PE_c;
-                
-                alpha_50_omitted_neg = eta*abs(PE_c) + (1-eta)*alpha_50_omitted_neg;
+                Q(chosen_index) = Q(chosen_index) + alpha_50_omitted_neg*PE_c;
+                Q(unchosen_index) = Q(unchosen_index) + alpha_50_omitted_neg_unchosen *PE_u;
             
             elseif sub_feedback_type(i) == 0 & sub_fb(i) == 1
             % else if feedback is omitted and feedback is positive
         
                 % use alpha_posomitted to update action value of chosen
-                Q(chosen_index) = Q(chosen_index)+ kappa*alpha_50_omitted_pos*PE_c;
+                Q(chosen_index) = Q(chosen_index)+ alpha_50_omitted_pos*PE_c;
+                Q(unchosen_index) = Q(unchosen_index)+ alpha_50_omitted_pos_unchosen *PE_u;
         
-                alpha_50_omitted_pos = eta*abs(PE_c) + (1-eta)*alpha_50_omitted_pos;
-                
             elseif sub_feedback_type(i) == 1 & sub_fb(i) == 0
             % else if feedback is presented and feedback is negative
         
                 % use alpha_negpresented to update action value of chosen
-                Q(chosen_index) = Q(chosen_index)+ kappa*alpha_50_presented_neg*PE_c;
+                Q(chosen_index) = Q(chosen_index)+ alpha_50_presented_neg*PE_c;
+                Q(unchosen_index) = Q(unchosen_index)+ alpha_50_presented_neg_unchosen *PE_u;
 
-                alpha_50_presented_neg = eta*abs(PE_c) + (1-eta)*alpha_50_presented_neg;
-                
             end
             
         end
