@@ -4,13 +4,14 @@ function error = probfb_fun_model5bb(params,sub_choice,sub_fb,sub_not_choice,ntr
 % feedback type)
 % update of chosen and unchosen action value (same learning rates)
 % PLUS learning rate updates in each trial (Rescorla Wagner - Pearce Hall
-% hybrid model) and scaling of impact of PE (kappa)
+% hybrid model; learning rates are stimulus-specific) and scaling of
+% impact of PE (kappa)
 
 % set parameters
-alpha_pospresented = params(1);
-alpha_posomitted = params(2);
-alpha_negpresented = params(3);
-alpha_negomitted = params(4);
+alpha_pospresented = repmat(params(1), 1, 6); % initial value, one per stimulus
+alpha_posomitted = repmat(params(2), 1, 6); % initial value, one per stimulus
+alpha_negpresented = repmat(params(3), 1, 6); % initial value, one per stimulus
+alpha_negomitted = repmat(params(4), 1, 6); % initial value, one per stimulus
 beta = params(5);
 kappa = params(6);
 eta = params(7);
@@ -48,6 +49,7 @@ for i = 1:ntrials
 
         % calculate prediction error of current trial with expected value
         % of chosen and unchosen action
+        s = sub_stimuli(i); % current stimulus (index of its learning rates)
         PE_c = sub_fb(i) - Q(chosen_index);
         PE_u = 1 - sub_fb(i) - Q(unchosen_index);
 
@@ -59,37 +61,37 @@ for i = 1:ntrials
         if sub_feedback_type(i) == 1 & sub_fb(i) == 1 
             
             % update action value of chosen action with scaled alpha_pospresented
-            Q(chosen_index) = Q(chosen_index) + kappa*alpha_pospresented*PE_c;
-            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_pospresented*PE_u;
-            % update learning rate for the next trial of this type (Pearce-Hall) based on PE of chosen action
-            alpha_pospresented = eta*abs(PE_c) + (1-eta)*alpha_pospresented;
+            Q(chosen_index) = Q(chosen_index) + kappa*alpha_pospresented(s)*PE_c;
+            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_pospresented(s)*PE_u;
+            % update learning rate of this stimulus for its next trial of this type (Pearce-Hall) based on PE of chosen action
+            alpha_pospresented(s) = eta*abs(PE_c) + (1-eta)*alpha_pospresented(s);
         
         elseif sub_feedback_type(i) == 0 & sub_fb(i) == 0
         % else if feedback is omitted and feedback is negative
             
             % update action value of chosen action with scaled alpha_negomitted
-            Q(chosen_index) = Q(chosen_index) + kappa*alpha_negomitted*PE_c;
-            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_negomitted*PE_u;
-            % update learning rate for the next trial of this type (Pearce-Hall) based on PE of chosen action
-            alpha_negomitted = eta*abs(PE_c) + (1-eta)*alpha_negomitted;
+            Q(chosen_index) = Q(chosen_index) + kappa*alpha_negomitted(s)*PE_c;
+            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_negomitted(s)*PE_u;
+            % update learning rate of this stimulus for its next trial of this type (Pearce-Hall) based on PE of chosen action
+            alpha_negomitted(s) = eta*abs(PE_c) + (1-eta)*alpha_negomitted(s);
         
         elseif sub_feedback_type(i) == 0 & sub_fb(i) == 1
         % else if feedback is omitted and feedback is positive
             
             % update action value of chosen action with scaled alpha_posomitted
-            Q(chosen_index) = Q(chosen_index) + kappa*alpha_posomitted*PE_c;
-            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_posomitted*PE_u;
-            % update learning rate for the next trial of this type (Pearce-Hall) based on PE of chosen action
-            alpha_posomitted = eta*abs(PE_c) + (1-eta)*alpha_posomitted;
+            Q(chosen_index) = Q(chosen_index) + kappa*alpha_posomitted(s)*PE_c;
+            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_posomitted(s)*PE_u;
+            % update learning rate of this stimulus for its next trial of this type (Pearce-Hall) based on PE of chosen action
+            alpha_posomitted(s) = eta*abs(PE_c) + (1-eta)*alpha_posomitted(s);
         
         elseif sub_feedback_type(i) == 1 & sub_fb(i) == 0
         % else if feedback is presented and feedback is negative
             
             % update action value of chosen action with scaled alpha_negpresented
-            Q(chosen_index) = Q(chosen_index) + kappa*alpha_negpresented*PE_c;
-            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_negpresented*PE_u;
-            % update learning rate for the next trial of this type (Pearce-Hall) based on PE of chosen action
-            alpha_negpresented = eta*abs(PE_c) + (1-eta)*alpha_negpresented;
+            Q(chosen_index) = Q(chosen_index) + kappa*alpha_negpresented(s)*PE_c;
+            Q(unchosen_index) = Q(unchosen_index) + kappa*alpha_negpresented(s)*PE_u;
+            % update learning rate of this stimulus for its next trial of this type (Pearce-Hall) based on PE of chosen action
+            alpha_negpresented(s) = eta*abs(PE_c) + (1-eta)*alpha_negpresented(s);
         
         end
 
