@@ -81,7 +81,7 @@ create_correct_response_key;
 % third character:
 % none = constant learning rates (in Table S1: X or X.X),
 % a = exponential decay (in Table S1: X.X.1),
-% b = RW-PH-dynamic (in Table S1: X.X.1).
+% b = RW-PH-dynamic (in Table S1: X.X.2).
 
 
 % Change path to folder with rl-model functions
@@ -94,7 +94,7 @@ variable_names_types = [["model", "string"]; ...
 			["ll", "double"]; ...
 			["BIC", "double"]];
 		
-no_of_models = 34; % only for setup of empty modelfits table
+no_of_models = 42; % only for setup of empty modelfits table
 r=1; % set counter to 1 for inserting model info to the table
 
 % Create table using fieldnames & value types from above
@@ -169,7 +169,7 @@ clear fit fit_BIC params
 % Hybrid model) and scaling of impact of PE
 
 probfb_funfit_model2xb %calls function
-modelfits(r,:) = {'2xb',5,'valence (+ RL-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
+modelfits(r,:) = {'2xb',5,'valence (+ RW-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
 save('comp_model_fit_export\fit_model_2xb_ll','fit');
 save('comp_model_fit_export\fit_model_2xb_bic','fit_BIC');
 r=r+1;
@@ -209,7 +209,7 @@ clear fit fit_BIC params
 % Hybrid model) and scaling of impact of PE
 
 probfb_funfit_model2bb
-modelfits(r,:) = {'2bb',5,'valence (+ unchosen update + RL-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
+modelfits(r,:) = {'2bb',5,'valence (+ unchosen update + RW-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
 save('comp_model_fit_export\fit_model_2bb_ll','fit');
 save('comp_model_fit_export\fit_model_2bb_bic','fit_BIC'); 
 r=r+1;
@@ -246,7 +246,7 @@ clear fit fit_BIC params
 % Hybrid model) and scaling of impact of PE
 
 probfb_funfit_model2cb %calls function
-modelfits(r,:) = {'2cb',7,'valence + choice (+ unchosen update + RL-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
+modelfits(r,:) = {'2cb',7,'valence + choice (+ unchosen update + RW-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
 save('comp_model_fit_export\fit_model_2cb_ll','fit');
 save('comp_model_fit_export\fit_model_2cb_bic','fit_BIC');
 r=r+1;
@@ -350,7 +350,7 @@ clear fit fit_BIC params
 % Hybrid model) and scaling of impact of PE
 
 probfb_funfit_model5xb %calls function
-modelfits(r,:) = {'5xb',7,'valence + appearance (+ RL-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
+modelfits(r,:) = {'5xb',7,'valence + appearance (+ RW-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
 save('comp_model_fit_export\fit_model_5xb_ll','fit');
 save('comp_model_fit_export\fit_model_5xb_bic','fit_BIC');
 r=r+1;
@@ -390,7 +390,7 @@ clear fit fit_BIC params
 % Hybrid model) and scaling of impact of PE
 
 probfb_funfit_model5bb
-modelfits(r,:) = {'5bb',7,'valence + appearance (+ unchosen update + RL-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
+modelfits(r,:) = {'5bb',7,'valence + appearance (+ unchosen update + RW-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
 save('comp_model_fit_export\fit_model_5bb_ll','fit');
 save('comp_model_fit_export\fit_model_5bb_bic','fit_BIC'); 
 r=r+1;
@@ -427,7 +427,7 @@ clear fit fit_BIC params
 % Hybrid model) and scaling of impact of PE
 
 probfb_funfit_model5cb %calls function
-modelfits(r,:) = {'5cb',11,'valence + appearance + choice (+ unchosen update + RL-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
+modelfits(r,:) = {'5cb',11,'valence + appearance + choice (+ unchosen update + RW-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
 save('comp_model_fit_export\fit_model_5cb_ll','fit');
 save('comp_model_fit_export\fit_model_5cb_bic','fit_BIC');
 r=r+1;
@@ -631,170 +631,7 @@ disp(modelfits(idx_bic,:)); % best model: 2b, very near 5b
 
  
 
-%% 3. Simulate PE for each trial with fitted parameters of the best models
-% (here: model 2b (lowest BIC), model 5b (second lowest BIC) and save
-% simulated values and parameters)
 
-% to only run from hereon, uncomment the following
-% tic
-% Change path to folder with rl-model functions
-% addpath(genpath('./comp_model_scripts/'));
-% Specifiy number of fit iterations of fmincon for each function
-% niter = 50;
-
-probfb_simulation_best_model_BIC
-probfb_simulation_best_model_5b
-
-%% 4. Validate models by recovering parameter based on simulated data
-
-% ---- Best BIC model (2b) ----
-
-% 1. Simulate data
-rng(17, 'twister');
-probfb_simulation_data_parameter_recovery_BIC_model % for BIC model
-
-% 2. Fit simulated data to the best model
-probfb_funfit_model2b_simulated_data
-
-% 3. Export recovered parameters as csv
-% (one column per parameter and simulated data set, e.g. beta_01 ... beta_25)
-
-load filenames;
-export_names = param_names;
-parameter_export = filenames;
-varNames = {'filename'};
-for p = 1:numel(export_names)
-    vals = transpose(fit.(export_names{p})); % participants x simulations
-    parameter_export = [parameter_export, num2cell(vals)];
-    base = export_names{p};
-    varNames = [varNames, arrayfun(@(x) sprintf('%s_%02d', base, x), 1:size(vals,2), 'UniformOutput', false)];
-end
-parameter_export = cell2table(parameter_export, 'VariableNames', varNames);
-
-% export as csv
-writetable(parameter_export,'comp_model_fit_export\FBOmiss_learning_parameter_recovered_BIC.csv');
-
-
-% 4. Export simulated_data to calculate accuracy (posterior predictive check)
-
-% simulated_data is a 1x1 struct with 48 fields (nsubs) with each 25 fields
-% with each having a 480x9 table
-firstlevel = fieldnames(simulated_data); 
-nfirst = numel(firstlevel); % get number of fields at first level
-nsecond = 25; % number of second level fields (= number of sim data per participant)
-ntrials = 480; % rows per table in second level field
-nrows = nfirst * nsecond * ntrials; % number of total rows in final table
-
-out = cell(nrows, 11); % prepare output object
-row = 1; % initialize counter
-
-% loop through simulated data struct
-for i = 1:nfirst
-    fieldname_firstlevel = firstlevel{i};
-    substruct = simulated_data.(fieldname_firstlevel);
-    secondlevel = fieldnames(substruct);
-
-    for j = 1:nsecond
-        fieldname_secondlevel = secondlevel{j}; % get current sim label
-        table_tmp = substruct.(fieldname_secondlevel); % get table
-        
-        % prepare row index
-        row_index = row:row+ntrials-1;
-        
-        % fill rows
-        out(row_index,1) = {fieldname_firstlevel};
-        out(row_index,2) = {fieldname_secondlevel};
-        out(row_index,3:11) = table2cell(table_tmp);
-        
-        row = row + ntrials; % add to counter
-    end
-end
-
-% convert to table
-table_colnames = table_tmp.Properties.VariableNames;
-
-columnnames_all = [{'subj','sim_iteration'}, table_colnames];
-behav_table = cell2table(out, 'VariableNames', columnnames_all);
-
-% export as csv
-writetable(behav_table,'comp_model_fit_export\FBOmiss_behav_recovered_BIC.csv');
-
-
-
-
-% ---- Second Best BIC model (5b) ----
-
-% duration ~ 2.2h
-
-% 1. Simulate data
-rng(17, 'twister');
-probfb_simulation_data_parameter_recovery_5b_model % for model 5b (second-lowest BIC)
-
-% 2. Fit simulated data to model 5b
-probfb_funfit_model5b_simulated_data
-
-% 3. Export recovered parameters as csv
-% (one column per parameter and simulated data set, e.g. beta_01 ... beta_25)
-
-load filenames;
-export_names = param_names;
-parameter_export = filenames;
-varNames = {'filename'};
-for p = 1:numel(export_names)
-    vals = transpose(fit.(export_names{p})); % participants x simulations
-    parameter_export = [parameter_export, num2cell(vals)];
-    base = export_names{p};
-    varNames = [varNames, arrayfun(@(x) sprintf('%s_%02d', base, x), 1:size(vals,2), 'UniformOutput', false)];
-end
-parameter_export = cell2table(parameter_export, 'VariableNames', varNames);
-
-% export as csv
-writetable(parameter_export,'comp_model_fit_export\FBOmiss_learning_parameter_recovered_5b.csv');
-
-
-% 4. Export simulated_data to calculate accuracy (posterior predictive check)
-
-% simulated_data is a 1x1 struct with 48 fields (nsubs) with each 25 fields
-% with each having a 480x9 table
-firstlevel = fieldnames(simulated_data); 
-nfirst = numel(firstlevel); % get number of fields at first level
-nsecond = 25; % number of second level fields (= number of sim data per participant)
-ntrials = 480; % rows per table in second level field
-nrows = nfirst * nsecond * ntrials; % number of total rows in final table
-
-out = cell(nrows, 11); % prepare output object
-row = 1; % initialize counter
-
-% loop through simulated data struct
-for i = 1:nfirst
-    fieldname_firstlevel = firstlevel{i};
-    substruct = simulated_data.(fieldname_firstlevel);
-    secondlevel = fieldnames(substruct);
-
-    for j = 1:nsecond
-        fieldname_secondlevel = secondlevel{j}; % get current sim label
-        table_tmp = substruct.(fieldname_secondlevel); % get table
-        
-        % prepare row index
-        row_index = row:row+ntrials-1;
-        
-        % fill rows
-        out(row_index,1) = {fieldname_firstlevel};
-        out(row_index,2) = {fieldname_secondlevel};
-        out(row_index,3:11) = table2cell(table_tmp);
-        
-        row = row + ntrials; % add to counter
-    end
-end
-
-% convert to table
-table_colnames = table_tmp.Properties.VariableNames;
-
-columnnames_all = [{'subj','sim_iteration'}, table_colnames];
-behav_table = cell2table(out, 'VariableNames', columnnames_all);
-
-% export as csv
-writetable(behav_table,'comp_model_fit_export\FBOmiss_behav_recovered_5b.csv');
 
 
 toc % stopwatch end
