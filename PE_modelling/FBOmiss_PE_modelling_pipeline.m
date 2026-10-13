@@ -11,9 +11,8 @@ clear all; % clear workspace
 rng(17, 'twister'); % fix random number generator for reproducibility
 tic % start stopwatch
 
-% total duration with 50 iterations: ~9.41h (step 2 ~7.9 h)
-
-
+% total duration with 50 iterations: ~22.71h (step 2 ~7.9 h, step 3 & 4 ~
+% 14.8h)
 
 %% 1. Reading logfiles and data preparation
 
@@ -53,8 +52,37 @@ stim_rew_prob_proportion_rewards = grpstats(stim_rew_prob, {'stim', 'correct'}, 
 % simulation for parameter recovery:
 create_correct_response_key;
 
-%% 2. Fit rl models with varying complexity to the behavioural data (extract
-% best fit and compare indices)
+%% 2. Fit rl models with varying complexity to the behavioural data
+
+% 3 steps (as described in the manuscript): 
+
+% 1. test learning rates with increasing complexity (separated by valence,
+% appearance, context, rew prob)
+% 2. test dynamic learning rates for (the two) best model (according to min
+% BIC) identified above
+% 3. test unchosen updates (+ separate learning rates for chosen and
+% unchosen) for all of the above
+
+% (fitting order below corresponds to order in Table S1; 
+% to identify model for which dynamic learning rates were additionally 
+% tested, all base models were fitted at first)
+
+% model naming logic:
+
+% first character: number indicating learning rate complexity (1 to 10; 
+% same as in Table S1)
+
+% second character:
+% none or x = no update of unchosen action (in Table S1: X or X.0.X),
+% b = update of unchosen action (in Table S1: X.1 or X.1.X),
+% c = update of unchosen action and separate learning rates for chosen and 
+% unchosen action (in Table S1: X.2 or X.2.X),
+
+% third character:
+% none = constant learning rates (in Table S1: X or X.X),
+% a = exponential decay (in Table S1: X.X.1),
+% b = RW-PH-dynamic (in Table S1: X.X.1).
+
 
 % Change path to folder with rl-model functions
 addpath(genpath('./comp_model_scripts/'));
@@ -66,7 +94,7 @@ variable_names_types = [["model", "string"]; ...
 			["ll", "double"]; ...
 			["BIC", "double"]];
 		
-no_of_models = 36; % only for setup of empty modelfits table
+no_of_models = 34; % only for setup of empty modelfits table
 r=1; % set counter to 1 for inserting model info to the table
 
 % Create table using fieldnames & value types from above
@@ -109,36 +137,118 @@ clear fit fit_BIC params
 
 % Model 2: separate learning rates for confirmatory and disconfirmatory
 % trials (i.e. positive and negative feedback valence) across stimuli/
-% feedback type/context/reward probability + update of chosen option only
+% feedback type/context/reward probability
 
-probfb_funfit_model2
+probfb_funfit_model2 %calls function
 modelfits(r,:) = {'2',3,'valence',mean(fit.ll), mean(fit_BIC.bic)};
 save('comp_model_fit_export\fit_model_2_ll','fit');
-save('comp_model_fit_export\fit_model_2_bic','fit_BIC'); 
+save('comp_model_fit_export\fit_model_2_bic','fit_BIC');
+r=r+1;
+clear fit fit_BIC params
+
+% Model 2xa: separate learning rates for confirmatory and disconfirmatory
+% trials (i.e. positive and negative feedback valence) across stimuli/
+% feedback type/context/reward probability
+
+% PLUS exponential decay of learning rates over presentations of the
+% current stimulus (half-life lambda)
+
+probfb_funfit_model2xa %calls function
+modelfits(r,:) = {'2xa',4,'valence (+ exponential decay)',mean(fit.ll), mean(fit_BIC.bic)};
+save('comp_model_fit_export\fit_model_2xa_ll','fit');
+save('comp_model_fit_export\fit_model_2xa_bic','fit_BIC');
+r=r+1;
+clear fit fit_BIC params
+
+
+% Model 2xb: separate learning rates for confirmatory and disconfirmatory
+% trials (i.e. positive and negative feedback valence) across stimuli/
+% feedback type/context/reward probability
+
+% PLUS learning rate updates in each trial (Rescorla Wagner - Pearce Hall
+% Hybrid model) and scaling of impact of PE
+
+probfb_funfit_model2xb %calls function
+modelfits(r,:) = {'2xb',5,'valence (+ RL-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
+save('comp_model_fit_export\fit_model_2xb_ll','fit');
+save('comp_model_fit_export\fit_model_2xb_bic','fit_BIC');
 r=r+1;
 clear fit fit_BIC params
 
 % Model 2b: separate learning rates for confirmatory and disconfirmatory
 % trials (i.e. positive and negative feedback valence) across stimuli/
-% feedback type/context/reward probability + update of chosen and unchosen
-% option
+% feedback type/context/reward probability
+% + update of chosen and unchosen option
 
-probfb_funfit_model2b
+probfb_funfit_model2b %calls function
 modelfits(r,:) = {'2b',3,'valence (+ unchosen update)',mean(fit.ll), mean(fit_BIC.bic)};
 save('comp_model_fit_export\fit_model_2b_ll','fit');
-save('comp_model_fit_export\fit_model_2b_bic','fit_BIC'); 
+save('comp_model_fit_export\fit_model_2b_bic','fit_BIC');
 r=r+1;
 clear fit fit_BIC params
 
-% Model 2c: separate learning rates for confirmatory and disconfirmatory
-% trials (i.e. positive and negative feedback valence) and chosen and 
-% unchosen
+% Model 2ba: separate learning rates for confirmatory and disconfirmatory
+% trials (i.e. positive and negative feedback valence) across stimuli/
+% feedback type/context/reward probability
+% + update of chosen and unchosen option
+% PLUS exponential decay of learning rates over presentations of the
+% current stimulus (half-life lambda)
+
+probfb_funfit_model2ba
+modelfits(r,:) = {'2ba',4,'valence (+ unchosen update + exponential decay)',mean(fit.ll), mean(fit_BIC.bic)};
+save('comp_model_fit_export\fit_model_2ba_ll','fit');
+save('comp_model_fit_export\fit_model_2ba_bic','fit_BIC'); 
+r=r+1;
+clear fit fit_BIC params
+
+% Model 2bb: separate learning rates for confirmatory and disconfirmatory
+% trials (i.e. positive and negative feedback valence) across stimuli/
+% feedback type/context/reward probability
+% + update of chosen and unchosen option
+% PLUS learning rate updates in each trial (Rescorla Wagner - Pearce Hall
+% Hybrid model) and scaling of impact of PE
+
+probfb_funfit_model2bb
+modelfits(r,:) = {'2bb',5,'valence (+ unchosen update + RL-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
+save('comp_model_fit_export\fit_model_2bb_ll','fit');
+save('comp_model_fit_export\fit_model_2bb_bic','fit_BIC'); 
+r=r+1;
+clear fit fit_BIC params
+
+% Model 2c: separate learning rates for valence + choice
+% (i.e. positive chosen, positive unchosen, and so on)
 % + update of chosen and unchosen option
 
-probfb_funfit_model2c
+probfb_funfit_model2c %calls function
 modelfits(r,:) = {'2c',5,'valence + choice (+ unchosen update)',mean(fit.ll), mean(fit_BIC.bic)};
 save('comp_model_fit_export\fit_model_2c_ll','fit');
-save('comp_model_fit_export\fit_model_2c_bic','fit_BIC'); 
+save('comp_model_fit_export\fit_model_2c_bic','fit_BIC');
+r=r+1;
+clear fit fit_BIC params
+
+% Model 2ca: separate learning rates for valence + choice
+% (i.e. positive chosen, positive unchosen, and so on)
+% + update of chosen and unchosen option
+% PLUS exponential decay of learning rates over presentations of the
+% current stimulus (half-life lambda)
+
+probfb_funfit_model2ca %calls function
+modelfits(r,:) = {'2ca',6,'valence + choice (+ unchosen update + exponential decay)',mean(fit.ll), mean(fit_BIC.bic)};
+save('comp_model_fit_export\fit_model_2ca_ll','fit');
+save('comp_model_fit_export\fit_model_2ca_bic','fit_BIC');
+r=r+1;
+clear fit fit_BIC params
+
+% Model 2cb: separate learning rates for valence + choice
+% (i.e. positive chosen, positive unchosen, and so on)
+% + update of chosen and unchosen option
+% PLUS learning rate updates in each trial (Rescorla Wagner - Pearce Hall
+% Hybrid model) and scaling of impact of PE
+
+probfb_funfit_model2cb %calls function
+modelfits(r,:) = {'2cb',7,'valence + choice (+ unchosen update + RL-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
+save('comp_model_fit_export\fit_model_2cb_ll','fit');
+save('comp_model_fit_export\fit_model_2cb_bic','fit_BIC');
 r=r+1;
 clear fit fit_BIC params
 
@@ -217,6 +327,35 @@ save('comp_model_fit_export\fit_model_5_bic','fit_BIC');
 r=r+1;
 clear fit fit_BIC params
 
+% Model 5xa: separate learning rates for valence + appearance // each
+% possible feedback (i.e. positive presented, positive omitted, negative
+% presented, negative omitted (inherently also separately for contexts))
+
+% PLUS exponential decay of learning rates over presentations of the
+% current stimulus (half-life lambda)
+
+probfb_funfit_model5xa %calls function
+modelfits(r,:) = {'5xa',6,'valence + appearance (+ exponential decay)',mean(fit.ll), mean(fit_BIC.bic)};
+save('comp_model_fit_export\fit_model_5xa_ll','fit');
+save('comp_model_fit_export\fit_model_5xa_bic','fit_BIC');
+r=r+1;
+clear fit fit_BIC params
+
+
+% Model 5xb: separate learning rates for valence + appearance // each
+% possible feedback (i.e. positive presented, positive omitted, negative
+% presented, negative omitted (inherently also separately for contexts))
+
+% PLUS learning rate updates in each trial (Rescorla Wagner - Pearce Hall
+% Hybrid model) and scaling of impact of PE
+
+probfb_funfit_model5xb %calls function
+modelfits(r,:) = {'5xb',7,'valence + appearance (+ RL-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
+save('comp_model_fit_export\fit_model_5xb_ll','fit');
+save('comp_model_fit_export\fit_model_5xb_bic','fit_BIC');
+r=r+1;
+clear fit fit_BIC params
+
 % Model 5b: separate learning rates for valence + appearance // each
 % possible feedback (i.e. positive presented, positive omitted, negative
 % presented, negative omitted (inherently also separately for contexts))
@@ -229,6 +368,34 @@ save('comp_model_fit_export\fit_model_5b_bic','fit_BIC');
 r=r+1;
 clear fit fit_BIC params
 
+% Model 5ba: separate learning rates for valence + appearance // each
+% possible feedback (i.e. positive presented, positive omitted, negative
+% presented, negative omitted (inherently also separately for contexts))
+% + update of chosen and unchosen option
+% PLUS exponential decay of learning rates over presentations of the
+% current stimulus (half-life lambda)
+
+probfb_funfit_model5ba
+modelfits(r,:) = {'5ba',6,'valence + appearance (+ unchosen update + exponential decay)',mean(fit.ll), mean(fit_BIC.bic)};
+save('comp_model_fit_export\fit_model_5ba_ll','fit');
+save('comp_model_fit_export\fit_model_5ba_bic','fit_BIC'); 
+r=r+1;
+clear fit fit_BIC params
+
+% Model 5bb: separate learning rates for valence + appearance // each
+% possible feedback (i.e. positive presented, positive omitted, negative
+% presented, negative omitted (inherently also separately for contexts))
+% + update of chosen and unchosen option
+% PLUS learning rate updates in each trial (Rescorla Wagner - Pearce Hall
+% Hybrid model) and scaling of impact of PE
+
+probfb_funfit_model5bb
+modelfits(r,:) = {'5bb',7,'valence + appearance (+ unchosen update + RL-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
+save('comp_model_fit_export\fit_model_5bb_ll','fit');
+save('comp_model_fit_export\fit_model_5bb_bic','fit_BIC'); 
+r=r+1;
+clear fit fit_BIC params
+
 % Model 5c: separate learning rates for valence + appearance + choice
 % (i.e. positive presented chosen, positive presented unchosen, and so on)
 % + update of chosen and unchosen option
@@ -237,6 +404,32 @@ probfb_funfit_model5c %calls function
 modelfits(r,:) = {'5c',9,'valence + appearance + choice (+ unchosen update)',mean(fit.ll), mean(fit_BIC.bic)};
 save('comp_model_fit_export\fit_model_5c_ll','fit');
 save('comp_model_fit_export\fit_model_5c_bic','fit_BIC');
+r=r+1;
+clear fit fit_BIC params
+
+% Model 5ca: separate learning rates for valence + appearance + choice
+% (i.e. positive presented chosen, positive presented unchosen, and so on)
+% + update of chosen and unchosen option
+% PLUS exponential decay of learning rates over presentations of the
+% current stimulus (half-life lambda)
+
+probfb_funfit_model5ca %calls function
+modelfits(r,:) = {'5ca',10,'valence + appearance + choice (+ unchosen update + exponential decay)',mean(fit.ll), mean(fit_BIC.bic)};
+save('comp_model_fit_export\fit_model_5ca_ll','fit');
+save('comp_model_fit_export\fit_model_5ca_bic','fit_BIC');
+r=r+1;
+clear fit fit_BIC params
+
+% Model 5cb: separate learning rates for valence + appearance + choice
+% (i.e. positive presented chosen, positive presented unchosen, and so on)
+% + update of chosen and unchosen option
+% PLUS learning rate updates in each trial (Rescorla Wagner - Pearce Hall
+% Hybrid model) and scaling of impact of PE
+
+probfb_funfit_model5cb %calls function
+modelfits(r,:) = {'5cb',11,'valence + appearance + choice (+ unchosen update + RL-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
+save('comp_model_fit_export\fit_model_5cb_ll','fit');
+save('comp_model_fit_export\fit_model_5cb_bic','fit_BIC');
 r=r+1;
 clear fit fit_BIC params
 
@@ -396,111 +589,31 @@ save('comp_model_fit_export\fit_model_10_bic','fit_BIC');
 r=r+1;
 clear fit fit_BIC params
 
-% Model 10a:  learning rates separately for reward probabilities, and
+% Model 10b:  learning rates separately for reward probabilities, and
 % each possible feedback type (e.g. positive presented, positive omitted 
 % etc.)
 % PLUS update of unchosen option
-  
-probfb_funfit_model10a %calls function
-modelfits(r,:) = {'10a',13,'valence + reward probability + appearance (+ unchosen update)',mean(fit.ll), mean(fit_BIC.bic)};
-save('comp_model_fit_export\fit_model_10a_ll','fit');
-save('comp_model_fit_export\fit_model_10a_bic','fit_BIC');
-r=r+1;
-clear fit fit_BIC params
-
-% Model 10aac:  learning rates separately for reward probabilities, and
-% each possible feedback type (e.g. positive presented, positive omitted 
-% etc.) and separately for chosen/unchosen
-% PLUS update of unchosen option
-  
-probfb_funfit_model10aac %calls function
-modelfits(r,:) = {'10aac',25,'valence + reward probability + appearance + choice (+ unchosen update)',mean(fit.ll), mean(fit_BIC.bic)};
-save('comp_model_fit_export\fit_model_10aac_ll','fit');
-save('comp_model_fit_export\fit_model_10aac_bic','fit_BIC');
-r=r+1;
-clear fit fit_BIC params
-
-% Model 10b: learning rates separately for reward probabilities, and
-% each possible feedback type (e.g. positive presented, positive omitted 
-% etc.)
-% PLUS exponential decay of learning rates over presentations of the
-% current stimulus (half-life lambda)
   
 probfb_funfit_model10b %calls function
-modelfits(r,:) = {'10b',14,'valence + reward probability + appearance (+ exponential decay)',mean(fit.ll), mean(fit_BIC.bic)};
+modelfits(r,:) = {'10b',13,'valence + reward probability + appearance (+ unchosen update)',mean(fit.ll), mean(fit_BIC.bic)};
 save('comp_model_fit_export\fit_model_10b_ll','fit');
 save('comp_model_fit_export\fit_model_10b_bic','fit_BIC');
 r=r+1;
 clear fit fit_BIC params
 
-% Model 10ab: learning rates separately for reward probabilities, and
+% Model 10c:  learning rates separately for reward probabilities, and
 % each possible feedback type (e.g. positive presented, positive omitted 
-% etc.)
-% PLUS exponential decay of learning rates over presentations of the
-% current stimulus (half-life lambda)
+% etc.) and separately for chosen/unchosen
 % PLUS update of unchosen option
-
-probfb_funfit_model10ab %calls function
-modelfits(r,:) = {'10ab',14,'valence + reward probability + appearance (+ exponential decay + unchosen update)',mean(fit.ll), mean(fit_BIC.bic)};
-save('comp_model_fit_export\fit_model_10ab_ll','fit');
-save('comp_model_fit_export\fit_model_10ab_bic','fit_BIC');
-r=r+1;
-clear fit fit_BIC params
-
-% Model 10abc: learning rates separately for reward probabilities,
-% each possible feedback type (e.g. positive presented, positive omitted 
-% etc.) and choice (unchosen vs chosen)
-% PLUS exponential decay of learning rates over presentations of the
-% current stimulus (half-life lambda)
-% PLUS update of unchosen option
-
-probfb_funfit_model10abc %calls function
-modelfits(r,:) = {'10abc',26,'valence + reward probability + appearance + choice (+ exponential decay + unchosen update)',mean(fit.ll), mean(fit_BIC.bic)};
-save('comp_model_fit_export\fit_model_10abc_ll','fit');
-save('comp_model_fit_export\fit_model_10abc_bic','fit_BIC');
-r=r+1;
-clear fit fit_BIC params
-
-% Model 10c: learning rates separately for reward probabilities, and
-% each possible feedback type (e.g. positive presented, positive omitted 
-% etc.)
-% PLUS learning rate updates in each trial (Rescorla Wagner - Pearce Hall
-% Hybrid model) and scaling of impact of PE
   
 probfb_funfit_model10c %calls function
-modelfits(r,:) = {'10c',15,'valence + reward probability + appearance (+ RL-PH dynamic)',mean(fit.ll), mean(fit_BIC.bic)};
+modelfits(r,:) = {'10c',25,'valence + reward probability + appearance + choice (+ unchosen update)',mean(fit.ll), mean(fit_BIC.bic)};
 save('comp_model_fit_export\fit_model_10c_ll','fit');
 save('comp_model_fit_export\fit_model_10c_bic','fit_BIC');
 r=r+1;
 clear fit fit_BIC params
 
-% Model 10ac: learning rates separately for reward probabilities, and
-% each possible feedback type (e.g. positive presented, positive omitted 
-% etc.)
-% PLUS learning rate update in each trial (Rescorla Wagner - Pearce Hall
-% Hybrid model) and scaling of impact of PE
-% PLUS update of unchosen option
 
-probfb_funfit_model10ac %calls function
-modelfits(r,:) = {'10ac',15,'valence + reward probability + appearance (+ RL-PH dynamic + unchosen update)',mean(fit.ll), mean(fit_BIC.bic)};
-save('comp_model_fit_export\fit_model_10ac_ll','fit');
-save('comp_model_fit_export\fit_model_10ac_bic','fit_BIC');
-r=r+1;
-clear fit fit_BIC params
-
-% Model 10acc: learning rates separately for reward probabilities,
-% each possible feedback type (e.g. positive presented, positive omitted 
-% etc.) and separately for chosen and unchosen
-% PLUS learning rate update in each trial (Rescorla Wagner - Pearce Hall
-% Hybrid model) and scaling of impact of PE
-% PLUS update of unchosen option
-  
-probfb_funfit_model10acc %calls function
-modelfits(r,:) = {'10acc',27,'valence + reward probability + appearance + choice (+ RL-PH dynamic + unchosen update)',mean(fit.ll), mean(fit_BIC.bic)};
-save('comp_model_fit_export\fit_model_10acc_ll','fit');
-save('comp_model_fit_export\fit_model_10acc_bic','fit_BIC');
-r=r+1;
-clear fit fit_BIC params
 
 
 % add AIC to model fits
@@ -510,96 +623,31 @@ modelfits.AIC = 2*modelfits.ll + 2*modelfits.no_free_parameter;
 writetable(modelfits,'comp_model_fit_export\modelfits.csv');
 
 
-% model with the lowest AIC (fit penalized for number of parameters (less strongly than BIC)
-[~, idx_aic] = min(modelfits.AIC);
-disp('Model with lowest AIC:');
-disp(modelfits(idx_aic,:)); % best model: 10ab
-
-% model with the lowest BIC (fit penalized for number of parameters)
+% model with the lowest BIC (fit penalized for number of parameters/trials)
+modelfits.BIC
 [~, idx_bic] = min(modelfits.BIC);
 disp('Model with lowest BIC:');
-disp(modelfits(idx_bic,:)); % best model: 2b
+disp(modelfits(idx_bic,:)); % best model: 2b, very near 5b
+
  
 
 %% 3. Simulate PE for each trial with fitted parameters of the best models
-% (here: model 2b (lowest BIC) and 10ab (lowest AIC) and save simulated 
-% values and parameters
+% (here: model 2b (lowest BIC), model 5b (second lowest BIC) and save
+% simulated values and parameters)
 
-probfb_simulation_best_model_AIC
+% to only run from hereon, uncomment the following
+% tic
+% Change path to folder with rl-model functions
+% addpath(genpath('./comp_model_scripts/'));
+% Specifiy number of fit iterations of fmincon for each function
+% niter = 50;
+
 probfb_simulation_best_model_BIC
-
+probfb_simulation_best_model_5b
 
 %% 4. Validate models by recovering parameter based on simulated data
 
-% 1. Simulate data
-rng(17, 'twister');
-probfb_simulation_data_parameter_recovery_AIC_model % for AIC model
-
-% 2. Fit simulated data to the best model
-probfb_funfit_model10ab_simulated_data
-
-% 3. Export recovered parameters as csv
-% (one column per parameter and simulated data set, e.g. beta_01 ... beta_25)
-
-load filenames;
-export_names = param_names;
-parameter_export = filenames;
-varNames = {'filename'};
-for p = 1:numel(export_names)
-    vals = transpose(fit.(export_names{p})); % participants x simulations
-    parameter_export = [parameter_export, num2cell(vals)];
-    base = export_names{p};
-    varNames = [varNames, arrayfun(@(x) sprintf('%s_%02d', base, x), 1:size(vals,2), 'UniformOutput', false)];
-end
-parameter_export = cell2table(parameter_export, 'VariableNames', varNames);
-
-% export as csv
-writetable(parameter_export,'comp_model_fit_export\FBOmiss_learning_parameter_recovered_AIC.csv');
-
-
-% 4. Export simulated_data to calculate accuracy (posterior predictive check)
-
-% simulated_data is a 1x1 struct with 48 fields (nsubs) with each 25 fields
-% with each having a 480x9 table
-firstlevel = fieldnames(simulated_data); 
-nfirst = numel(firstlevel); % get number of fields at first level
-nsecond = 25; % number of second level fields (= number of sim data per participant)
-ntrials = 480; % rows per table in second level field
-nrows = nfirst * nsecond * ntrials; % number of total rows in final table
-
-out = cell(nrows, 11); % prepare output object
-row = 1; % initialize counter
-
-% loop through simulated data struct
-for i = 1:nfirst
-    fieldname_firstlevel = firstlevel{i};
-    substruct = simulated_data.(fieldname_firstlevel);
-    secondlevel = fieldnames(substruct);
-
-    for j = 1:nsecond
-        fieldname_secondlevel = secondlevel{j}; % get current sim label
-        table_tmp = substruct.(fieldname_secondlevel); % get table
-        
-        % prepare row index
-        row_index = row:row+ntrials-1;
-        
-        % fill rows
-        out(row_index,1) = {fieldname_firstlevel};
-        out(row_index,2) = {fieldname_secondlevel};
-        out(row_index,3:11) = table2cell(table_tmp);
-        
-        row = row + ntrials; % add to counter
-    end
-end
-
-% convert to table
-table_colnames = table_tmp.Properties.VariableNames;
-
-columnnames_all = [{'subj','sim_iteration'}, table_colnames];
-behav_table = cell2table(out, 'VariableNames', columnnames_all);
-
-% export as csv
-writetable(behav_table,'comp_model_fit_export\FBOmiss_behav_recovered_AIC.csv');
+% ---- Best BIC model (2b) ----
 
 % 1. Simulate data
 rng(17, 'twister');
@@ -670,6 +718,83 @@ behav_table = cell2table(out, 'VariableNames', columnnames_all);
 
 % export as csv
 writetable(behav_table,'comp_model_fit_export\FBOmiss_behav_recovered_BIC.csv');
+
+
+
+
+% ---- Second Best BIC model (5b) ----
+
+% duration ~ 2.2h
+
+% 1. Simulate data
+rng(17, 'twister');
+probfb_simulation_data_parameter_recovery_5b_model % for model 5b (second-lowest BIC)
+
+% 2. Fit simulated data to model 5b
+probfb_funfit_model5b_simulated_data
+
+% 3. Export recovered parameters as csv
+% (one column per parameter and simulated data set, e.g. beta_01 ... beta_25)
+
+load filenames;
+export_names = param_names;
+parameter_export = filenames;
+varNames = {'filename'};
+for p = 1:numel(export_names)
+    vals = transpose(fit.(export_names{p})); % participants x simulations
+    parameter_export = [parameter_export, num2cell(vals)];
+    base = export_names{p};
+    varNames = [varNames, arrayfun(@(x) sprintf('%s_%02d', base, x), 1:size(vals,2), 'UniformOutput', false)];
+end
+parameter_export = cell2table(parameter_export, 'VariableNames', varNames);
+
+% export as csv
+writetable(parameter_export,'comp_model_fit_export\FBOmiss_learning_parameter_recovered_5b.csv');
+
+
+% 4. Export simulated_data to calculate accuracy (posterior predictive check)
+
+% simulated_data is a 1x1 struct with 48 fields (nsubs) with each 25 fields
+% with each having a 480x9 table
+firstlevel = fieldnames(simulated_data); 
+nfirst = numel(firstlevel); % get number of fields at first level
+nsecond = 25; % number of second level fields (= number of sim data per participant)
+ntrials = 480; % rows per table in second level field
+nrows = nfirst * nsecond * ntrials; % number of total rows in final table
+
+out = cell(nrows, 11); % prepare output object
+row = 1; % initialize counter
+
+% loop through simulated data struct
+for i = 1:nfirst
+    fieldname_firstlevel = firstlevel{i};
+    substruct = simulated_data.(fieldname_firstlevel);
+    secondlevel = fieldnames(substruct);
+
+    for j = 1:nsecond
+        fieldname_secondlevel = secondlevel{j}; % get current sim label
+        table_tmp = substruct.(fieldname_secondlevel); % get table
+        
+        % prepare row index
+        row_index = row:row+ntrials-1;
+        
+        % fill rows
+        out(row_index,1) = {fieldname_firstlevel};
+        out(row_index,2) = {fieldname_secondlevel};
+        out(row_index,3:11) = table2cell(table_tmp);
+        
+        row = row + ntrials; % add to counter
+    end
+end
+
+% convert to table
+table_colnames = table_tmp.Properties.VariableNames;
+
+columnnames_all = [{'subj','sim_iteration'}, table_colnames];
+behav_table = cell2table(out, 'VariableNames', columnnames_all);
+
+% export as csv
+writetable(behav_table,'comp_model_fit_export\FBOmiss_behav_recovered_5b.csv');
 
 
 toc % stopwatch end
