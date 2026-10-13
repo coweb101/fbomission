@@ -77,7 +77,8 @@ for i = 1:nsubs
         all_beta(j) = params(13);
         
         % save fit indices
-        all_ll(j) = LL;all_bic(j) = 2*LL + length(params)*log(n_valid);
+        all_ll(j) = LL;
+        all_bic(j) = 2*LL + length(params)*log(n_valid);
         
     end
     
