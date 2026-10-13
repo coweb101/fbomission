@@ -4,6 +4,11 @@ folder = 'logfiles';
 files = getfilenames(folder, 'omission_');
 
 % sort files by modification date
+% Note: This order defines the participant numbering (VP01-VP48), and with
+% it the anonymous ids (subj_01-subj_48) assigned later in 
+% create_correct_response_key (when rerunning from original files check 
+% whether copying etc. changed dates).
+
 d = dir(fullfile(folder, '*'));
 d = d(~[d.isdir]);                         % remove folders
 
@@ -36,33 +41,37 @@ for s = 1:numel(uniqueIDs)
     % extract suffix after "-omission_" and before ".log"
     suf1 = regexp(file1, '(?<=-omission_)[ab][12](?=\.log$)', 'match', 'once');
     suf2 = regexp(file2, '(?<=-omission_)[ab][12](?=\.log$)', 'match', 'once');
-
-    % first run of current subject
-    if endsWith(id, '2')
-        % if your run-1 code could end with 2, use the other function
+    
+    % stop if a filename has no valid suffix (a1, a2, b1, b2)
+    if isempty(suf1) || isempty(suf2)
+        error('No valid suffix in %s or %s', file1, file2);
+    end
+    
+    assert(strcmp(suf1, suf2), 'Different versions for %s: %s vs %s', id, suf1, suf2);
+    
+    % read depending on version
+    if endsWith(suf1, '2')
+        
         eval(sprintf([ ...
             '[%s_all_data_1,%s_learn_data_1,%s_resp_ti_data_1,%s_stat_outcome_1] = ' ...
             'read_logfile_om_aktiv_2(''%s'', ''%s-omission_%s'');'], ...
             vpName, vpName, vpName, vpName, id, id, suf1));
-    else
-        eval(sprintf([ ...
-            '[%s_all_data_1,%s_learn_data_1,%s_resp_ti_data_1,%s_stat_outcome_1] = ' ...
-            'read_logfile_om_aktiv_1(''%s'', ''%s-omission_%s'');'], ...
-            vpName, vpName, vpName, vpName, id, id, suf1));
-    end
-
-    % second run of current subject
-    if endsWith(id2, '2')
         eval(sprintf([ ...
             '[%s_all_data_2,%s_learn_data_2,%s_resp_ti_data_2,%s_stat_outcome_2] = ' ...
             'read_logfile_om_aktiv_2(''%s'', ''%s-omission_%s'');'], ...
             vpName, vpName, vpName, vpName, id2, id2, suf2));
     else
         eval(sprintf([ ...
+            '[%s_all_data_1,%s_learn_data_1,%s_resp_ti_data_1,%s_stat_outcome_1] = ' ...
+            'read_logfile_om_aktiv_1(''%s'', ''%s-omission_%s'');'], ...
+            vpName, vpName, vpName, vpName, id, id, suf1));
+        eval(sprintf([ ...
             '[%s_all_data_2,%s_learn_data_2,%s_resp_ti_data_2,%s_stat_outcome_2] = ' ...
             'read_logfile_om_aktiv_1(''%s'', ''%s-omission_%s'');'], ...
             vpName, vpName, vpName, vpName, id2, id2, suf2));
     end
+
+
 
     % combine 
     eval(sprintf('%s_all_data=[%s_all_data_1;%s_all_data_2];', vpName, vpName, vpName));
