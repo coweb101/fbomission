@@ -6,10 +6,10 @@ The pipeline has four steps:
 
 1. Reading the logfiles and preparing the behavioural data
 2. Fitting 42 reinforcement-learning models and comparing them (BIC)
-3. Simulating trial-wise action values and prediction errors with the best model by BIC
-4. Parameter recovery and posterior predictive check with simulated data
+3. Simulating trial-wise action values and prediction errors with the best two models by BIC
+4. Parameter recovery and posterior predictive check with simulated data based on best two models
 
-Step 1 needs the raw logfiles, which are not public; its code is included for transparency. Steps 2–4 can be reproduced with the anonymized data in `interim_datasets`. To do so, run `rng(17, 'twister')` and then the pipeline from section `%% 2.` onwards (step 1 uses no random numbers, so the results are identical to a full run). The full pipeline takes about ??? hours with 50 fitting iterations per model.
+Step 1 needs the raw logfiles, which are not public; its code is included for transparency. Steps 2–4 can be reproduced with the anonymized data in `interim_datasets`. To do so, run `rng(17, 'twister')` and then the pipeline from section `%% 2.` onwards (step 1 uses no random numbers, so the results are identical to a full run). The full pipeline takes about 20 hours with 50 fitting iterations per model.
 
 Requirements: MATLAB with the Optimization Toolbox (`fmincon`) and the Statistics and Machine Learning Toolbox.
 
