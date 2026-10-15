@@ -26,6 +26,8 @@ load filenames; % anonymous ids (created with create_correct_response_key)
 
 ntrials = 480;
 
+clear datastruc
+
 for i = 1:length(fit_BIC.bic) % loop through participants
 
     i
