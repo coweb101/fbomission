@@ -4,7 +4,7 @@
 
 % This file calls several functions to (1) read raw logfiles and prepare
 % the data to be fed in (2) several reinforcement learning models and save
-% their fits. The best fitting model is then used to (3) simulate action 
+% their fits. The best fitting models are then used to (3) simulate action 
 % values for each trial and export these for further analyses.
 
 clear all; % clear workspace
