@@ -3,8 +3,8 @@
 `FBOmission_Behavioural_Data_Analysis_anonym.R` analyses the behavioural data and the output of the PE modelling (folder `PE_modelling`). It contains five parts:
 
 1. **Choice accuracy:** exclusion of participants performing below chance (binomial test) and a GLMM of choice accuracy (trial × learning context × reward probability), with plots.
-2. **Posterior predictive check:** the same GLMM on choices simulated with the best-fitting reinforcement-learning model.
-3. **Learning rates:** linear mixed model of the fitted learning rates of the best model, with plots.
+2. **Posterior predictive check:** the same GLMM on choices simulated with the two best-fitting reinforcement-learning models.
+3. **Learning rates:** linear mixed model of the fitted learning rates of the two best models, with plots.
 4. **Parameter recovery:** correlation of fitted and recovered parameters, one scatter plot per parameter.
 5. **Action values:** trial-wise action values of the correct and incorrect action per stimulus, with plots. This part also writes `aggregated_data/behav_and_pe_data_concatenated.csv`, which the EEG analysis (`EEG_multitemporal_analysis`) merges with the EEG data.
 
@@ -46,4 +46,4 @@ install.packages(c("data.table", "plyr", "reshape2", "lme4", "lmerTest", "emmean
 
 ## Note
 
-The learning-rate analysis (part 3) and the parameter recovery plots (part 4) refer to the parameters of the model that was selected as the best model in `PE_modelling` (see `comp_model_fit_export/modelfits.csv` and the README in `PE_modelling`).
+The learning-rate analysis (part 3) and the parameter recovery plots (part 4) refer to the parameters of the models that were selected as the best models in `PE_modelling` (see `comp_model_fit_export/modelfits.csv` and the README in `PE_modelling`).
