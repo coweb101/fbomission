@@ -11,7 +11,7 @@ setwd("\\\\psychologie.ad.hhu.de/biopsych_experimente/Studien_Daten/2024_CB_CW_F
 
 #### Omission Data ####
 
-data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym.csv") # read data again
+data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv") # read data again
 data <- data.table::setDT(data) # convert to data.table
 data <- subset(data, omission==1) # subset to trials with omitted feedback
 
@@ -31,7 +31,7 @@ unique_cond <- unique(data$uniquecond)[!is.na(unique(data$uniquecond))]
 #### Aggregate data and get latencies and relative amplitudes for maxima for the frontocentral cluster ####
 
 
-electrodes <- c("F3", "Fz", "F4", "FC1", "FC2")
+electrodes <- c("F3", "Fz", "F4", "FCz", "FC1", "FC2")
 
 data_avg_all <- data.frame()
 
@@ -216,7 +216,7 @@ unique_cond <- unique(data$uniquecond)[!is.na(unique(data$uniquecond))]
 #### Aggregate data and get latencies and relative amplitudes for maxima for the frontocentral cluster ####
 
 
-electrodes <- c("F3", "Fz", "F4", "FC1", "FC2")
+electrodes <- c("F3", "Fz", "F4", "FCz", "FC1", "FC2")
 
 data_avg_all <- data.frame()
 
