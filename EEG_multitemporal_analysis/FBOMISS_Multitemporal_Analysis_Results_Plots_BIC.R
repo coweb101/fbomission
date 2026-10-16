@@ -241,14 +241,8 @@ data$pe_absolute <- abs(data$PE)
 #                     na.rm = TRUE),
 #   include.lowest = TRUE,
 #   labels = FALSE
-# )
-data[,pe_c_cat := cut(
-  pe_absolute,
-  breaks = quantile(pe_absolute, probs = seq(0, 1, length.out = 4),
-                    na.rm = TRUE),
-  include.lowest = TRUE,
-  labels = FALSE
-), by = id]
+data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+                             sum(!is.na(pe_absolute))), by = .(id, valence)]
 
 #data$pe_c_cat <- cut(data$pe_absolute, breaks = 4, include.lowest = TRUE, labels = FALSE) 
 
@@ -461,13 +455,8 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[,pe_c_cat := cut(
-  pe_absolute,
-  breaks = quantile(pe_absolute, probs = seq(0, 1, length.out = 4),
-                    na.rm = TRUE),
-  include.lowest = TRUE,
-  labels = FALSE
-), by = id]
+data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+                             sum(!is.na(pe_absolute))), by = .(id, valence)]
 data$uniquecond <- data$pe_c_cat # rename to uniquecond to recyclue previous script
 
 ## choose electrodes and pipe general info
@@ -781,13 +770,8 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[,pe_c_cat := cut(
-  pe_absolute,
-  breaks = quantile(pe_absolute, probs = seq(0, 1, length.out = 4),
-                    na.rm = TRUE),
-  include.lowest = TRUE,
-  labels = FALSE
-), by = id]
+data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+                             sum(!is.na(pe_absolute))), by = .(id, valence)]
 #data$pe_c_cat <- cut(data$pe_absolute, breaks = 4, include.lowest = TRUE, labels = FALSE) 
 
 #### Insert dataspecific info
@@ -1004,13 +988,8 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[,pe_c_cat := cut(
-  pe_absolute,
-  breaks = quantile(pe_absolute, probs = seq(0, 1, length.out = 4),
-                    na.rm = TRUE),
-  include.lowest = TRUE,
-  labels = FALSE
-), by = id]
+data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+                             sum(!is.na(pe_absolute))), by = .(id, valence)]
 data$uniquecond <- data$pe_c_cat # rename to uniquecond to recyclue previous script
 
 ## choose electrodes and pipe general info
@@ -1358,13 +1337,8 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[,pe_c_cat := cut(
-  pe_absolute,
-  breaks = quantile(pe_absolute, probs = seq(0, 1, length.out = 4),
-                    na.rm = TRUE),
-  include.lowest = TRUE,
-  labels = FALSE
-), by = id]
+data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+                             sum(!is.na(pe_absolute))), by = .(id, valence)]
 #data$pe_c_cat <- cut(data$pe_absolute, breaks = 4, include.lowest = TRUE, labels = FALSE) 
 
 #### Insert dataspecific info
@@ -1648,13 +1622,8 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[,pe_c_cat := cut(
-  pe_absolute,
-  breaks = quantile(pe_absolute, probs = seq(0, 1, length.out = 4),
-                    na.rm = TRUE),
-  include.lowest = TRUE,
-  labels = FALSE
-), by = id]
+data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+                             sum(!is.na(pe_absolute))), by = .(id, valence)]
 #data$pe_c_cat <- cut(data$pe_absolute, breaks = 4, include.lowest = TRUE, labels = FALSE) 
 
 #### Insert dataspecific info
@@ -2045,13 +2014,8 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[,pe_c_cat := cut(
-  pe_absolute,
-  breaks = quantile(pe_absolute, probs = seq(0, 1, length.out = 4),
-                    na.rm = TRUE),
-  include.lowest = TRUE,
-  labels = FALSE
-), by = id]
+data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+                             sum(!is.na(pe_absolute))), by = .(id, valence)]
 
 electrodes <- c("F3", "Fz", "F4", "FC1", "FCz", "FC2")
 
@@ -2263,13 +2227,8 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[,pe_c_cat := cut(
-  pe_absolute,
-  breaks = quantile(pe_absolute, probs = seq(0, 1, length.out = 4),
-                    na.rm = TRUE),
-  include.lowest = TRUE,
-  labels = FALSE
-), by = id]
+data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+                             sum(!is.na(pe_absolute))), by = .(id, valence)]
 data$uniquecond <- data$pe_c_cat # rename to uniquecond to recyclue previous script
 
 ## choose electrodes and pipe general info
@@ -2584,13 +2543,8 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[,pe_c_cat := cut(
-  pe_absolute,
-  breaks = quantile(pe_absolute, probs = seq(0, 1, length.out = 4),
-                    na.rm = TRUE),
-  include.lowest = TRUE,
-  labels = FALSE
-), by = id]
+data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+                             sum(!is.na(pe_absolute))), by = .(id, valence)]
 #### Insert dataspecific info
 
 electrodes <- c( "CP1", "CP2", "P3", "Pz", "P4")
@@ -2806,13 +2760,8 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[,pe_c_cat := cut(
-  pe_absolute,
-  breaks = quantile(pe_absolute, probs = seq(0, 1, length.out = 4),
-                    na.rm = TRUE),
-  include.lowest = TRUE,
-  labels = FALSE
-), by = id]
+data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+                             sum(!is.na(pe_absolute))), by = .(id, valence)]
 data$uniquecond <- data$pe_c_cat # rename to uniquecond to recyclue previous script
 
 ## choose electrodes and pipe general info
@@ -3158,13 +3107,8 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[,pe_c_cat := cut(
-  pe_absolute,
-  breaks = quantile(pe_absolute, probs = seq(0, 1, length.out = 4),
-                    na.rm = TRUE),
-  include.lowest = TRUE,
-  labels = FALSE
-), by = id]
+data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+                             sum(!is.na(pe_absolute))), by = .(id, valence)]
 #data$pe_c_cat <- cut(data$pe_absolute, breaks = 4, include.lowest = TRUE, labels = FALSE) 
 
 #### Insert dataspecific info
@@ -3449,13 +3393,8 @@ data$pe_absolute <- abs(data$PE)
 #   labels = FALSE
 # )
 
-data[,pe_c_cat := cut(
-  pe_absolute,
-  breaks = quantile(pe_absolute, probs = seq(0, 1, length.out = 4),
-                    na.rm = TRUE),
-  include.lowest = TRUE,
-  labels = FALSE
-), by = id]
+data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+                             sum(!is.na(pe_absolute))), by = .(id, valence)]
 
 #### Insert dataspecific info
 
