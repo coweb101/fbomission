@@ -4,7 +4,22 @@ This repository stores code used to analyze behavioural and EEG data of a sample
 Importantly, these omissions entailed contextual valence based on the alternative possible outcome, which could either be a displayed reward or a displayed loss depending on the learning context (Get Reward vs Avoid Loss).
 
 **Overview of pipeline**
-1) PE_modelling: modelling of learning rates and single-trial prediction errors (PEs) based on behavioural choice data (Matlab)
-2) EEG_preprocessing: preprocessing templates used for data preparation and cleaning (BrainVision Analyzer)
-3) Behavioural_analysis: statistical analysis of choice accuracy data and modelled learning rates (R)
-4) Multitemporal_analysis: statistical analysis of effects of contextual valence and PEs on display- and omission-related amplitudes (R)
+
+The folders are meant to be run in this order; each folder has its own README with details.
+
+1) `PE_modelling`: fitting of 42 reinforcement-learning models to the choice data, model comparison (BIC), simulation of trial-wise action values and prediction errors (PEs) with the two best models, parameter recovery and posterior predictive checks (MATLAB)
+2) `Behavioural_analysis`: statistical analysis of choice accuracy, posterior predictive checks, modelled learning rates, parameter recovery and action values; merges the behavioural data with the trial-wise PEs for the EEG analysis (R)
+3) `EEG_multitemporal_analysis`: merging of EEG and PE data and sample-wise linear mixed models of the effects of contextual valence and PEs on display- and omission-related amplitudes, with plots (R)
+
+**Models**
+
+All analyses based on PEs are run for the two best models according to BIC. File names indicate the model:
+
+| Suffix | Model (code) | Model (manuscript) | Learning rates |
+|---|---|---|---|
+| `_BIC` | 2b | M2.1 | separate for positive and negative outcomes, with update of the unchosen action |
+| `_5b` | 5b | M5.1 | separate for positive/negative × presented/omitted outcomes, with update of the unchosen action |
+
+**Data availability**
+
+All data files in this repository contain only anonymous participant IDs (`subj_01` to `subj_48`). The raw logfiles are not public; the code that reads them is included for transparency. The preprocessed EEG data (about 1.7 GB) are available at https://osf.io/fzcqj/.
