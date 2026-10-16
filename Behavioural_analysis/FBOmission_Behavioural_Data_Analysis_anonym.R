@@ -9,22 +9,14 @@ getwd() # show current working directory
 
 # for data wrangling
 library(plyr)
-library(dplyr)
 library(reshape2)
-library(tidyr)
 
 # for statistical tests
-library(rstatix)
 library(lme4)
 library(lmerTest)
-library(buildmer)
-library(coin)
 library(emmeans)
 
 # for plots
-library(ggeffects)
-library(ggplot2)
-library("RColorBrewer")
 library(viridis)
 
 #general settings
@@ -694,7 +686,7 @@ for (j in 1:length(list_parameter)) {
   
   
   title(ylab="Fitted", line=1.3)
-  title(xlab="Simulated", line=1.0)
+  title(xlab="Recovered", line=1.0)
   
   if (list_parameter[j] != "beta") {
     
@@ -1522,7 +1514,7 @@ for (j in 1:length(list_parameter)) {
   
   
   title(ylab="Fitted", line=1.3)
-  title(xlab="Simulated", line=1.0)
+  title(xlab="Recovered", line=1.0)
   
   if (list_parameter[j] != "beta") {
     
