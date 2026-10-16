@@ -32,12 +32,12 @@ The last four files are copies of the files of the same name in `PE_modelling/co
 
 ## Required R packages
 
-data.table, plyr, dplyr, reshape2, tidyr, rstatix, lme4, lmerTest, buildmer, coin, emmeans, performance, psych, ggeffects, ggplot2, RColorBrewer, viridis
+data.table, plyr, dplyr, reshape2, tidyr, rstatix, lme4, lmerTest, buildmer, coin, emmeans, performance, psych, ggeffects, ggplot2, RColorBrewer, viridis, knitr
 
 ```r
 install.packages(c("data.table", "plyr", "dplyr", "reshape2", "tidyr", "rstatix", "lme4",
                    "lmerTest", "buildmer", "coin", "emmeans", "performance", "psych",
-                   "ggeffects", "ggplot2", "RColorBrewer", "viridis"))
+                   "ggeffects", "ggplot2", "RColorBrewer", "viridis", "knitr"))
 ```
 
 ## Output
