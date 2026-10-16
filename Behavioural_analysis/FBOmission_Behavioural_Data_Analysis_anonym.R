@@ -18,6 +18,7 @@ library(emmeans)
 
 # for plots
 library(viridis)
+library(ggeffects)
 
 #general settings
 options(width=500, scipen=6, digits=8)
@@ -1336,8 +1337,6 @@ qqline(residuals(model_learning_rates))
 
 ### Visualize
 
-library(ggeffects)
-library(ggplot2)
 
 plotdata <- ggeffect(model_learning_rates, terms = c("valence", "omission"))
 
