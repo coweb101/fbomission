@@ -5,7 +5,9 @@
 remove(list = ls()) # clear workspace
 getwd() # show current working directory
 setwd("\\\\psychologie.ad.hhu.de/biopsych_experimente/Studien_Daten/2024_CB_CW_FBOmiss")
-data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym.csv") # read concatenated data
+
+#### After Artifact Rejection ####
+data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv") # read concatenated data
 
 data$valid_trial <- ifelse(!is.na(data$F7_1), 1, 0)
 
@@ -25,6 +27,41 @@ aggregate(trial_count$x, by=list(trial_count$Group.2, trial_count$Group.3), FUN=
 # 2       1      -1  71 139
 # 3      -1       1  99 162
 # 4       1       1 104 164
+
+## Group.1 --> Omission with -1 for Feedback Display, and 1 for Feedback Omission
+## Group.2 --> Feedback Valence with -1 for Negative Feedback, and 1 for Positive Feedback
+
+#### EEG Analysis ####
+data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv") # read concatenated data
+
+# same exclusion as in the analyses: participants with SD(|PE|) < .05 in display or omission trials
+pe_sd <- data[!is.na(PE) & omission %in% c(-1, 1),
+                             .(sd_abs_pe = sd(abs(PE))), by = .(id, omission)]
+low_var_ids <- unique(pe_sd[sd_abs_pe < .05, id])
+print(paste0("excluded: ", paste(sort(low_var_ids), collapse = ", ")))
+data <- data[!(id %in% low_var_ids)]
+
+
+data$valid_trial <- ifelse(!is.na(data$F7_1), 1, 0)
+
+data <- as.data.frame(data)
+trial_count <- aggregate(data$valid_trial, by=list(data$id, data$omission, data$valence), FUN="sum")
+
+aggregate(trial_count$x, by=list(trial_count$Group.2, trial_count$Group.3), FUN="mean")
+# Group.1 Group.2         x
+# 1      -1      -1 100.41304
+# 2       1      -1  99.71739
+# 3      -1       1 134.58696
+# 4       1       1 133.43478
+
+aggregate(trial_count$x, by=list(trial_count$Group.2, trial_count$Group.3), FUN="range")
+# Group.1 Group.2 x.1 x.2
+# 1      -1      -1  71 132
+# 2       1      -1  71 139
+# 3      -1       1  99 162
+# 4       1       1 104 164
+
+# no change for range, only for means
 
 ## Group.1 --> Omission with -1 for Feedback Display, and 1 for Feedback Omission
 ## Group.2 --> Feedback Valence with -1 for Negative Feedback, and 1 for Positive Feedback
