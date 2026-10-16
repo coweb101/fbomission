@@ -104,7 +104,7 @@ non_learner <- learnerlist[which(learnerlist[,2]>0),"id"]
 
 # exclude these participants
 if (length(non_learner)>0){
-  behav <- behav[-which(behav[,"id"]%in%non_learner),]
+  behav <- behav[!(id %in% non_learner)]
 }
 
 print(paste0(length(learnerlist[which(learnerlist[,2]>0),"id"]), " participants performed significantly below chance and will be excluded. The resulting samples comprises ", nrow(behav)/480, " participants."))
@@ -294,6 +294,7 @@ for (ctx in c(1, -1)) { # loop through contexts
 
 dev.off()
 
+behav_obs <- behav
 
 
 #### BIC Model ####
@@ -488,6 +489,122 @@ for (ctx in c(1, -1)) { # loop through contexts
 
 dev.off()
 
+#### Analysis of (Computationally-modelled) Learning Rates | BIC Model (M2.1) ####
+
+## Data preparation
+
+# read data
+parameter_BIC <- read.csv("aggregated_data/FBOmiss_learning_parameter_BIC.csv")
+
+# show descriptive statistics for parameters of rl model
+params_BIC <- names(parameter_BIC)[-which(names(parameter_BIC)=="filename"|names(parameter_BIC)=="BIC")]
+psych::describeBy(parameter_BIC[,params_BIC])
+
+## reduce data (to learning rates, and filenames):
+parameter_BIC <- parameter_BIC[,c(grep("filename", names(parameter_BIC)), grep("alpha", names(parameter_BIC)))]
+
+# and reshape
+data_learning_rates_BIC <- reshape2::melt(parameter_BIC, id = c("filename"))
+
+# recode variables
+data_learning_rates_BIC$learning_rate <- as.numeric(data_learning_rates_BIC$value)
+
+data_learning_rates_BIC[grep("pos", data_learning_rates_BIC$variable), "valence"] <- "pos"
+data_learning_rates_BIC[grep("neg", data_learning_rates_BIC$variable), "valence"] <- "neg"
+
+## Transform data for approximating normal distribution
+
+# cube-root transformation as for model 5b (chosen based on the normal qq-plots)
+data_learning_rates_BIC$learning_original <- data_learning_rates_BIC$learning_rate
+data_learning_rates_BIC$learning_rate <- data_learning_rates_BIC$learning_rate^(1/3)
+
+# Plot distribution
+qqnorm(data_learning_rates_BIC$learning_rate, pch = 1, frame = FALSE)
+qqline(data_learning_rates_BIC$learning_rate, col = "steelblue", lwd = 2)
+
+## Statistical analysis with linear mixed effects models: Data Preparation
+
+data_BIC <- data_learning_rates_BIC
+
+# code fixed effect of valence
+data_BIC$valence <- ifelse(data_BIC$valence == "pos", 1, ifelse(data_BIC$valence == "neg", -1, NA))
+
+
+## LME
+
+# with two learning rates per participant, this model is equivalent to a paired t-test
+model_learning_rates_BIC <- lmer(learning_rate ~ valence +
+                                   (1|filename),
+                                 data=data_BIC, REML=T,
+                                 control=lmerControl(optimizer='bobyqa', optCtr = list(maxfun = 1e9)))
+summary(model_learning_rates_BIC)
+performance::r2(model_learning_rates_BIC,  tolerance = 1e-10)
+
+# estimated marginal means (cube-root scale) and contrast positive vs. negative
+emmeans::emmeans(model_learning_rates_BIC,
+                 specs=pairwise~valence,
+                 infer=TRUE,
+                 lmer.df="asymp")
+
+# check: paired t-test on the same (cube-root transformed) learning rates
+t.test(parameter_BIC$alpha_pos^(1/3), parameter_BIC$alpha_neg^(1/3), paired = TRUE)
+
+# inspect distribution of residuals
+qqnorm(residuals(model_learning_rates_BIC))
+qqline(residuals(model_learning_rates_BIC))
+
+### Visualize
+
+plotdata <- ggeffect(model_learning_rates_BIC, terms = c("valence"))
+
+# Rename column and factorize
+names(plotdata)[1] <- "valence"
+plotdata$valence <- factor(plotdata$valence, levels = c(1, -1), labels = c("Positive", "Negative"))
+
+# define colors (as for model 5b)
+valence_colors <- c("blue", "green3")
+names(valence_colors) <- c("Positive", "Negative")
+
+# raw data
+raw_subset <- data_BIC
+raw_subset$valence <- factor(raw_subset$valence, levels = c(1, -1), labels = c("Positive", "Negative"))
+raw_subset$x <- as.numeric(raw_subset$valence) +
+  runif(nrow(raw_subset), -0.3, 0.3)  # jitter
+
+png("plots/learning_rates_predicted_BIC.png", width = 1.9, height = 1.9, units = "in", res = 2400)
+
+par(mfrow = c(1, 1), mai = c(0.38, 0.4, 0.3, 0.05), mgp = c(1.6, 0.35, 0), tcl = -0.25, cex = 0.8)
+
+# Create empty plot
+plot(1, type = "n", ylim = c(0, 1), xlim = c(0.5, 2.5),
+     xaxt = "n", xlab = "", ylab = "Learning Rate",
+     main = "", las = 1, cex.main = 0.9, cex.lab = 0.9, cex.axis = 0.8, bty="n")
+
+# Raw points
+points(raw_subset$x, raw_subset$learning_original,
+       pch = 16,
+       col = adjustcolor(valence_colors[as.character(raw_subset$valence)], alpha.f = 0.4),
+       cex = 0.5)
+
+# Error bars
+x_vals <- as.numeric(plotdata$valence)
+
+arrows(x0 = x_vals, y0 = plotdata$conf.low, x1 = x_vals, y1 = plotdata$conf.high,
+       angle = 90, code = 3, length = 0.05,
+       col = valence_colors[as.character(plotdata$valence)])
+
+# Predicted points
+points(x_vals, plotdata$predicted,
+       pch = 16,
+       col = valence_colors[as.character(plotdata$valence)],
+       cex = 0.8)
+
+# Axis & label
+axis(1, at = 1:2, labels = levels(plotdata$valence))
+text(1.5, -0.31, "Feedback Valence", xpd = TRUE, cex = .9)
+
+dev.off()
+
 #### Comparison of fitted with recovered parameters ####
 
 # load fitted (anonymized) parameter
@@ -550,8 +667,8 @@ for (j in 1:length(list_parameter)) {
   
   # store correlation to write in plot title
   corr_coefficient <- cor(recovered_avg, fitted)
-  correlations[j, 2] <- corr_coefficient
-  names(correlations)[2] <- list_parameter[j]
+  correlations[1, list_parameter[j]] <- corr_coefficient
+  
   
   # create plot
   png_filename <- file.path(paste0("plots/scatter_", list_parameter[j], "_BIC.png"))  
@@ -1379,8 +1496,7 @@ for (j in 1:length(list_parameter)) {
   
   # store correlation to write in plot title
   corr_coefficient <- cor(recovered_avg, fitted)
-  correlations[j, 2] <- corr_coefficient
-  names(correlations)[2] <- list_parameter[j]
+  correlations[1, list_parameter[j]] <- corr_coefficient
   
   # create plot
   png_filename <- file.path(paste0("plots/scatter_", list_parameter[j], "_5b.png"))  
