@@ -249,7 +249,7 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "first", na.last = "keep") /
                              sum(!is.na(pe_absolute))), by = .(id, valence)]
 
 #data$pe_c_cat <- cut(data$pe_absolute, breaks = 4, include.lowest = TRUE, labels = FALSE) 
@@ -463,7 +463,7 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "first", na.last = "keep") /
                              sum(!is.na(pe_absolute))), by = .(id, valence)]
 data$uniquecond <- data$pe_c_cat # rename to uniquecond to recyclue previous script
 
@@ -778,7 +778,7 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "first", na.last = "keep") /
                              sum(!is.na(pe_absolute))), by = .(id, valence)]
 #data$pe_c_cat <- cut(data$pe_absolute, breaks = 4, include.lowest = TRUE, labels = FALSE) 
 
@@ -996,7 +996,7 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "first", na.last = "keep") /
                              sum(!is.na(pe_absolute))), by = .(id, valence)]
 data$uniquecond <- data$pe_c_cat # rename to uniquecond to recyclue previous script
 
@@ -1352,7 +1352,7 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "first", na.last = "keep") /
                              sum(!is.na(pe_absolute))), by = .(id, valence)]
 #data$pe_c_cat <- cut(data$pe_absolute, breaks = 4, include.lowest = TRUE, labels = FALSE) 
 
@@ -1637,7 +1637,7 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "first", na.last = "keep") /
                              sum(!is.na(pe_absolute))), by = .(id, valence)]
 #data$pe_c_cat <- cut(data$pe_absolute, breaks = 4, include.lowest = TRUE, labels = FALSE) 
 
@@ -2036,7 +2036,7 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "first", na.last = "keep") /
                              sum(!is.na(pe_absolute))), by = .(id, valence)]
 
 electrodes <- c("F3", "Fz", "F4", "FC1", "FCz", "FC2")
@@ -2249,7 +2249,7 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "first", na.last = "keep") /
                              sum(!is.na(pe_absolute))), by = .(id, valence)]
 data$uniquecond <- data$pe_c_cat # rename to uniquecond to recyclue previous script
 
@@ -2565,7 +2565,7 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "first", na.last = "keep") /
                              sum(!is.na(pe_absolute))), by = .(id, valence)]
 #### Insert dataspecific info
 
@@ -2782,7 +2782,7 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "first", na.last = "keep") /
                              sum(!is.na(pe_absolute))), by = .(id, valence)]
 data$uniquecond <- data$pe_c_cat # rename to uniquecond to recyclue previous script
 
@@ -3136,7 +3136,7 @@ data$pe_absolute <- abs(data$PE)
 #   include.lowest = TRUE,
 #   labels = FALSE
 # )
-data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "first", na.last = "keep") /
                              sum(!is.na(pe_absolute))), by = .(id, valence)]
 #data$pe_c_cat <- cut(data$pe_absolute, breaks = 4, include.lowest = TRUE, labels = FALSE) 
 
@@ -3423,7 +3423,7 @@ data$pe_absolute <- abs(data$PE)
 #   labels = FALSE
 # )
 
-data[, pe_c_cat := ceiling(3 * frank(pe_absolute, ties.method = "first", na.last = "keep") /
+data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "first", na.last = "keep") /
                              sum(!is.na(pe_absolute))), by = .(id, valence)]
 
 #### Insert dataspecific info
