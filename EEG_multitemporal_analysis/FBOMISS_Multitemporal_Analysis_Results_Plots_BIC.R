@@ -1,4 +1,4 @@
-#### FBOmission Multitemporal Results Plots ####
+#### FBOmission Multitemporal Results Plots | Model 2b ####
 
 # CW (06/2026)
 
@@ -17,6 +17,13 @@ setwd("\\\\psychologie.ad.hhu.de/biopsych_experimente/Studien_Daten/2024_CB_CW_F
 pe_coefficients_frontocentral <- data.table::fread("aggregated_data/multitemp_pre700_post1500_frontocentral_cluster_omission_trials_no_baseline_BIC.csv") # read data again
 pe_coefficients_centroparietal <- data.table::fread("aggregated_data/multitemp_pre700_post1500_centroparietal_cluster_omission_trials_no_baseline_BIC.csv") # read data again
 data_grand_averages <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv") # read data again
+
+# same exclusion as in the analyses: participants with SD(|PE|) < .05 in display or omission trials
+pe_sd <- data_grand_averages[!is.na(PE) & omission %in% c(-1, 1),
+                             .(sd_abs_pe = sd(abs(PE))), by = .(id, omission)]
+low_var_ids <- unique(pe_sd[sd_abs_pe < .05, id])
+print(paste0("excluded: ", paste(sort(low_var_ids), collapse = ", ")))
+data_grand_averages <- data_grand_averages[!(id %in% low_var_ids)]
 
 segment_start <- 700
 segment_end <- 1500
@@ -1122,6 +1129,13 @@ pe_coefficients_frontocentral <- data.table::fread("aggregated_data/multitemp_pr
 pe_coefficients_centroparietal <- data.table::fread("aggregated_data/multitemp_pre700_post1500_centroparietal_cluster_omission_trials_no_baseline_BIC.csv")#, quote="") # read data again
 data_grand_averages <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv")#, quote="") # read data again
 
+# same exclusion as in the analyses: participants with SD(|PE|) < .05 in display or omission trials
+pe_sd <- data_grand_averages[!is.na(PE) & omission %in% c(-1, 1),
+                             .(sd_abs_pe = sd(abs(PE))), by = .(id, omission)]
+low_var_ids <- unique(pe_sd[sd_abs_pe < .05, id])
+print(paste0("excluded: ", paste(sort(low_var_ids), collapse = ", ")))
+data_grand_averages <- data_grand_averages[!(id %in% low_var_ids)]
+
 segment_start <- 700
 segment_end <- 1500
 
@@ -1785,6 +1799,13 @@ rm(list=ls())
 pe_coefficients_frontocentral <- data.table::fread("aggregated_data/multitemp_pre700_post1500_frontocentral_cluster_display_trials_no_baseline_BIC.csv")#, quote="") # read data again
 pe_coefficients_centroparietal <- data.table::fread("aggregated_data/multitemp_pre700_post1500_centroparietal_cluster_display_trials_no_baseline_BIC.csv")#, quote="") # read data again
 data_grand_averages <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv")#, quote="") # read data again
+
+# same exclusion as in the analyses: participants with SD(|PE|) < .05 in display or omission trials
+pe_sd <- data_grand_averages[!is.na(PE) & omission %in% c(-1, 1),
+                             .(sd_abs_pe = sd(abs(PE))), by = .(id, omission)]
+low_var_ids <- unique(pe_sd[sd_abs_pe < .05, id])
+print(paste0("excluded: ", paste(sort(low_var_ids), collapse = ", ")))
+data_grand_averages <- data_grand_averages[!(id %in% low_var_ids)]
 
 segment_start <- 700
 segment_end <- 1500
@@ -2891,6 +2912,13 @@ rm(list=ls())
 pe_coefficients_frontocentral <- data.table::fread("aggregated_data/multitemp_pre700_post1500_frontocentral_cluster_display_trials_no_baseline_BIC.csv")#, quote="") # read data again
 pe_coefficients_centroparietal <- data.table::fread("aggregated_data/multitemp_pre700_post1500_centroparietal_cluster_display_trials_no_baseline_BIC.csv")#, quote="") # read data again
 data_grand_averages <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv")#, quote="") # read data again
+
+# same exclusion as in the analyses: participants with SD(|PE|) < .05 in display or omission trials
+pe_sd <- data_grand_averages[!is.na(PE) & omission %in% c(-1, 1),
+                             .(sd_abs_pe = sd(abs(PE))), by = .(id, omission)]
+low_var_ids <- unique(pe_sd[sd_abs_pe < .05, id])
+print(paste0("excluded: ", paste(sort(low_var_ids), collapse = ", ")))
+data_grand_averages <- data_grand_averages[!(id %in% low_var_ids)]
 
 segment_start <- 700
 segment_end <- 1500
