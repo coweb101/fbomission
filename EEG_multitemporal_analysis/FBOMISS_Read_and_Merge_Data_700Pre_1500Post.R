@@ -225,11 +225,11 @@ rm(id_key)
 rm(id_current)
 
 
-##### Read behav/PE-data #####
+##### Read behav/PE-data (5b; second best BIC) #####
 
 # read behavioural and PE data file created in
 # FBOmission_Behavioural_Data_Analysis_anonym.R
-pe_data <- data.table::fread("aggregated_data/behav_and_pe_data_concatenated.csv", header=T, sep = ",", dec = ".")
+pe_data <- data.table::fread("aggregated_data/behav_and_pe_data_concatenated_5b.csv", header=T, sep = ",", dec = ".")
 
 
 ##### Check whether experimental order is still accurate in both data sets ####
@@ -278,10 +278,72 @@ data$trial <- rep(1:480, length(unique(data$id))) # initial variable "trial" (fo
 
 library(plyr) # to use join() (merging data while preserving row order (merge() does that not...))
 
-data <- plyr::join(pe_data, data, by = c("id", "trial"))
+merged_data <- plyr::join(pe_data, data, by = c("id", "trial"))
 
 
-data.table::fwrite(data, file="aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym.csv", row.names=F) # wanna save data in between?
-#data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym.csv")
+data.table::fwrite(merged_data, file="aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_5b.csv", row.names=F) # wanna save data in between?
+#data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_5b.csv")
+
+
+
+##### Read behav/PE-data (BIC) #####
+
+# read behavioural and PE data file created in
+# FBOmission_Behavioural_Data_Analysis_anonym.R
+pe_data <- data.table::fread("aggregated_data/behav_and_pe_data_concatenated_BIC.csv", header=T, sep = ",", dec = ".")
+
+
+##### Check whether experimental order is still accurate in both data sets ####
+
+# feedback coding in behavioural/pe data:
+#   positive outcomes:
+#     11 - feedback is presented which indicates a monetary gain
+#     1 - feedback is omitted which indicates that a monetary loss was avoided
+#   negative outcomes:
+#     -1 - feedback is omitted which indicates that a monetary gain was missed
+#     -11 - feedback is presented which indicates a monetary loss
+
+# feedback coding in eeg data (first two numbers are either 23, 24 or 25 
+# depending on the version of the experiment (a or b)), last number indicates 
+# type and valence:
+#   positive outcomes:
+#     0 - feedback is presented which indicates a monetary gain
+#     8 - feedback is omitted which indicates that a monetary loss was avoided
+#   negative outcomes:
+#     7 - feedback is omitted which indicates that a monetary gain was missed
+#     9 - feedback is presented which indicates a monetary loss
+#   other:
+#     5 - no response
+
+# code variable to compare in both data sets
+pe_data$eeg_marker <- ifelse(pe_data$feedback==11, 0,
+                             ifelse(pe_data$feedback==1, 8,
+                                    ifelse(pe_data$feedback==-1, 7,
+                                           ifelse(pe_data$feedback==-11, 9, NA))))
+data$eeg_marker <- as.numeric(substr(data$stim,3,3))
+
+# compare this column between data sets (row index created with order() sorts
+# the column by id) and print the number of non-matching entries:
+sum(pe_data[order(as.numeric(as.factor(pe_data$id))),"eeg_marker"] !=
+      data[order(as.numeric(as.factor(data$id))),"eeg_marker"], na.rm=T)
+
+##### Merge behavioural/pe- and eeg-data ##### 
+
+# as we just checked and confirmed the accurate order of trials in both data
+# sets via the marker columns, we can now add a new trial variable to both data
+# sets which we the use to merge the data (to ensure that corresponding trials
+# are matched for each participant):
+
+pe_data$trial <- rep(1:480, length(unique(pe_data$id)))
+data$trial <- rep(1:480, length(unique(data$id))) # initial variable "trial" (for order check, see above) is overwritten
+
+library(plyr) # to use join() (merging data while preserving row order (merge() does that not...))
+
+merged_data <- plyr::join(pe_data, data, by = c("id", "trial"))
+
+
+data.table::fwrite(merged_data, file="aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv", row.names=F) # wanna save data in between?
+#data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv")
+
 
 
