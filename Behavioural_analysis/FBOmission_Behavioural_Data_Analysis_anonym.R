@@ -1860,9 +1860,14 @@ fits <- data.table::fread("aggregated_data/modelfits.csv", header=T, sep = ",", 
 # to copy in word table
 knitr::kable(
   as.data.frame(
-    round(fits$AIC,2))
+    round(fits$AIC,2)) # AIC column
 )
 
-fits[which(fits$BIC==min(fits$BIC)),]
-fits[order(fits$BIC),]
+knitr::kable(
+  as.data.frame(
+    round(fits$BIC,2)) # BIC column
+)
+
+fits[which(fits$BIC==min(fits$BIC)),] # show model with lowest BIC
+fits[order(fits$BIC),] # show all models ordered by BIC
 
