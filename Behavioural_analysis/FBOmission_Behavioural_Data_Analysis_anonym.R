@@ -564,6 +564,9 @@ raw_subset$valence <- factor(raw_subset$valence, levels = c(1, -1), labels = c("
 raw_subset$x <- as.numeric(raw_subset$valence) +
   runif(nrow(raw_subset), -0.3, 0.3)  # jitter
 
+# create plot for learning rates (arrows and bold points for transformed data as analyzed;
+# and untransformed raw data points underneath for an impression of raw learning rate size)
+
 png("plots/learning_rates_predicted_BIC.png", width = 1.9, height = 1.9, units = "in", res = 2400)
 
 par(mfrow = c(1, 1), mai = c(0.38, 0.4, 0.3, 0.05), mgp = c(1.6, 0.35, 0), tcl = -0.25, cex = 0.8)
@@ -1356,6 +1359,9 @@ names(valence_colors) <- c("Positive", "Negative")
 
 # Plotting order
 facet_order <- c("Display", "Omission")
+
+# create plot for learning rates (arrows and bold points for transformed data as analyzed;
+# and untransformed raw data points underneath for an impression of raw learning rate size)
 
 png("plots/learning_rates_predicted_5b.png", width = 3.8, height = 1.9, units = "in", res = 2400)
 
