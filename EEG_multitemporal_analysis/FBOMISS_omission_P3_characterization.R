@@ -196,7 +196,7 @@ data_se[which(data_avg$negative == max(data_avg[175:550,"negative"])), "negative
 
 #### Display Data ####
 
-data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym.csv") # read data again
+data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv") # read data again
 data <- data.table::setDT(data) # convert to data.table
 data <- subset(data, omission==-1) # subset to trials with displayed feedback
 
