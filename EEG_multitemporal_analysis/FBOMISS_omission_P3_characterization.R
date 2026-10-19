@@ -15,7 +15,7 @@ data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500pos
 data <- data.table::setDT(data) # convert to data.table
 data <- subset(data, omission==1) # subset to trials with omitted feedback
 
-segment_length <- 550 # samplepoints (-700 to 1500 ms with sampling rate 500 Hz)
+segment_length <- 550 # samplepoints (-700 to 1500 ms with sampling rate 250 Hz)
 
 
 line_variable <- data$valence # separate lines according to which variable?
@@ -200,7 +200,7 @@ data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500pos
 data <- data.table::setDT(data) # convert to data.table
 data <- subset(data, omission==-1) # subset to trials with displayed feedback
 
-segment_length <- 550 # samplepoints (-700 to 1500 ms with sampling rate 500 Hz)
+segment_length <- 550 # samplepoints (-700 to 1500 ms with sampling rate 250 Hz)
 
 
 line_variable <- data$valence # separate lines according to which variable?
