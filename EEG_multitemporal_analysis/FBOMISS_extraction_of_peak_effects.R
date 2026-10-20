@@ -50,6 +50,16 @@ significanteffect_pos_pe <- significanteffect_pos_pe[significanteffect_pos_pe%in
 significanteffect_neg_pe <- significanteffect_neg_pe[significanteffect_neg_pe%in%significanteffect_interaction]
 significanteffect_diff_valence_pe <- significanteffect_diff_valence_pe[significanteffect_diff_valence_pe%in%significanteffect_interaction]
 
+
+#### Time Windows for Table for Displayed Feedback - FC cluster (M2.1) ####
+split(significanteffect_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pe) != 1)))
+split(significanteffect_valence*4-704, cumsum(c(TRUE, diff(significanteffect_valence) != 1)))
+split(significanteffect_interaction*4-704, cumsum(c(TRUE, diff(significanteffect_interaction) != 1)))
+split(significanteffect_pos_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pos_pe) != 1)))
+split(significanteffect_neg_pe*4-704, cumsum(c(TRUE, diff(significanteffect_neg_pe) != 1)))
+split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significanteffect_diff_valence_pe) != 1)))
+
+
 #### PE Main Effects ####
 
 significanteffect_pe
@@ -68,7 +78,7 @@ pe_coefficients$coef_pe[significanteffect_pe]  # coefficients are all positively
 which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe]))
 # maximum at samplepoint 257
 which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe]))*4-704
-# i.e. at 342 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 324 ms relative to fb omission onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe])), c("coef_pe", "se_pe", "df_pe", "t_pe" , "prob_pe", "effectsize_pe")],3)
@@ -100,7 +110,7 @@ round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$
 
 ## get more info for later time windows
 
-late_valence_effects <- significanteffect_valence[significanteffect_valence > 276]
+late_valence_effects <- significanteffect_valence[significanteffect_valence > 275]
 
 pe_coefficients$coef_valence[late_valence_effects] # coefficients are first negatively signed only later positive again, therefore we look for the minimum at first
 
@@ -135,6 +145,18 @@ significanteffect_interaction
 significanteffect_pos_pe
 significanteffect_neg_pe
 significanteffect_diff_valence_pe
+
+split(significanteffect_interaction, cumsum(c(TRUE, diff(significanteffect_interaction) != 1)))
+split(significanteffect_interaction*4-704, cumsum(c(TRUE, diff(significanteffect_interaction) != 1)))
+
+split(significanteffect_pos_pe, cumsum(c(TRUE, diff(significanteffect_pos_pe) != 1)))
+split(significanteffect_pos_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pos_pe) != 1)))
+
+split(significanteffect_neg_pe, cumsum(c(TRUE, diff(significanteffect_neg_pe) != 1)))
+split(significanteffect_neg_pe*4-704, cumsum(c(TRUE, diff(significanteffect_neg_pe) != 1)))
+
+split(significanteffect_diff_valence_pe, cumsum(c(TRUE, diff(significanteffect_diff_valence_pe) != 1)))
+split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significanteffect_diff_valence_pe) != 1)))
 
 
 ## simple slope of sign pos PEs
@@ -186,7 +208,7 @@ round(pe_coefficients[which(pe_coefficients$coeff_diff == min(pe_coefficients$co
 ## get simple slopes of PEs (or rather anticipatory effects before feedback onset)
 pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients before feedback onset are all negatively signed, therefore we look for the minimum
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
-# maximum at samplepoint 1
+# minimum at samplepoint 1
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))*4-704
 # i.e. at -700 ms relative to fb omission onset (samplepoint*4-704)
 
@@ -234,6 +256,15 @@ significanteffect_diff_valence_pe <- which(pe_coefficients$pvalue_diff <  (.05/(
 significanteffect_pos_pe <- significanteffect_pos_pe[significanteffect_pos_pe%in%significanteffect_interaction]
 significanteffect_neg_pe <- significanteffect_neg_pe[significanteffect_neg_pe%in%significanteffect_interaction]
 significanteffect_diff_valence_pe <- significanteffect_diff_valence_pe[significanteffect_diff_valence_pe%in%significanteffect_interaction]
+
+#### Time Windows for Table for Displayed Feedback - CP cluster (M2.1) ####
+split(significanteffect_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pe) != 1)))
+split(significanteffect_valence*4-704, cumsum(c(TRUE, diff(significanteffect_valence) != 1)))
+split(significanteffect_interaction*4-704, cumsum(c(TRUE, diff(significanteffect_interaction) != 1)))
+split(significanteffect_pos_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pos_pe) != 1)))
+split(significanteffect_neg_pe*4-704, cumsum(c(TRUE, diff(significanteffect_neg_pe) != 1)))
+split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significanteffect_diff_valence_pe) != 1)))
+
 
 #### PE Main Effects ####
 
@@ -300,6 +331,20 @@ significanteffect_pos_pe
 significanteffect_neg_pe
 significanteffect_diff_valence_pe
 
+split(significanteffect_interaction, cumsum(c(TRUE, diff(significanteffect_interaction) != 1)))
+split(significanteffect_interaction*4-704, cumsum(c(TRUE, diff(significanteffect_interaction) != 1)))
+
+split(significanteffect_pos_pe, cumsum(c(TRUE, diff(significanteffect_pos_pe) != 1)))
+split(significanteffect_pos_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pos_pe) != 1)))
+
+split(significanteffect_neg_pe, cumsum(c(TRUE, diff(significanteffect_neg_pe) != 1)))
+split(significanteffect_neg_pe*4-704, cumsum(c(TRUE, diff(significanteffect_neg_pe) != 1)))
+
+split(significanteffect_diff_valence_pe, cumsum(c(TRUE, diff(significanteffect_diff_valence_pe) != 1)))
+split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significanteffect_diff_valence_pe) != 1)))
+
+
+
 ## simple slope of pos PEs
 
 pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients are mostly negatively signed, therefore we look for the minimum at first
@@ -313,7 +358,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef
 , c("coef_pos", "se_pos", "pvalue_pos")],2)
 
 # look for later max
-which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
+which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))*4-704
 # maximum at samplepoint 264, i.e. at 352 ms relative to fb omission onset (samplepoint*4-704)
 
@@ -364,6 +409,15 @@ significanteffect_diff_valence_pe <- which(pe_coefficients$pvalue_diff <  (.05/(
 significanteffect_pos_pe <- significanteffect_pos_pe[significanteffect_pos_pe%in%significanteffect_interaction]
 significanteffect_neg_pe <- significanteffect_neg_pe[significanteffect_neg_pe%in%significanteffect_interaction]
 significanteffect_diff_valence_pe <- significanteffect_diff_valence_pe[significanteffect_diff_valence_pe%in%significanteffect_interaction]
+
+#### Time Windows for Table for Omitted Feedback - FC cluster (M2.1) ####
+split(significanteffect_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pe) != 1)))
+split(significanteffect_valence*4-704, cumsum(c(TRUE, diff(significanteffect_valence) != 1)))
+split(significanteffect_interaction*4-704, cumsum(c(TRUE, diff(significanteffect_interaction) != 1)))
+split(significanteffect_pos_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pos_pe) != 1)))
+split(significanteffect_neg_pe*4-704, cumsum(c(TRUE, diff(significanteffect_neg_pe) != 1)))
+split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significanteffect_diff_valence_pe) != 1)))
+
 
 #### PE Main Effects ####
 
@@ -484,6 +538,15 @@ significanteffect_pos_pe <- significanteffect_pos_pe[significanteffect_pos_pe%in
 significanteffect_neg_pe <- significanteffect_neg_pe[significanteffect_neg_pe%in%significanteffect_interaction]
 significanteffect_diff_valence_pe <- significanteffect_diff_valence_pe[significanteffect_diff_valence_pe%in%significanteffect_interaction]
 
+#### Time Windows for Table for Omitted Feedback - CP cluster (M2.1) ####
+split(significanteffect_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pe) != 1)))
+split(significanteffect_valence*4-704, cumsum(c(TRUE, diff(significanteffect_valence) != 1)))
+split(significanteffect_interaction*4-704, cumsum(c(TRUE, diff(significanteffect_interaction) != 1)))
+split(significanteffect_pos_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pos_pe) != 1)))
+split(significanteffect_neg_pe*4-704, cumsum(c(TRUE, diff(significanteffect_neg_pe) != 1)))
+split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significanteffect_diff_valence_pe) != 1)))
+
+
 #### PE Main Effects ####
 
 significanteffect_pe # no effects
@@ -594,6 +657,15 @@ significanteffect_diff_valence_pe <- which(pe_coefficients$pvalue_diff <  (.05/(
 significanteffect_pos_pe <- significanteffect_pos_pe[significanteffect_pos_pe%in%significanteffect_interaction]
 significanteffect_neg_pe <- significanteffect_neg_pe[significanteffect_neg_pe%in%significanteffect_interaction]
 significanteffect_diff_valence_pe <- significanteffect_diff_valence_pe[significanteffect_diff_valence_pe%in%significanteffect_interaction]
+
+#### Time Windows for Table for Displayed Feedback - FC cluster (M5.1) ####
+split(significanteffect_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pe) != 1)))
+split(significanteffect_valence*4-704, cumsum(c(TRUE, diff(significanteffect_valence) != 1)))
+split(significanteffect_interaction*4-704, cumsum(c(TRUE, diff(significanteffect_interaction) != 1)))
+split(significanteffect_pos_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pos_pe) != 1)))
+split(significanteffect_neg_pe*4-704, cumsum(c(TRUE, diff(significanteffect_neg_pe) != 1)))
+split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significanteffect_diff_valence_pe) != 1)))
+
 
 #### PE Main Effects ####
 
@@ -783,6 +855,15 @@ significanteffect_pos_pe <- significanteffect_pos_pe[significanteffect_pos_pe%in
 significanteffect_neg_pe <- significanteffect_neg_pe[significanteffect_neg_pe%in%significanteffect_interaction]
 significanteffect_diff_valence_pe <- significanteffect_diff_valence_pe[significanteffect_diff_valence_pe%in%significanteffect_interaction]
 
+#### Time Windows for Table for Displayed Feedback - CP cluster (M5.1) ####
+split(significanteffect_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pe) != 1)))
+split(significanteffect_valence*4-704, cumsum(c(TRUE, diff(significanteffect_valence) != 1)))
+split(significanteffect_interaction*4-704, cumsum(c(TRUE, diff(significanteffect_interaction) != 1)))
+split(significanteffect_pos_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pos_pe) != 1)))
+split(significanteffect_neg_pe*4-704, cumsum(c(TRUE, diff(significanteffect_neg_pe) != 1)))
+split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significanteffect_diff_valence_pe) != 1)))
+
+
 #### PE Main Effects ####
 
 significanteffect_pe # no main effects
@@ -892,6 +973,15 @@ significanteffect_diff_valence_pe <- which(pe_coefficients$pvalue_diff <  (.05/(
 significanteffect_pos_pe <- significanteffect_pos_pe[significanteffect_pos_pe%in%significanteffect_interaction]
 significanteffect_neg_pe <- significanteffect_neg_pe[significanteffect_neg_pe%in%significanteffect_interaction]
 significanteffect_diff_valence_pe <- significanteffect_diff_valence_pe[significanteffect_diff_valence_pe%in%significanteffect_interaction]
+
+#### Time Windows for Table for Omitted Feedback - FC cluster (M5.1) ####
+split(significanteffect_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pe) != 1)))
+split(significanteffect_valence*4-704, cumsum(c(TRUE, diff(significanteffect_valence) != 1)))
+split(significanteffect_interaction*4-704, cumsum(c(TRUE, diff(significanteffect_interaction) != 1)))
+split(significanteffect_pos_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pos_pe) != 1)))
+split(significanteffect_neg_pe*4-704, cumsum(c(TRUE, diff(significanteffect_neg_pe) != 1)))
+split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significanteffect_diff_valence_pe) != 1)))
+
 
 #### PE Main Effects ####
 
@@ -1011,6 +1101,15 @@ significanteffect_diff_valence_pe <- which(pe_coefficients$pvalue_diff <  (.05/(
 significanteffect_pos_pe <- significanteffect_pos_pe[significanteffect_pos_pe%in%significanteffect_interaction]
 significanteffect_neg_pe <- significanteffect_neg_pe[significanteffect_neg_pe%in%significanteffect_interaction]
 significanteffect_diff_valence_pe <- significanteffect_diff_valence_pe[significanteffect_diff_valence_pe%in%significanteffect_interaction]
+
+#### Time Windows for Table for Omitted Feedback - CP cluster (M5.1) ####
+split(significanteffect_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pe) != 1)))
+split(significanteffect_valence*4-704, cumsum(c(TRUE, diff(significanteffect_valence) != 1)))
+split(significanteffect_interaction*4-704, cumsum(c(TRUE, diff(significanteffect_interaction) != 1)))
+split(significanteffect_pos_pe*4-704, cumsum(c(TRUE, diff(significanteffect_pos_pe) != 1)))
+split(significanteffect_neg_pe*4-704, cumsum(c(TRUE, diff(significanteffect_neg_pe) != 1)))
+split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significanteffect_diff_valence_pe) != 1)))
+
 
 #### PE Main Effects ####
 
