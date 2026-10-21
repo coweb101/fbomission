@@ -280,13 +280,14 @@ data_avg <- data_avg[-1,]
 ## latency
 which(data_avg$positive == max(data_avg$positive))*4-704 
 which(data_avg$negative == max(data_avg$negative))*4-704
-# for both pos and neg, the most positive amplitude is observed at 444 ms
+
 
 ## amplitude
 
 ### based on the topographies and the ERPs, the deflection starts around 200 ms
 ### therefore, I take the time window between -200 to 200 as a baseline time
-## window to extract a maximal amplitude relative to this reference
+## window to extract a maximal amplitude relative to this reference (same 
+## baseline window as for omitted feedback for comparability)
 
 # -200 is samplepoint: 126 (because (-200+704)/4)
 # 200 is samplepoint: 226
@@ -361,14 +362,15 @@ names(data_avg) <- c("negative", "positive")
 data_avg <- data_avg[-1,]
 
 ## latency (because values in the first 200ms are even more positive, I restrict this maximum search to timepoints after 0)
-which(data_avg$positive == max(data_avg[175:550,"positive"]))*4-704 # most pos amp for pos fb at 528 ms
-which(data_avg$negative == max(data_avg[175:550,"negative"]))*4-704 # most pos amp for neg fb at 664 ms
+which(data_avg$positive == max(data_avg[175:550,"positive"]))*4-704 
+which(data_avg$negative == max(data_avg[175:550,"negative"]))*4-704 
 
 ## amplitude
 
 ### based on the topographies and the ERPs, the deflection starts around 200 ms
 ### therefore, I take the time window between -200 to 200 as a baseline time
-## window to extract a maximal amplitude relative to this reference
+## window to extract a maximal amplitude relative to this reference (same 
+## baseline window as for omitted feedback for comparability)
 
 # -200 is samplepoint: 126 (because (-200+704)/4)
 # 200 is samplepoint: 226
