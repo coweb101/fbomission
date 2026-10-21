@@ -160,7 +160,7 @@ split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significantef
 
 
 ## simple slope of sign pos PEs
-pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients are all positively signed, therefore we look for the maximum
+pe_coefficients$coef_pos[significanteffect_pos_pe]# coefficients are positively signed after feedback onset (negatively before), therefore we look for the maximum
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
 # maximum at samplepoint 258
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))*4-704
@@ -176,7 +176,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == max(pe_coefficients$coef
 
 significanteffect_interaction_post <- significanteffect_interaction[significanteffect_interaction>50] # exclude those in the choice review period
 
-pe_coefficients$coef_neg[significanteffect_interaction_post] # coefficients are all positively signed, therefore we look for the maximum
+pe_coefficients$coef_neg[significanteffect_interaction_post] # coefficients are mostly positively signed, therefore we look for the maximum
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_interaction_post]))
 # maximum at samplepoint 278
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_interaction_post]))*4-704
@@ -190,7 +190,7 @@ round(pe_coefficients[which(pe_coefficients$coef_neg == max(pe_coefficients$coef
 
 ## differencetest
 
-pe_coefficients$coeff_diff[significanteffect_interaction_post] # coefficients are all negatively signed, therefore we look for the minimum
+pe_coefficients$coeff_diff[significanteffect_interaction_post] # coefficients are negatively signed after feedback onset, therefore we look for the minimum
 which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post]))
 # minimum at samplepoint 258
 which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post]))*4-704
@@ -773,7 +773,7 @@ significanteffect_diff_valence_pe
 
 
 ## simple slope of sign pos PEs
-pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients are all positively signed, therefore we look for the maximum
+pe_coefficients$coef_pos[significanteffect_pos_pe]# coefficients are positively signed after feedback onset (negatively before), therefore we look for the maximum
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
 # maximum at samplepoint 258 (as for 2b)
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))*4-704
