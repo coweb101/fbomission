@@ -450,7 +450,7 @@ round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$
 
 ## get more info for later time windows
 
-late_valence_effects <- significanteffect_valence[significanteffect_valence > 126]
+late_valence_effects <- significanteffect_valence[significanteffect_valence > 175]
 
 pe_coefficients$coef_valence[late_valence_effects] # coefficients are mostly positvely, late ones negatively signed, therefore we look for the maximum at first
 
@@ -893,7 +893,7 @@ round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$
 which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[significanteffect_valence]))
 # minimum at samplepoint 319 (2b: 418)
 which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[significanteffect_valence]))*4-704
-#i.e. at 968 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at 572 ms relative to fb omission onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[significanteffect_valence]))
@@ -998,13 +998,13 @@ split(significanteffect_valence*4-704, cumsum(c(TRUE, diff(significanteffect_val
 
 ### get more info for early time windows
 
-early_valence_effects <- significanteffect_valence[significanteffect_valence < 126]
+early_valence_effects <- significanteffect_valence[significanteffect_valence < 176]
 
 pe_coefficients$coef_valence[early_valence_effects] # coefficients are all positively signed, therefore we look for the maximum
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))
-# maximum at samplepoint 99 (as for 2b)
+# maximum at samplepoint 135 (as for 2b)
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))*4-704
-#i.e. at -308 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at -164 ms relative to fb omission onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))
@@ -1014,7 +1014,7 @@ round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$
 
 ## get more info for later time windows
 
-late_valence_effects <- significanteffect_valence[significanteffect_valence > 126]
+late_valence_effects <- significanteffect_valence[significanteffect_valence > 176]
 
 pe_coefficients$coef_valence[late_valence_effects] # coefficients are mostly positvely, late ones negatively signed, therefore we look for the maximum at first
 
@@ -1208,9 +1208,9 @@ which(pe_coefficients$coef_interaction_pe_valence == min(pe_coefficients$coef_in
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_interaction_pe_valence == min(pe_coefficients$coef_interaction_pe_valence[significanteffect_interaction_late]))
-                      , c("coef_interaction_pe_valence", "se_interaction_pe_valence", "prob_interaction_pe_valence")],3)
+                      , c("coef_interaction_pe_valence", "se_interaction_pe_valence", "prob_interaction_pe_valence", "df_interaction_pe_valence","t_interaction_pe_valence", "effectsize_interaction")],3)
 round(pe_coefficients[which(pe_coefficients$coef_interaction_pe_valence == min(pe_coefficients$coef_interaction_pe_valence[significanteffect_interaction_late]))
-                      , c("coef_interaction_pe_valence", "se_interaction_pe_valence", "prob_interaction_pe_valence")],2)
+                      , c("coef_interaction_pe_valence", "se_interaction_pe_valence", "prob_interaction_pe_valence", "df_interaction_pe_valence","t_interaction_pe_valence", "effectsize_interaction")],2)
 
 ## simple slope of pos PEs around omission onset
 
