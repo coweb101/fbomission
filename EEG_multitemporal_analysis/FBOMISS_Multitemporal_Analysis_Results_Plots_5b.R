@@ -25,19 +25,21 @@ low_var_ids <- unique(pe_sd[sd_abs_pe < .05, id])
 print(paste0("excluded: ", paste(sort(low_var_ids), collapse = ", ")))
 data_grand_averages <- data_grand_averages[!(id %in% low_var_ids)]
 
+sampling_rate <- 250
+sampling_width <- 1000/sampling_rate
+
 segment_start <- 700
 segment_end <- 1500
-
 segment_length <- 550
 
 # axis labels
-axis_start <- 500
+axis_start <- -500
 axis_label_distance <- 500
 
 # axis ticks (in samplepoints)
-axis_start_sample_points <- 50
-axis_distance <- 125
-zero_line_sample_points <- 176
+axis_start_sample_points <- (axis_start+segment_start+sampling_width)/sampling_width
+axis_distance <- axis_label_distance/sampling_width
+zero_line_sample_points <- (segment_start+sampling_width)/sampling_width
 
 ylim <- c(4,-4) # limits of y-axis in all plots
 ylim_max <- ylim[1]
@@ -63,7 +65,7 @@ pe_coefficients$time <- 1:nrow(pe_coefficients)
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -105,7 +107,7 @@ non_convergence <- which(pe_coefficients$convergence_false > 0)
 singular <- which(pe_coefficients$singular > 0)
 
 ## Create plot
-plot(1, type="l", ylim=ylim, xlim=c(0,segment_length), axes=F, ylab = NA, xlab = "")#"time, ms") # empty plot
+plot(1, type="l", ylim=ylim, xlim=c(0,segment_length), axes=F, ylab = NA, xlab = "") # empty plot
 
 ## Plot significance indicators
 
@@ -171,10 +173,10 @@ polygon(x=as.numeric(c(pe_coefficients$time, rev(pe_coefficients$time))),
 lines(pe_coefficients$time, pe_coefficients$coef_valence, col=mid_color, lwd = 1, xpd=T)
 
 ## Annotations
-# Axes
 
-axis(1, at = seq(axis_start_sample_points,segment_length,axis_distance), labels = seq(-axis_start, segment_end, axis_label_distance), line=.7) # overwrite x-axis (caution!)
-text(x_lab_text,(ylim_max+.3*diff(c(ylim_min, ylim_max))), "time, ms", xpd=T, adj=-.5, cex=1.2)
+# Axes
+axis(1, at = seq(axis_start_sample_points,segment_length+1,axis_distance), labels = seq(axis_start, segment_end+sampling_width, axis_label_distance), line=.7) # overwrite x-axis (caution!)
+text(x_lab_text,(ylim[1] + .3*abs(diff(ylim))), "time, ms", xpd=T, adj=-.5, cex=1.2)
 axis(2, at = seq(ylim[2],ylim[1],y_axis_ticks_distance), labels = seq(ylim[2],ylim[1],y_axis_ticks_distance), las=2)
 
 # small intermediate axis ticks
@@ -198,7 +200,7 @@ aggr_data <- data
 data <- subset(data, omission==1) # only trials with omitted feedback
 
 # Define x-axis
-x <- seq(-segment_start, segment_end, length.out=segment_length)
+x <- seq(-segment_start, segment_end, by=sampling_width)
 # Define grand average function for the plot
 gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), colsterror=c(1,2),
                   xlab="", ylab=expression(mu*V), ...) {
@@ -255,10 +257,6 @@ data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "fir
 #data$pe_c_cat <- cut(data$pe_absolute, breaks = 4, include.lowest = TRUE, labels = FALSE) 
 
 electrodes <- c("F3", "Fz", "F4", "FC1", "FCz", "FC2")
-
-# data from which electrodes should be used?
-start <- -segment_start # first sample point relative to event?
-end <- segment_end # last sample point relative to event?
 
 line_variable <- data$valence # separate lines according to which variable?
 
@@ -412,7 +410,7 @@ data <- subset(data, omission==1) # subset to trials with omitted feedback
 
 ## define custom function
 
-x <- seq(-segment_start, segment_end, length.out=segment_length) # define x-axis
+x <- seq(-segment_start, segment_end, by=sampling_width) # define x-axis
 gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), colsterror=c(1,2),
                   xlab="", ylab=expression(mu*V), ...) {
   
@@ -469,8 +467,6 @@ data$uniquecond <- data$pe_c_cat # rename to uniquecond to recyclue previous scr
 
 ## choose electrodes and pipe general info
 electrodes <- c("F3", "Fz", "F4", "FC1", "FCz", "FC2")
-start <- -segment_start # first sample point relative to event?
-end <- segment_end # last sample point relative to event?
 
 ## aggregate data 
 
@@ -586,7 +582,7 @@ pe_coefficients$time <- 1:nrow(pe_coefficients)
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -628,7 +624,7 @@ non_convergence <- which(pe_coefficients$convergence_false > 0)
 singular <- which(pe_coefficients$singular > 0)
 
 ## Create plot
-plot(1, type="l", ylim=ylim, xlim=c(0,segment_length), axes=F, ylab = NA, xlab = "")#"time, ms") # empty plot
+plot(1, type="l", ylim=ylim, xlim=c(0,segment_length), axes=F, ylab = NA, xlab = "") # empty plot
 
 ## Plot significance indicators
 
@@ -694,9 +690,10 @@ polygon(x=as.numeric(c(pe_coefficients$time, rev(pe_coefficients$time))),
 lines(pe_coefficients$time, pe_coefficients$coef_valence, col=mid_color, lwd = 1, xpd=T)
 
 ## Annotations
+
 # Axes
-axis(1, at = seq(axis_start_sample_points,segment_length,axis_distance), labels = seq(-axis_start, segment_end, axis_label_distance), line=.7) # overwrite x-axis (caution!)
-text(x_lab_text,(ylim_max+.3*diff(c(ylim_min, ylim_max))), "time, ms", xpd=T, adj=-.5, cex=1.2)
+axis(1, at = seq(axis_start_sample_points,segment_length+1,axis_distance), labels = seq(axis_start, segment_end+sampling_width, axis_label_distance), line=.7) # overwrite x-axis (caution!)
+text(x_lab_text,(ylim[1] + .3*abs(diff(ylim))), "time, ms", xpd=T, adj=-.5, cex=1.2)
 axis(2, at = seq(ylim[2],ylim[1],y_axis_ticks_distance), labels = seq(ylim[2],ylim[1],y_axis_ticks_distance), las=2)
 
 # small intermediate axis ticks
@@ -717,7 +714,7 @@ aggr_data <- data
 
 
 # Define x-axis
-x <- seq(-segment_start, segment_end, length.out=segment_length)
+x <- seq(-segment_start, segment_end, by=sampling_width)
 
 
 # Define grand average function for the plot
@@ -786,14 +783,7 @@ data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "fir
 
 electrodes <- c( "CP1", "CP2", "P3", "Pz", "P4")
 
-# data from which electrodes should be used?
-start <- -segment_start # first sample point relative to event?
-end <- segment_end # last sample point relative to event?
-
 line_variable <- data$valence # separate lines according to which variable?
-#within_plot_variable <- data$valence # separate plots according to which variable?
-
-
 
 # name all variables for which separate plots should be created as specified
 # before (no change needed when the three variables in paste() were defined):
@@ -946,7 +936,7 @@ data <- subset(data, omission==1) # subset to trials with omitted feedback
 
 ## define custom function
 
-x <- seq(-segment_start, segment_end, length.out=segment_length) # define x-axis
+x <- seq(-segment_start, segment_end, by=sampling_width) # define x-axis
 gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), colsterror=c(1,2),
                   xlab="", ylab=expression(mu*V), ...) {
   
@@ -1002,8 +992,6 @@ data$uniquecond <- data$pe_c_cat # rename to uniquecond to recyclue previous scr
 
 ## choose electrodes and pipe general info
 electrodes <- c( "CP1", "CP2", "P3", "Pz", "P4")
-start <- -segment_start # first sample point relative to event?
-end <- segment_end # last sample point relative to event?
 
 ## aggregate data 
 
@@ -1137,19 +1125,21 @@ low_var_ids <- unique(pe_sd[sd_abs_pe < .05, id])
 print(paste0("excluded: ", paste(sort(low_var_ids), collapse = ", ")))
 data_grand_averages <- data_grand_averages[!(id %in% low_var_ids)]
 
+sampling_rate <- 250
+sampling_width <- 1000/sampling_rate
+
 segment_start <- 700
 segment_end <- 1500
-
 segment_length <- 550
 
 # axis labels
-axis_start <- 500
+axis_start <- -500
 axis_label_distance <- 500
 
 # axis ticks (in samplepoints)
-axis_start_sample_points <- 50
-axis_distance <- 125
-zero_line_sample_points <- 176
+axis_start_sample_points <- (axis_start+segment_start+sampling_width)/sampling_width
+axis_distance <- axis_label_distance/sampling_width
+zero_line_sample_points <- (segment_start+sampling_width)/sampling_width
 
 ylim <- c(4,-4) # limits of y-axis in all plots
 ylim_max <- ylim[1]
@@ -1175,7 +1165,7 @@ pe_coefficients$time <- 1:nrow(pe_coefficients)
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -1255,17 +1245,11 @@ polygon(x=as.numeric(c(pe_coefficients$time, rev(pe_coefficients$time))),
         y=as.numeric(c(pe_coefficients$coef_neg + pe_coefficients$se_neg, 
                        rev(pe_coefficients$coef_neg - pe_coefficients$se_neg))), col=yarrr::transparent("green3", trans.val = .7),xpd=T, border=NA)
 
-
-# polygon(x=as.numeric(c(pe_coefficients$time, rev(pe_coefficients$time))),
-#         y=as.numeric(c(pe_coefficients$coeff_diff + pe_coefficients$se_diff, 
-#                        rev(pe_coefficients$coeff_diff - pe_coefficients$se_diff))), col=yarrr::transparent("cyan1", trans.val = .7),xpd=T, border=NA)
-
 ## Annotations
 
 # Axes
-axis(1, at = seq(axis_start_sample_points,segment_length,axis_distance), labels = seq(-axis_start, segment_end, axis_label_distance), line=.7) # overwrite x-axis (caution!)
-text(x_lab_text,(ylim_max+.3*diff(c(ylim_min, ylim_max))), "time, ms", xpd=T, adj=-.5, cex=1.2)
-#axis(1, at = seq(axis_start_sample_points,segment_length,axis_distance), labels = seq(-axis_start, segment_end, axis_label_distance)) # overwrite x-axis (caution!)
+axis(1, at = seq(axis_start_sample_points,segment_length+1,axis_distance), labels = seq(axis_start, segment_end+sampling_width, axis_label_distance), line=.7) # overwrite x-axis (caution!)
+text(x_lab_text,(ylim[1] + .3*abs(diff(ylim))), "time, ms", xpd=T, adj=-.5, cex=1.2)
 axis(2, at = seq(ylim[2],ylim[1],y_axis_ticks_distance), labels = seq(ylim[2],ylim[1],y_axis_ticks_distance), las=2)
 
 # small intermediate axis ticks
@@ -1290,7 +1274,7 @@ aggr_data <- data
 
 
 # Define x-axis
-x <- seq(-segment_start, segment_end, length.out=segment_length)
+x <- seq(-segment_start, segment_end, by=sampling_width)
 
 
 # Define grand average function for the plot
@@ -1359,10 +1343,6 @@ data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "fir
 #### Insert dataspecific info
 
 electrodes <- c("F3", "Fz", "F4", "FC1", "FCz", "FC2")
-
-# data from which electrodes should be used?
-start <- -segment_start # first sample point relative to event?
-end <- segment_end # last sample point relative to event?
 
 line_variable <- data$pe_c_cat # separate lines according to which variable?
 within_plot_variable <- data$valence # separate plots within one png according to which variable?
@@ -1518,7 +1498,7 @@ pe_coefficients <- pe_coefficients_centroparietal
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -1598,18 +1578,11 @@ polygon(x=as.numeric(c(pe_coefficients$time, rev(pe_coefficients$time))),
         y=as.numeric(c(pe_coefficients$coef_neg + pe_coefficients$se_neg, 
                        rev(pe_coefficients$coef_neg - pe_coefficients$se_neg))), col=yarrr::transparent("green3", trans.val = .7),xpd=T, border=NA)
 
-
-# polygon(x=as.numeric(c(pe_coefficients$time, rev(pe_coefficients$time))),
-#         y=as.numeric(c(pe_coefficients$coeff_diff + pe_coefficients$se_diff, 
-#                        rev(pe_coefficients$coeff_diff - pe_coefficients$se_diff))), col=yarrr::transparent("cyan1", trans.val = .7),xpd=T, border=NA)
-
 ## Annotations
 
 # Axes
-#axis(1, at = seq(axis_start_sample_points,segment_length,axis_distance), labels = seq(-axis_start, segment_end, axis_label_distance)) # overwrite x-axis (caution!)
-axis(1, at = seq(axis_start_sample_points,segment_length,axis_distance), labels = seq(-axis_start, segment_end, axis_label_distance), line=.7) # overwrite x-axis (caution!)
-text(x_lab_text,(ylim_max+.3*diff(c(ylim_min, ylim_max))), "time, ms", xpd=T, adj=-.5, cex=1.2)
-
+axis(1, at = seq(axis_start_sample_points,segment_length+1,axis_distance), labels = seq(axis_start, segment_end+sampling_width, axis_label_distance), line=.7) # overwrite x-axis (caution!)
+text(x_lab_text,(ylim[1] + .3*abs(diff(ylim))), "time, ms", xpd=T, adj=-.5, cex=1.2)
 axis(2, at = seq(ylim[2],ylim[1],y_axis_ticks_distance), labels = seq(ylim[2],ylim[1],y_axis_ticks_distance), las=2)
 
 # small intermediate axis ticks
@@ -1644,11 +1617,6 @@ data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "fir
 #### Insert dataspecific info
 
 electrodes <- c( "CP1", "CP2", "P3", "Pz", "P4")
-
-# data from which electrodes should be used?
-start <- -segment_start # first sample point relative to event?
-end <- segment_end # last sample point relative to event?
-
 
 line_variable <- data$pe_c_cat # separate lines according to which variable?
 within_plot_variable <- data$valence # separate plots within one png according to which variable?
@@ -1808,19 +1776,21 @@ low_var_ids <- unique(pe_sd[sd_abs_pe < .05, id])
 print(paste0("excluded: ", paste(sort(low_var_ids), collapse = ", ")))
 data_grand_averages <- data_grand_averages[!(id %in% low_var_ids)]
 
+sampling_rate <- 250
+sampling_width <- 1000/sampling_rate
+
 segment_start <- 700
 segment_end <- 1500
-
 segment_length <- 550
 
 # axis labels
-axis_start <- 500
+axis_start <- -500
 axis_label_distance <- 500
 
 # axis ticks (in samplepoints)
-axis_start_sample_points <- 50
-axis_distance <- 125
-zero_line_sample_points <- 176
+axis_start_sample_points <- (axis_start+segment_start+sampling_width)/sampling_width
+axis_distance <- axis_label_distance/sampling_width
+zero_line_sample_points <- (segment_start+sampling_width)/sampling_width
 
 ylim <- c(4,-4) # limits of y-axis in effect plots
 y_axis_ticks_distance <- abs(diff(ylim)/4) # in both types of plots
@@ -1848,7 +1818,7 @@ pe_coefficients$time <- 1:nrow(pe_coefficients)
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -1890,7 +1860,7 @@ non_convergence <- which(pe_coefficients$convergence_false > 0)
 singular <- which(pe_coefficients$singular > 0)
 
 ## Create plot
-plot(1, type="l", ylim=ylim, xlim=c(0,segment_length), axes=F, ylab = NA, xlab = "")#"time, ms") # empty plot
+plot(1, type="l", ylim=ylim, xlim=c(0,segment_length), axes=F, ylab = NA, xlab = "") # empty plot
 
 ## Plot significance indicators
 
@@ -1957,10 +1927,10 @@ lines(pe_coefficients$time, pe_coefficients$coef_valence, col=mid_color, lwd = 1
 
 
 ## Annotations
-# Axes
 
-axis(1, at = seq(axis_start_sample_points,segment_length,axis_distance), labels = seq(-axis_start, segment_end, axis_label_distance), line=.7) # overwrite x-axis (caution!)
-text(x_lab_text,(ylim_max+.3*diff(c(ylim_min, ylim_max))), "time, ms", xpd=T, adj=-.5, cex=1.2)
+# Axes
+axis(1, at = seq(axis_start_sample_points,segment_length+1,axis_distance), labels = seq(axis_start, segment_end+sampling_width, axis_label_distance), line=.7) # overwrite x-axis (caution!)
+text(x_lab_text,(ylim[1] + .3*abs(diff(ylim))), "time, ms", xpd=T, adj=-.5, cex=1.2)
 axis(2, at = seq(ylim[2],ylim[1],y_axis_ticks_distance), labels = seq(ylim[2],ylim[1],y_axis_ticks_distance), las=2)
 
 # small intermediate axis ticks
@@ -1984,7 +1954,7 @@ aggr_data <- data
 data <- subset(data, omission==-1) # only trials with displayed feedback
 
 # Define x-axis
-x <- seq(-segment_start, segment_end, length.out=segment_length)
+x <- seq(-segment_start, segment_end, by=sampling_width)
 # Define grand average function for the plot
 gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), colsterror=c(1,2),
                   xlab="", ylab=expression(mu*V), ...) {
@@ -2040,10 +2010,6 @@ data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "fir
                              sum(!is.na(pe_absolute))), by = .(id, valence)]
 
 electrodes <- c("F3", "Fz", "F4", "FC1", "FCz", "FC2")
-
-# data from which electrodes should be used?
-start <- -segment_start # first sample point relative to event?
-end <- segment_end # last sample point relative to event?
 
 line_variable <- data$valence # separate lines according to which variable?
 
@@ -2197,7 +2163,7 @@ data <- subset(data, omission==-1) # subset to trials with omitted feedback
 
 ## define custom function
 
-x <- seq(-segment_start, segment_end, length.out=segment_length) # define x-axis
+x <- seq(-segment_start, segment_end, by=sampling_width)# define x-axis
 gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), colsterror=c(1,2),
                   xlab="", ylab=expression(mu*V), ...) {
   
@@ -2255,8 +2221,6 @@ data$uniquecond <- data$pe_c_cat # rename to uniquecond to recyclue previous scr
 
 ## choose electrodes and pipe general info
 electrodes <- c("F3", "Fz", "F4", "FC1", "FCz", "FC2")
-start <- -segment_start # first sample point relative to event?
-end <- segment_end # last sample point relative to event?
 
 ## aggregate data 
 
@@ -2372,7 +2336,7 @@ pe_coefficients$time <- 1:nrow(pe_coefficients)
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -2414,7 +2378,7 @@ non_convergence <- which(pe_coefficients$convergence_false > 0)
 singular <- which(pe_coefficients$singular > 0)
 
 ## Create plot
-plot(1, type="l", ylim=ylim, xlim=c(0,segment_length), axes=F, ylab = NA, xlab = "")#"time, ms") # empty plot
+plot(1, type="l", ylim=ylim, xlim=c(0,segment_length), axes=F, ylab = NA, xlab = "") # empty plot
 
 ## Plot significance indicators
 
@@ -2480,9 +2444,10 @@ polygon(x=as.numeric(c(pe_coefficients$time, rev(pe_coefficients$time))),
 lines(pe_coefficients$time, pe_coefficients$coef_valence, col=mid_color, lwd = 1, xpd=T)
 
 ## Annotations
+
 # Axes
-axis(1, at = seq(axis_start_sample_points,segment_length,axis_distance), labels = seq(-axis_start, segment_end, axis_label_distance), line=.7) # overwrite x-axis (caution!)
-text(x_lab_text,(ylim_max+.3*diff(c(ylim_min, ylim_max))), "time, ms", xpd=T, adj=-.5, cex=1.2)
+axis(1, at = seq(axis_start_sample_points,segment_length+1,axis_distance), labels = seq(axis_start, segment_end+sampling_width, axis_label_distance), line=.7) # overwrite x-axis (caution!)
+text(x_lab_text,(ylim[1] + .3*abs(diff(ylim))), "time, ms", xpd=T, adj=-.5, cex=1.2)
 axis(2, at = seq(ylim[2],ylim[1],y_axis_ticks_distance), labels = seq(ylim[2],ylim[1],y_axis_ticks_distance), las=2)
 
 # small intermediate axis ticks
@@ -2503,7 +2468,7 @@ aggr_data <- data
 
 
 # Define x-axis
-x <- seq(-segment_start, segment_end, length.out=segment_length)
+x <- seq(-segment_start, segment_end, by=sampling_width)
 
 
 # Define grand average function for the plot
@@ -2571,14 +2536,7 @@ data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "fir
 
 electrodes <- c( "CP1", "CP2", "P3", "Pz", "P4")
 
-# data from which electrodes should be used?
-start <- -segment_start # first sample point relative to event?
-end <- segment_end # last sample point relative to event?
-
 line_variable <- data$valence # separate lines according to which variable?
-#within_plot_variable <- data$valence # separate plots according to which variable?
-
-
 
 # name all variables for which separate plots should be created as specified
 # before (no change needed when the three variables in paste() were defined):
@@ -2731,7 +2689,7 @@ data <- subset(data, omission==-1) # subset to trials with omitted feedback
 
 ## define custom function
 
-x <- seq(-segment_start, segment_end, length.out=segment_length) # define x-axis
+x <- seq(-segment_start, segment_end, by=sampling_width)# define x-axis
 gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), colsterror=c(1,2),
                   xlab="", ylab=expression(mu*V), ...) {
   
@@ -2788,8 +2746,6 @@ data$uniquecond <- data$pe_c_cat # rename to uniquecond to recyclue previous scr
 
 ## choose electrodes and pipe general info
 electrodes <- c( "CP1", "CP2", "P3", "Pz", "P4")
-start <- -segment_start # first sample point relative to event?
-end <- segment_end # last sample point relative to event?
 
 ## aggregate data 
 
@@ -2921,19 +2877,21 @@ low_var_ids <- unique(pe_sd[sd_abs_pe < .05, id])
 print(paste0("excluded: ", paste(sort(low_var_ids), collapse = ", ")))
 data_grand_averages <- data_grand_averages[!(id %in% low_var_ids)]
 
+sampling_rate <- 250
+sampling_width <- 1000/sampling_rate
+
 segment_start <- 700
 segment_end <- 1500
-
 segment_length <- 550
 
 # axis labels
-axis_start <- 500
+axis_start <- -500
 axis_label_distance <- 500
 
 # axis ticks (in samplepoints)
-axis_start_sample_points <- 50
-axis_distance <- 125
-zero_line_sample_points <- 176
+axis_start_sample_points <- (axis_start+segment_start+sampling_width)/sampling_width
+axis_distance <- axis_label_distance/sampling_width
+zero_line_sample_points <- (segment_start+sampling_width)/sampling_width
 
 ylim <- c(4,-4) # limits of y-axis in all plots
 ylim_max <- 10 # ylim[1]
@@ -2959,7 +2917,7 @@ pe_coefficients$time <- 1:nrow(pe_coefficients)
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -3039,17 +2997,11 @@ polygon(x=as.numeric(c(pe_coefficients$time, rev(pe_coefficients$time))),
         y=as.numeric(c(pe_coefficients$coef_neg + pe_coefficients$se_neg, 
                        rev(pe_coefficients$coef_neg - pe_coefficients$se_neg))), col=yarrr::transparent("green3", trans.val = .7),xpd=T, border=NA)
 
-
-# polygon(x=as.numeric(c(pe_coefficients$time, rev(pe_coefficients$time))),
-#         y=as.numeric(c(pe_coefficients$coeff_diff + pe_coefficients$se_diff, 
-#                        rev(pe_coefficients$coeff_diff - pe_coefficients$se_diff))), col=yarrr::transparent("cyan1", trans.val = .7),xpd=T, border=NA)
-
 ## Annotations
 
 # Axes
-axis(1, at = seq(axis_start_sample_points,segment_length,axis_distance), labels = seq(-axis_start, segment_end, axis_label_distance), line=.7) # overwrite x-axis (caution!)
-text(x_lab_text,(ylim_max+.3*diff(c(ylim_min, ylim_max))), "time, ms", xpd=T, adj=-.5, cex=1.2)
-#axis(1, at = seq(axis_start_sample_points,segment_length,axis_distance), labels = seq(-axis_start, segment_end, axis_label_distance)) # overwrite x-axis (caution!)
+axis(1, at = seq(axis_start_sample_points,segment_length+1,axis_distance), labels = seq(axis_start, segment_end+sampling_width, axis_label_distance), line=.7) # overwrite x-axis (caution!)
+text(x_lab_text,(ylim[1] + .3*abs(diff(ylim))), "time, ms", xpd=T, adj=-.5, cex=1.2)
 axis(2, at = seq(ylim[2],ylim[1],y_axis_ticks_distance), labels = seq(ylim[2],ylim[1],y_axis_ticks_distance), las=2)
 
 # small intermediate axis ticks
@@ -3074,7 +3026,7 @@ aggr_data <- data
 
 
 # Define x-axis
-x <- seq(-segment_start, segment_end, length.out=segment_length)
+x <- seq(-segment_start, segment_end, by=sampling_width)
 
 
 # Define grand average function for the plot
@@ -3143,10 +3095,6 @@ data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "fir
 #### Insert dataspecific info
 
 electrodes <- c("F3", "Fz", "F4", "FC1", "FCz", "FC2")
-
-# data from which electrodes should be used?
-start <- -segment_start # first sample point relative to event?
-end <- segment_end # last sample point relative to event?
 
 line_variable <- data$pe_c_cat # separate lines according to which variable?
 within_plot_variable <- data$valence # separate plots within one png according to which variable?
@@ -3302,7 +3250,7 @@ pe_coefficients <- pe_coefficients_centroparietal
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -3382,18 +3330,11 @@ polygon(x=as.numeric(c(pe_coefficients$time, rev(pe_coefficients$time))),
         y=as.numeric(c(pe_coefficients$coef_neg + pe_coefficients$se_neg, 
                        rev(pe_coefficients$coef_neg - pe_coefficients$se_neg))), col=yarrr::transparent("green3", trans.val = .7),xpd=T, border=NA)
 
-
-# polygon(x=as.numeric(c(pe_coefficients$time, rev(pe_coefficients$time))),
-#         y=as.numeric(c(pe_coefficients$coeff_diff + pe_coefficients$se_diff, 
-#                        rev(pe_coefficients$coeff_diff - pe_coefficients$se_diff))), col=yarrr::transparent("cyan1", trans.val = .7),xpd=T, border=NA)
-
 ## Annotations
 
 # Axes
-#axis(1, at = seq(axis_start_sample_points,segment_length,axis_distance), labels = seq(-axis_start, segment_end, axis_label_distance)) # overwrite x-axis (caution!)
-axis(1, at = seq(axis_start_sample_points,segment_length,axis_distance), labels = seq(-axis_start, segment_end, axis_label_distance), line=.7) # overwrite x-axis (caution!)
-text(x_lab_text,(ylim_max+.3*diff(c(ylim_min, ylim_max))), "time, ms", xpd=T, adj=-.5, cex=1.2)
-
+axis(1, at = seq(axis_start_sample_points,segment_length+1,axis_distance), labels = seq(axis_start, segment_end+sampling_width, axis_label_distance), line=.7) # overwrite x-axis (caution!)
+text(x_lab_text,(ylim[1] + .3*abs(diff(ylim))), "time, ms", xpd=T, adj=-.5, cex=1.2)
 axis(2, at = seq(ylim[2],ylim[1],y_axis_ticks_distance), labels = seq(ylim[2],ylim[1],y_axis_ticks_distance), las=2)
 
 # small intermediate axis ticks
@@ -3429,11 +3370,6 @@ data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "fir
 #### Insert dataspecific info
 
 electrodes <- c( "CP1", "CP2", "P3", "Pz", "P4")
-
-# data from which electrodes should be used?
-start <- -segment_start # first sample point relative to event?
-end <- segment_end # last sample point relative to event?
-
 
 line_variable <- data$pe_c_cat # separate lines according to which variable?
 within_plot_variable <- data$valence # separate plots within one png according to which variable?
@@ -3616,8 +3552,8 @@ legend(5,11, c("No Convergence", "Singular-fit"),
 
 # Legend for PE GAs
 text(5, 7, expression(bold("ERPs by Absolute PE")), pos=4, xpd=T)
-legend(5, 6.5, c("[      0, <0.25 ]", "[ 0.25, <0.50 ]", "[ 0.50, <0.75 ]", 
-                 "[ 0.75,   1      ]"), col=viridis::viridis_pal()(ncol(short_pos)), lty=1, lwd=6, #pch=19, 
+legend(5, 6.5, c("Low |PE|", "Medium |PE|", "High |PE|"),
+       col=viridis::viridis_pal()(ncol(short_pos)), lty=1, lwd=6, #pch=19, 
        #title=expression(bold("Absolute PE")), 
        bty="n", xpd=T, x.intersp=.7)
 
