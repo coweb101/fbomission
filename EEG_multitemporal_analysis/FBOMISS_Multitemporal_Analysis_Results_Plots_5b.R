@@ -134,14 +134,14 @@ for (i in 1:length(effects)){
 
 ## Add indicators for model convergence and singular fit
 
-# add yellow circles for singular fit models
+# add coral circles for singular fit models
 if (length(singular)>0){
   for (i in 1:length(singular)){
     points(singular[i], (ylim[1]-(.0375*abs(diff(ylim)))), pch=19, col="coral", xpd=T)
   }
 }
 
-# add red circles for non-converged model (overwrite singular fit if it is the same)
+# add golden circles for non-converged model 
 if (length(non_convergence)>0){
   for (i in 1:length(non_convergence)){
     points(non_convergence[i], ylim[1], pch=19, col="darkgoldenrod1", xpd=T)#col=10)
@@ -650,14 +650,14 @@ for (i in 1:length(effects)){
 
 ## Add indicators for model convergence and singular fit
 
-# add yellow circles for singular fit models
+# add coral circles for singular fit models
 if (length(singular)>0){
   for (i in 1:length(singular)){
     points(singular[i], (ylim[1]-(.0375*abs(diff(ylim)))), pch=19, col="coral", xpd=T)
   }
 }
 
-# add red circles for non-converged model (overwrite singular fit if it is the same)
+# add golden circles for non-converged model 
 if (length(non_convergence)>0){
   for (i in 1:length(non_convergence)){
     points(non_convergence[i], ylim[1], pch=19, col="darkgoldenrod1", xpd=T)#col=10)
@@ -1597,7 +1597,7 @@ abline(v=zero_line_sample_points, h=0, lty=3) # dashed zerolines at feedback ons
 
 # read data if it is not in the environment
 data <- aggr_data
-data <- subset(data, omission==1) # only trials with presented feedback
+data <- subset(data, omission==1) # only trials with omitted feedback
 
 ##### Categorize continuous pe variable for separate lines 
 
@@ -1887,14 +1887,14 @@ for (i in 1:length(effects)){
 
 ## Add indicators for model convergence and singular fit
 
-# add yellow circles for singular fit models
+# add coral circles for singular fit models
 if (length(singular)>0){
   for (i in 1:length(singular)){
     points(singular[i], (ylim[1]-(.0375*abs(diff(ylim)))), pch=19, col="coral", xpd=T)
   }
 }
 
-# add red circles for non-converged model (overwrite singular fit if it is the same)
+# add golden circles for non-converged model 
 if (length(non_convergence)>0){
   for (i in 1:length(non_convergence)){
     points(non_convergence[i], ylim[1], pch=19, col="darkgoldenrod1", xpd=T)#col=10)
@@ -2159,7 +2159,7 @@ title(ylab = expression("amplitude, "~mu*V), line=1.2)
 ## get data
 data <- aggr_data 
 data <- data.table::setDT(data) # convert to data.table
-data <- subset(data, omission==-1) # subset to trials with omitted feedback
+data <- subset(data, omission==-1) # subset to trials with displayed feedback
 
 ## define custom function
 
@@ -2404,14 +2404,14 @@ for (i in 1:length(effects)){
 
 ## Add indicators for model convergence and singular fit
 
-# add yellow circles for singular fit models
+# add coral circles for singular fit models
 if (length(singular)>0){
   for (i in 1:length(singular)){
     points(singular[i], (ylim[1]-(.0375*abs(diff(ylim)))), pch=19, col="coral", xpd=T)
   }
 }
 
-# add red circles for non-converged model (overwrite singular fit if it is the same)
+# add golden circles for non-converged model
 if (length(non_convergence)>0){
   for (i in 1:length(non_convergence)){
     points(non_convergence[i], ylim[1], pch=19, col="darkgoldenrod1", xpd=T)#col=10)
@@ -2457,7 +2457,7 @@ axis(2, at=seq(ylim[2],ylim[1],(y_axis_ticks_distance/2)), pos=NA, labels=NA, tc
 abline(v=zero_line_sample_points, h=0, lty=3) # dashed zerolines at feedback onset
 
 
-#### Plot 5 (middleleft): Grand Averages Separately for Valence ####
+#### Plot 5 (middleright): Grand Averages Separately for Valence ####
 
 # get data
 data <- aggr_data 
@@ -2516,7 +2516,7 @@ gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), c
 #### Prepare Grand Averages for Frontocentral Electrodes
 
 #data <- aggr_data
-data <- subset(data, omission==-1) # only trials with omitted feedback
+data <- subset(data, omission==-1) # only trials with displayed feedback
 
 ##### Categorize continuous pe variable for separate lines
 
@@ -2679,13 +2679,13 @@ gravg(x, linecat= c(short_pos[,1:ncol(short_pos)]),
 
 
 
-#### Plot 6 (bottomleft): Grand Averages Separately for PEs ####
+#### Plot 6 (bottomright): Grand Averages Separately for PEs ####
 
 ## get data
 data <- aggr_data
 data <- data.table::setDT(data) # convert to data.table
 aggr_data <- data
-data <- subset(data, omission==-1) # subset to trials with omitted feedback
+data <- subset(data, omission==-1) # subset to trials with displayed feedback
 
 ## define custom function
 
@@ -3022,7 +3022,7 @@ data <- data_grand_averages
 data <- data.table::setDT(data) # convert to data.table
 
 aggr_data <- data
-#### Plot 2 & 3 (left middle and bottom): Grand Averages | Omitted | PE | Open plot & set global parameters ####
+#### Plot 2 & 3 (left middle and bottom): Grand Averages | Displayed | PE | Open plot & set global parameters ####
 
 
 # Define x-axis
@@ -3075,7 +3075,7 @@ gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), c
 ## Prepare grand averages
 
 data <- aggr_data
-data <- subset(data, omission==-1) # only trials with omitted feedback
+data <- subset(data, omission==-1) # only trials with displayed feedback
 
 ##### Categorize continuous pe variable for separate lines
 
