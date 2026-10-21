@@ -160,7 +160,7 @@ split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significantef
 
 
 ## simple slope of sign pos PEs
-pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients after feedback onset are all positively signed, therefore we look for the maximum
+pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients are all positively signed, therefore we look for the maximum
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
 # maximum at samplepoint 258
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))*4-704
@@ -176,7 +176,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == max(pe_coefficients$coef
 
 significanteffect_interaction_post <- significanteffect_interaction[significanteffect_interaction>50] # exclude those in the choice review period
 
-pe_coefficients$coef_neg[significanteffect_interaction_post] # coefficients after feedback onset are all positively signed, therefore we look for the maximum
+pe_coefficients$coef_neg[significanteffect_interaction_post] # coefficients are all positively signed, therefore we look for the maximum
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_interaction_post]))
 # maximum at samplepoint 278
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_interaction_post]))*4-704
@@ -190,7 +190,7 @@ round(pe_coefficients[which(pe_coefficients$coef_neg == max(pe_coefficients$coef
 
 ## differencetest
 
-pe_coefficients$coeff_diff[significanteffect_interaction_post] # coefficients after feedback onset are all negatively signed, therefore we look for the minimum
+pe_coefficients$coeff_diff[significanteffect_interaction_post] # coefficients are all negatively signed, therefore we look for the minimum
 which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post]))
 # minimum at samplepoint 258
 which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post]))*4-704
@@ -202,6 +202,7 @@ round(pe_coefficients[which(pe_coefficients$coeff_diff == min(pe_coefficients$co
 round(pe_coefficients[which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post]))
 , c("coeff_diff", "se_diff", "pvalue_diff")],2)
 
+max(pe_coefficients$pvalue_diff[significanteffect_diff_valence_pe[significanteffect_diff_valence_pe > 175]])
 
 ## feedback preceding period
 
@@ -381,6 +382,18 @@ round(pe_coefficients[which(pe_coefficients$coef_neg == max(pe_coefficients$coef
 , c("coef_neg", "se_neg", "pvalue_neg")],2)
 
 
+# later interaction
+significanteffect_interaction_post <- significanteffect_interaction[significanteffect_interaction>50]
+
+## differencetest
+which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post]))
+# minimum at samplepoint 264, i.e. at 352 ms relative to fb onset (samplepoint*4-704)
+round(pe_coefficients[which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post])), c("coeff_diff", "se_diff", "pvalue_diff")],3)
+
+## largest (non-significant) effect of neg PEs within the interaction after onset
+which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_interaction_post]))
+# maximum at samplepoint 218, i.e. at 168 ms relative to fb onset (samplepoint*4-704)
+round(pe_coefficients[which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_interaction_post])), c("coef_neg", "se_neg", "pvalue_neg")],3)
 
 
 #### Omission Frontocentral Cluster ####
@@ -572,6 +585,15 @@ round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[significanteffect_valence]))
 , c("coef_valence", "se_valence", "df_valence", "t_valence" , "prob_valence", "effectsize_valence")],2)
 
+# later valence effects
+
+late_valence_effects <- significanteffect_valence[significanteffect_valence > 301]
+which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects]))
+# maximum at samplepoint 420, i.e. at 976 ms relative to fb omission onset (samplepoint*4-704)
+round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects])), c("coef_valence", "se_valence", "df_valence", "t_valence", "prob_valence", "effectsize_valence")],3)
+round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects])), c("coef_valence", "se_valence", "df_valence", "t_valence", "prob_valence", "effectsize_valence")],2)
+
+
 #### Interactions ####
 
 significanteffect_interaction
@@ -751,7 +773,7 @@ significanteffect_diff_valence_pe
 
 
 ## simple slope of sign pos PEs
-pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients after feedback onset are all positively signed, therefore we look for the maximum
+pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients are all positively signed, therefore we look for the maximum
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
 # maximum at samplepoint 258 (as for 2b)
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))*4-704
@@ -796,7 +818,7 @@ round(pe_coefficients[which(pe_coefficients$coef_neg == min(pe_coefficients$coef
 
 ## differencetest
 
-pe_coefficients$coeff_diff[significanteffect_interaction_post] # coefficients after feedback onset are all negatively signed, therefore we look for the minimum
+pe_coefficients$coeff_diff[significanteffect_interaction_post] # coefficients are all negatively signed, therefore we look for the minimum
 which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post]))
 # minimum at samplepoint 258 (as for 2b)
 which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post]))*4-704
@@ -924,7 +946,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef
 # look for later max
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))*4-704
-# maximum at samplepoint 265 (2b: 264), i.e. at 352 ms relative to fb omission onset (samplepoint*4-704)
+# maximum at samplepoint 265 (2b: 264), i.e. at 356 ms relative to fb omission onset (samplepoint*4-704)
 
 round(pe_coefficients[which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
                       , c("coef_pos", "se_pos", "pvalue_pos")],3)
@@ -1014,7 +1036,7 @@ round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$
 
 ## get more info for later time windows
 
-late_valence_effects <- significanteffect_valence[significanteffect_valence > 176]
+late_valence_effects <- significanteffect_valence[significanteffect_valence > 175]
 
 pe_coefficients$coef_valence[late_valence_effects] # coefficients are mostly positvely, late ones negatively signed, therefore we look for the maximum at first
 
