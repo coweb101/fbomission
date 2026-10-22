@@ -50,4 +50,4 @@ install.packages(c("data.table", "plyr", "reshape2", "lme4", "lmerTest", "emmean
 
 ## Note
 
-The model comparison and the selection of the two models are described in the README of `PE_modelling` (see `comp_model_fit_export/modelfits.csv`).
+The model comparison is described in the manuscript (Section 2.3 and Supplementary Materials S1) and in the comments of PE_modelling/FBOmiss_PE_modelling_pipeline.m; the fit indices of all models are in PE_modelling/comp_model_fit_export/modelfits.csv.
