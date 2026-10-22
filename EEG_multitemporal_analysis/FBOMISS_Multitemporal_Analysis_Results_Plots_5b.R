@@ -200,7 +200,7 @@ aggr_data <- data
 data <- subset(data, omission==1) # only trials with omitted feedback
 
 # Define x-axis
-x <- seq(-segment_start, segment_end, by=sampling_width)
+x <- seq(-segment_start, by = sampling_width, length.out = segment_length)
 # Define grand average function for the plot
 gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), colsterror=c(1,2),
                   xlab="", ylab=expression(mu*V), ...) {
@@ -410,7 +410,7 @@ data <- subset(data, omission==1) # subset to trials with omitted feedback
 
 ## define custom function
 
-x <- seq(-segment_start, segment_end, by=sampling_width) # define x-axis
+x <- seq(-segment_start, by = sampling_width, length.out = segment_length) # define x-axis
 gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), colsterror=c(1,2),
                   xlab="", ylab=expression(mu*V), ...) {
   
@@ -703,18 +703,17 @@ axis(2, at=seq(ylim[2],ylim[1],(y_axis_ticks_distance/2)), pos=NA, labels=NA, tc
 abline(v=zero_line_sample_points, h=0, lty=3) # dashed zerolines at feedback onset
 
 
-#### Plot 5 (middleleft): Grand Averages Separately for Valence ####
+#### Plot 5 (middleright): Grand Averages Separately for Valence ####
 
 # get data
 data <- aggr_data 
 data <- data.table::setDT(data) # convert to data.table
 aggr_data <- data
 
-#### Plot 2 & 3 (left middle and bottom): Grand Averages | Omitted | PE | Open plot & set global parameters 
 
 
 # Define x-axis
-x <- seq(-segment_start, segment_end, by=sampling_width)
+x <- seq(-segment_start, by = sampling_width, length.out = segment_length)
 
 
 # Define grand average function for the plot
@@ -926,7 +925,7 @@ gravg(x, linecat= c(short_pos[,1:ncol(short_pos)]),
 
 
 
-#### Plot 6 (bottomleft): Grand Averages Separately for PEs ####
+#### Plot 6 (bottomright): Grand Averages Separately for PEs ####
 
 ## get data
 data <- aggr_data
@@ -936,7 +935,7 @@ data <- subset(data, omission==1) # subset to trials with omitted feedback
 
 ## define custom function
 
-x <- seq(-segment_start, segment_end, by=sampling_width) # define x-axis
+x <- seq(-segment_start, by = sampling_width, length.out = segment_length) # define x-axis
 gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), colsterror=c(1,2),
                   xlab="", ylab=expression(mu*V), ...) {
   
@@ -1274,7 +1273,7 @@ aggr_data <- data
 
 
 # Define x-axis
-x <- seq(-segment_start, segment_end, by=sampling_width)
+x <- seq(-segment_start, by = sampling_width, length.out = segment_length)
 
 
 # Define grand average function for the plot
@@ -1954,7 +1953,7 @@ aggr_data <- data
 data <- subset(data, omission==-1) # only trials with displayed feedback
 
 # Define x-axis
-x <- seq(-segment_start, segment_end, by=sampling_width)
+x <- seq(-segment_start, by = sampling_width, length.out = segment_length)
 # Define grand average function for the plot
 gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), colsterror=c(1,2),
                   xlab="", ylab=expression(mu*V), ...) {
@@ -2163,7 +2162,7 @@ data <- subset(data, omission==-1) # subset to trials with displayed feedback
 
 ## define custom function
 
-x <- seq(-segment_start, segment_end, by=sampling_width)# define x-axis
+x <- seq(-segment_start, by = sampling_width, length.out = segment_length)# define x-axis
 gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), colsterror=c(1,2),
                   xlab="", ylab=expression(mu*V), ...) {
   
@@ -2464,11 +2463,10 @@ data <- aggr_data
 data <- data.table::setDT(data) # convert to data.table
 aggr_data <- data
 
-#### Plot 2 & 3 (left middle and bottom): Grand Averages | Omitted | PE | Open plot & set global parameters 
 
 
 # Define x-axis
-x <- seq(-segment_start, segment_end, by=sampling_width)
+x <- seq(-segment_start, by = sampling_width, length.out = segment_length)
 
 
 # Define grand average function for the plot
@@ -2689,7 +2687,7 @@ data <- subset(data, omission==-1) # subset to trials with displayed feedback
 
 ## define custom function
 
-x <- seq(-segment_start, segment_end, by=sampling_width)# define x-axis
+x <- seq(-segment_start, by = sampling_width, length.out = segment_length)# define x-axis
 gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), colsterror=c(1,2),
                   xlab="", ylab=expression(mu*V), ...) {
   
@@ -3026,7 +3024,7 @@ aggr_data <- data
 
 
 # Define x-axis
-x <- seq(-segment_start, segment_end, by=sampling_width)
+x <- seq(-segment_start, by = sampling_width, length.out = segment_length)
 
 
 # Define grand average function for the plot
