@@ -22,4 +22,4 @@ All analyses based on PEs are run for the two best models according to BIC. File
 
 **Data availability**
 
-All data files in this repository contain only anonymous participant IDs (`subj_01` to `subj_48`). The raw logfiles are not public; the code that reads them is included for transparency. The preprocessed EEG data (about 1.7 GB) are available at https://osf.io/fzcqj/.
+All data files in this repository contain only anonymous participant IDs (`subj_01` to `subj_48`). The raw logfiles are not public; the code that reads them is included for transparency. The preprocessed EEG data (read from .dat and .vmrk BVA export files, anonymized and merged with PE data in `FBOMISS_Read_and_Merge_Data_700Pre_1500Post.R`; about 1.7 GB) are available at https://osf.io/fzcqj/.
