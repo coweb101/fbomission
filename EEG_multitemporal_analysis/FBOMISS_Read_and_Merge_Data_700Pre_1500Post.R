@@ -4,11 +4,11 @@
 
 #### Info ####
 
-# First: EEG data is read (BVA exportfiles)
-# Second: Empty rows are added for excluded trials (BVA artifact rejection)
+# I: EEG data is read (BVA exportfiles)
+# II: Empty rows are added for excluded trials (BVA artifact rejection)
 # or missing trials
-# Three: The data is anonymized
-# Four: The data set is merged with the havioural/pe-data.
+# III: The data is anonymized
+# IV: The data set is merged with the behavioural/pe-data.
 
 # This script is published for transparency. Non-anonymized raw data files, BVA
 # exportfiles and artifact rejection reports are not public. The data sets 
@@ -22,7 +22,7 @@ getwd() # show current working directory
 setwd("//psychologie.ad.hhu.de/biopsych_experimente/Studien_Daten/2024_CB_CW_FBOmiss")
 
 
-##### Read eeg and marker data (BVA export) ####
+##### I: Read eeg and marker data (BVA export) ####
 
 # where is the data (in relation to working directory)?
 eegdatafolder <- "eeg_data/immediate/export_revision"
@@ -115,7 +115,7 @@ for (i in 1:length(unique(data$id))) {
 
 data$trial <- trial # append trial vector to data
 
-##### Insert empty rows for trials which were rejected during Artifact Scan in BVA #####
+##### II: Insert empty rows for trials which were rejected during Artifact Scan in BVA #####
 
 ## Because we want to match the data with trial-by-trial PEs created in Matlab,
 ## we need to add empty rows for all trials that are not included in the EEG 
@@ -213,7 +213,7 @@ for (i in 1:length(unique(data$id))) {
 } # ok, cool
 
 
-#### Anonymize EEG data ####
+#### III: Anonymize EEG data ####
 
 # get list created in Matlab at first point of anonymization (and which was also used in dataprep of accuracy data)
 id_key <- data.table::fread("behavioural_data/immediate/interim_datasets/filenames_old_new.csv")
@@ -231,6 +231,7 @@ rm(id_key)
 rm(id_current)
 
 
+#### IV: Merge with behavioural and PE data from the two best models ####
 ##### Read behav/PE-data (5b; second best BIC) #####
 
 # read behavioural and PE data file created in
