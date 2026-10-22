@@ -884,10 +884,10 @@ expectationplot <- function(x, ylim=yaxis, cols=viridis_pal()(ncol(x)),
 columns <- c("Q_90_reward_corr", "Q_90_loss_corr","Q_70_reward_corr","Q_70_loss_corr", "Q_50_reward_corr", "Q_50_loss_corr",
              "Q_90_reward_incorr", "Q_90_loss_incorr","Q_70_reward_incorr","Q_70_loss_incorr", "Q_50_reward_incorr", "Q_50_loss_incorr")
 
-# Create empty data frame with 5 columns and 200 rows
+# Create empty data frame with 12 columns (Q-values) and 480 rows (trials)
 data_q <- data.frame(matrix(0, ncol = length(columns), nrow = ntrials)) # ncol = number of different Q-values, nrow = number of trials
 
-# Loop through the five stimuli and create averages of reward expectations
+# Loop through the Q-value columns and create averages of reward expectations
 for (i in 1:length(columns)){
   
   stim <- columns[i]
@@ -960,7 +960,7 @@ legend(-100, -.5, c("90 %", "70 %", "50 %"),
        x.intersp=.7, ncol=5, lty=c(1)) # with default ncol=1, legend is vertical
 dev.off()
 
-# Solid lines indicate the estimates for the correct action in response to each respective stimulus while dashed indicate the incorrect one. left panels show stimuli learned in the reward context while right panels show stimuli learned in the avoid punishment context.
+# Solid lines indicate the estimates for the correct action in response to each respective stimulus while dashed indicate the incorrect one. Left panels show stimuli learned in the reward context while right panels show stimuli learned in the avoid punishment context.
 
 #### Create plots 
 
@@ -1023,7 +1023,7 @@ text(240, 1.1, "Avoid Loss", xpd=T, cex=1.2)
 dev.off()
 
 
-#### 2nd best BIC Model (5.2) ####
+#### 2nd best BIC Model (5.1) ####
 #### Analysis of accuracy data from simulated_data ####
 
 behav_sim <- read.csv("aggregated_data/FBOmiss_behav_recovered_5b.csv", sep=",", header=T)
@@ -1715,10 +1715,10 @@ expectationplot <- function(x, ylim=yaxis, cols=viridis_pal()(ncol(x)),
 columns <- c("Q_90_reward_corr", "Q_90_loss_corr","Q_70_reward_corr","Q_70_loss_corr", "Q_50_reward_corr", "Q_50_loss_corr",
              "Q_90_reward_incorr", "Q_90_loss_incorr","Q_70_reward_incorr","Q_70_loss_incorr", "Q_50_reward_incorr", "Q_50_loss_incorr")
 
-# Create empty data frame with 5 columns and 200 rows
+# Create empty data frame with 12 columns (Q-values) and 480 rows (trials)
 data_q <- data.frame(matrix(0, ncol = length(columns), nrow = ntrials)) # ncol = number of different Q-values, nrow = number of trials
 
-# Loop through the five stimuli and create averages of reward expectations
+# Loop through the Q value columns and create averages of reward expectations
 for (i in 1:length(columns)){
   
   stim <- columns[i]
