@@ -4,14 +4,14 @@
 
 % This file calls several functions to (1) read raw logfiles and prepare
 % the data to be fed in (2) several reinforcement learning models and save
-% their fits. The best fitting model is then used to (3) simulate action 
+% their fits. The two best fitting model are then used to (3) simulate action 
 % values for each trial and export these for further analyses.
 
 clear all; % clear workspace
 rng(17, 'twister'); % fix random number generator for reproducibility
 tic % start stopwatch
 
-% total duration with 50 iterations: ~22.71h (step 2 ~5.8 h, step 3 & 4 ~
+% total duration with 50 iterations: ~20 h (step 2 ~5.8 h, step 3 & 4 ~
 % 14.8h)
 
 %% 1. Reading logfiles and data preparation
