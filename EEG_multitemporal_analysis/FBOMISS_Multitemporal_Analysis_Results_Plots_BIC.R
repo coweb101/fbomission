@@ -125,7 +125,7 @@ for (i in 1:length(effects)){
   
   current_effect <- get(effects[i])
   
-  if (length(current_effect>0)){
+  if (length(current_effect)>0){
     for (j in 1: length(current_effect)){
       points(current_effect[j],
              ylim[2]-(0.21*abs(diff(ylim)))+(i*(.05*abs(diff(ylim)))),
@@ -641,7 +641,7 @@ for (i in 1:length(effects)){
   
   current_effect <- get(effects[i])
   
-  if (length(current_effect>0)){
+  if (length(current_effect)>0){
     for (j in 1: length(current_effect)){
       points(current_effect[j],
              ylim[2]-(0.21*abs(diff(ylim)))+(i*(.05*abs(diff(ylim)))),
@@ -1220,7 +1220,7 @@ for (i in 1:length(effects)){
   
   current_effect <- get(effects[i])
   
-  if (length(current_effect>0)){
+  if (length(current_effect)>0){
     for (j in 1: length(current_effect)){
       points(current_effect[j],
              ylim[2]-(0.28*abs(diff(ylim)))+(i*(.05*abs(diff(ylim)))),
@@ -1554,7 +1554,7 @@ for (i in 1:length(effects)){
   
   current_effect <- get(effects[i])
   
-  if (length(current_effect>0)){
+  if (length(current_effect)>0){
     for (j in 1: length(current_effect)){
       points(current_effect[j],
              ylim[2]-(0.28*abs(diff(ylim)))+(i*(.05*abs(diff(ylim)))),
@@ -1875,7 +1875,7 @@ for (i in 1:length(effects)){
   
   current_effect <- get(effects[i])
   
-  if (length(current_effect>0)){
+  if (length(current_effect)>0){
     for (j in 1: length(current_effect)){
       points(current_effect[j],
              ylim[2]-(0.21*abs(diff(ylim)))+(i*(.05*abs(diff(ylim)))),
@@ -2392,7 +2392,7 @@ for (i in 1:length(effects)){
   
   current_effect <- get(effects[i])
   
-  if (length(current_effect>0)){
+  if (length(current_effect)>0){
     for (j in 1: length(current_effect)){
       points(current_effect[j],
              ylim[2]-(0.21*abs(diff(ylim)))+(i*(.05*abs(diff(ylim)))),
@@ -2973,7 +2973,7 @@ for (i in 1:length(effects)){
   
   current_effect <- get(effects[i])
   
-  if (length(current_effect>0)){
+  if (length(current_effect)>0){
     for (j in 1: length(current_effect)){
       points(current_effect[j],
              ylim[2]-(0.28*abs(diff(ylim)))+(i*(.05*abs(diff(ylim)))),
@@ -3304,7 +3304,7 @@ for (i in 1:length(effects)){
   
   current_effect <- get(effects[i])
   
-  if (length(current_effect>0)){
+  if (length(current_effect)>0){
     for (j in 1: length(current_effect)){
       points(current_effect[j],
              ylim[2]-(0.28*abs(diff(ylim)))+(i*(.05*abs(diff(ylim)))),
