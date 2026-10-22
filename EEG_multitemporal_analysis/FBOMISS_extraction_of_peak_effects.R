@@ -30,7 +30,7 @@ pe_coefficients <- data.table::fread("aggregated_data/multitemp_pre700_post1500_
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -238,7 +238,7 @@ pe_coefficients <- data.table::fread("aggregated_data/multitemp_pre700_post1500_
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -403,7 +403,7 @@ pe_coefficients <- data.table::fread("aggregated_data/multitemp_pre700_post1500_
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -531,7 +531,7 @@ pe_coefficients <- data.table::fread("aggregated_data/multitemp_pre700_post1500_
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -660,7 +660,7 @@ pe_coefficients <- data.table::fread("aggregated_data/multitemp_pre700_post1500_
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -857,7 +857,7 @@ pe_coefficients <- data.table::fread("aggregated_data/multitemp_pre700_post1500_
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -976,7 +976,7 @@ pe_coefficients <- data.table::fread("aggregated_data/multitemp_pre700_post1500_
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
@@ -1104,7 +1104,7 @@ pe_coefficients <- data.table::fread("aggregated_data/multitemp_pre700_post1500_
 ## Apply alpha correction
 significanteffect_pe <- which(p.adjust(pe_coefficients$prob_pe, method = "BH") < .05)
 significanteffect_valence <- which(p.adjust(pe_coefficients$prob_valence, method = "BH") < .05)
-significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction, method = "BH") < .05)
+significanteffect_interaction <- which(p.adjust(pe_coefficients$prob_interaction_pe_valence, method = "BH") < .05)
 
 ## And only keep effects at 5 consecutive sample points
 
