@@ -299,7 +299,7 @@ for k=1:numtrials_learn/60
     resp_ti_le_block_d=resp_ti_le_block(st_le_block(:,1)==4 & resp_bu_le_block(:,1)~=9);
     
     resp_bu_le_block_e=resp_bu_le_block(st_le_block(:,1)==5); 
-    acc_resp_le_block_e=resp_bu_le_block_e(resp_bu_le_block_e(:,1)==1);
+    acc_resp_le_block_e=resp_bu_le_block_e(resp_bu_le_block_e(:,1)==1); % same as in other read logfile script (doesn't matter for 50% stimulus)
     resp_ti_le_block_e=resp_ti_le_block(st_le_block(:,1)==5 & resp_bu_le_block(:,1)~=9);
     
     resp_bu_le_block_f=resp_bu_le_block(st_le_block(:,1)==6); 

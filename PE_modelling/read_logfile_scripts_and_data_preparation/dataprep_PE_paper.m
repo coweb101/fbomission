@@ -15,7 +15,7 @@ catalldata = cat(1,allmatrices{:});
 ntrials_sub=length(VP01_all_data);
 
 % die betreffenden Spalten auswählen und in einer neuen Datei abspeichern
-% Spalte 1,3, 4 und 7 für choices
+% Spalte 1,5, 6 und 9 für choices
 choices = catalldata(:,[1 5:6 9]);
 % -> choices mit 4 Spalten erstellt
 % Spalte 1: VPname
