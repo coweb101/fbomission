@@ -31,7 +31,7 @@ The merged EEG and PE data (`eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.c
 
 ## How to run
 
-Set the working directory at the top of each script (`setwd()`) to the folder that contains `aggregated_data/` and create a folder `plots/`.
+Replace the working directory at the top of each script (`setwd()`) to the folder that contains `aggregated_data/` and create a folder `plots/`.
 
 ## Required R packages
 
