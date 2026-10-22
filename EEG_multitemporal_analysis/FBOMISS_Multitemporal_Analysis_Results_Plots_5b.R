@@ -758,7 +758,7 @@ gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), c
 }
 
 
-#### Prepare Grand Averages for Frontocentral Electrodes
+#### Prepare Grand Averages for Centroparietal Electrodes
 
 #data <- aggr_data
 data <- subset(data, omission==1) # only trials with omitted feedback
@@ -2511,7 +2511,7 @@ gravg <- function(x, linecat, sterror, ylim=c(ylim_max,ylim_min), cols=c(1,2), c
 }
 
 
-#### Prepare Grand Averages for Frontocentral Electrodes
+#### Prepare Grand Averages for Centroparietal Electrodes
 
 #data <- aggr_data
 data <- subset(data, omission==-1) # only trials with displayed feedback
