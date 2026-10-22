@@ -78,7 +78,7 @@ pe_coefficients$coef_pe[significanteffect_pe]  # coefficients are all positively
 which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe]))
 # maximum at samplepoint 257
 which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe]))*4-704
-# i.e. at 324 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 324 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe])), c("coef_pe", "se_pe", "df_pe", "t_pe" , "prob_pe", "effectsize_pe")],3)
@@ -100,7 +100,7 @@ pe_coefficients$coef_valence[early_valence_effects] # coefficients are all posit
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))
 # maximum at samplepoint 217
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))*4-704
-#i.e. at 164 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at 164 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))
@@ -117,7 +117,7 @@ pe_coefficients$coef_valence[late_valence_effects] # coefficients are first nega
 which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[late_valence_effects]))
 # minimum at samplepoint 357
 which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[late_valence_effects]))*4-704
-# i.e. at 724 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 724 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[late_valence_effects]))
@@ -130,7 +130,7 @@ round(pe_coefficients[which(pe_coefficients$coef_valence == min(pe_coefficients$
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects]))
 # maximum at samplepoint 548
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects]))*4-704
-# i.e. at 1488 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 1488 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects]))
@@ -164,7 +164,7 @@ pe_coefficients$coef_pos[significanteffect_pos_pe]# coefficients are positively 
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
 # maximum at samplepoint 258
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))*4-704
-# i.e. at 328 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 328 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
@@ -180,7 +180,7 @@ pe_coefficients$coef_neg[significanteffect_interaction_post] # coefficients are 
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_interaction_post]))
 # maximum at samplepoint 278
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_interaction_post]))*4-704
-# i.e. at 408 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 408 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_interaction_post]))
@@ -194,7 +194,7 @@ pe_coefficients$coeff_diff[significanteffect_interaction_post] # coefficients ar
 which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post]))
 # minimum at samplepoint 258
 which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post]))*4-704
-# i.e. at 328 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 328 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post]))
@@ -211,7 +211,7 @@ pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients before feedbac
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
 # minimum at samplepoint 1
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))*4-704
-# i.e. at -700 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at -700 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
@@ -223,7 +223,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef
 
 pe_coefficients$coef_neg[significanteffect_neg_pe] # coefficients are positively signed, therefore we look for the maximum
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_neg_pe]))
-# maximum at samplepoint 4, i.e. at -688 ms relative to fb omission onset (samplepoint*4-704)
+# maximum at samplepoint 4, i.e. at -688 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_neg_pe]))
@@ -282,7 +282,7 @@ significanteffect_pe <- significanteffect_pe[significanteffect_pe>126]
 pe_coefficients$coef_pe[significanteffect_pe] # first few very small coefficients negatively signed, others are all positively signed, therefore we look for the maximum
 which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe]))
 which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe]))*4-704
-# maximum at samplepoint 267, i.e. at 364 ms relative to fb omission onset (samplepoint*4-704)
+# maximum at samplepoint 267, i.e. at 364 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe]))
@@ -304,7 +304,7 @@ pe_coefficients$coef_valence[significanteffect_valence] # vast majority of coeff
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[significanteffect_valence]))
 # maximum at samplepoint 254
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[significanteffect_valence]))*4-704
-#i.e. at 312 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at 312 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[significanteffect_valence]))
@@ -316,7 +316,7 @@ round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$
 which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[significanteffect_valence]))
 # minimum at samplepoint 418
 which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[significanteffect_valence]))*4-704
-#i.e. at 968 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at 968 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[significanteffect_valence]))
@@ -350,7 +350,7 @@ split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significantef
 
 pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients are mostly negatively signed, therefore we look for the minimum at first
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
-# minimum at samplepoint 1, i.e. at -700 ms relative to fb omission onset (samplepoint*4-704)
+# minimum at samplepoint 1, i.e. at -700 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
@@ -361,7 +361,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef
 # look for later max
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))*4-704
-# maximum at samplepoint 264, i.e. at 352 ms relative to fb omission onset (samplepoint*4-704)
+# maximum at samplepoint 264, i.e. at 352 ms relative to fb (omission) onset (samplepoint*4-704)
 
 round(pe_coefficients[which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
                       , c("coef_pos", "se_pos", "pvalue_pos")],3)
@@ -373,7 +373,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == max(pe_coefficients$coef
 
 pe_coefficients$coef_neg[significanteffect_neg_pe] # coefficients are all positively signed, therefore we look for the maximum
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_neg_pe]))
-# maximum at samplepoint 1, i.e. at -700 ms relative to fb omission onset (samplepoint*4-704)
+# maximum at samplepoint 1, i.e. at -700 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_neg_pe]))
@@ -453,7 +453,7 @@ pe_coefficients$coef_valence[early_valence_effects] # coefficients are all posit
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))
 # maximum at samplepoint 135
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))*4-704
-#i.e. at -164 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at -164 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))
@@ -470,7 +470,7 @@ pe_coefficients$coef_valence[late_valence_effects] # coefficients are mostly pos
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects]))
 # maximum at samplepoint 269
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects]))*4-704
-#i.e. at 372 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at 372 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects])), c("coef_valence", "se_valence", "df_valence", "t_valence" , "prob_valence", "effectsize_valence")],3)
@@ -481,7 +481,7 @@ round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$
 which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[late_valence_effects]))
 # min at samplepoint 375
 which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[late_valence_effects]))*4-704
-#i.e. at 796 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at 796 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[late_valence_effects])), c("coef_valence", "se_valence", "df_valence", "t_valence" , "prob_valence", "effectsize_valence")],3)
@@ -508,7 +508,7 @@ split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significantef
 
 pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients are all negatively signed, therefore we look for the minimum
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
-# minimum at samplepoint 2, i.e. at -696 ms relative to fb omission onset (samplepoint*4-704)
+# minimum at samplepoint 2, i.e. at -696 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe])), c("coef_pos", "se_pos", "pvalue_pos")],3)
@@ -518,7 +518,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef
 
 pe_coefficients$coef_neg[significanteffect_neg_pe] # coefficients are all positively signed, therefore we look for the maximum
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_neg_pe]))
-# maximum at samplepoint 2, i.e. at -696 ms relative to fb omission onset (samplepoint*4-704)
+# maximum at samplepoint 2, i.e. at -696 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_neg_pe])), c("coef_neg", "se_neg", "pvalue_neg")],3)
@@ -577,7 +577,7 @@ pe_coefficients$coef_valence[significanteffect_valence] # coefficients are all p
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[significanteffect_valence]))
 # maximum at samplepoint 237
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[significanteffect_valence]))*4-704
-#i.e. at 244 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at 244 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[significanteffect_valence]))
@@ -589,7 +589,7 @@ round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$
 
 late_valence_effects <- significanteffect_valence[significanteffect_valence > 301]
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects]))
-# maximum at samplepoint 420, i.e. at 976 ms relative to fb omission onset (samplepoint*4-704)
+# maximum at samplepoint 420, i.e. at 976 ms relative to fb (omission) onset (samplepoint*4-704)
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects])), c("coef_valence", "se_valence", "df_valence", "t_valence", "prob_valence", "effectsize_valence")],3)
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects])), c("coef_valence", "se_valence", "df_valence", "t_valence", "prob_valence", "effectsize_valence")],2)
 
@@ -605,7 +605,7 @@ significanteffect_diff_valence_pe
 
 pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients are all negatively signed, therefore we look for the minimum
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
-# minimum at samplepoint 1, i.e. at -700 ms relative to fb omission onset (samplepoint*4-704)
+# minimum at samplepoint 1, i.e. at -700 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
@@ -617,7 +617,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef
 
 pe_coefficients$coef_neg[significanteffect_neg_pe] # coefficients are all positively signed, therefore we look for the maximum
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_neg_pe]))
-# maximum at samplepoint 1, i.e. at -700 ms relative to fb omission onset (samplepoint*4-704)
+# maximum at samplepoint 1, i.e. at -700 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_neg_pe]))
@@ -703,7 +703,7 @@ pe_coefficients$coef_pe[significanteffect_pe]  # coefficients are all positively
 which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe]))
 # maximum at samplepoint 260 (2b: 257)
 which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe]))*4-704
-# i.e. at 336 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 336 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe])), c("coef_pe", "se_pe", "df_pe", "t_pe" , "prob_pe", "effectsize_pe")],3)
@@ -725,7 +725,7 @@ pe_coefficients$coef_valence[early_valence_effects] # coefficients are all posit
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))
 # maximum at samplepoint 217 (as for 2b)
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))*4-704
-#i.e. at 164 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at 164 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))
@@ -742,7 +742,7 @@ pe_coefficients$coef_valence[late_valence_effects] # coefficients are first nega
 which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[late_valence_effects]))
 # minimum at samplepoint 358 (2b: 357)
 which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[late_valence_effects]))*4-704
-# i.e. at 728 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 728 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[late_valence_effects]))
@@ -755,7 +755,7 @@ round(pe_coefficients[which(pe_coefficients$coef_valence == min(pe_coefficients$
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects]))
 # maximum at samplepoint 548 (as for 2b)
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects]))*4-704
-# i.e. at 1488 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 1488 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects]))
@@ -777,7 +777,7 @@ pe_coefficients$coef_pos[significanteffect_pos_pe]# coefficients are positively 
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
 # maximum at samplepoint 258 (as for 2b)
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))*4-704
-# i.e. at 328 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 328 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
@@ -794,7 +794,7 @@ pe_coefficients$coef_neg[significanteffect_interaction_post] # coefficients part
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_interaction_post]))
 # maximum at samplepoint 253 (for model2b: 278)
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_interaction_post]))*4-704
-# i.e. at 308 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 308 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_interaction_post]))
@@ -806,7 +806,7 @@ round(pe_coefficients[which(pe_coefficients$coef_neg == max(pe_coefficients$coef
 which(pe_coefficients$coef_neg == min(pe_coefficients$coef_neg[significanteffect_interaction_post]))
 # min at samplepoint 269
 which(pe_coefficients$coef_neg == min(pe_coefficients$coef_neg[significanteffect_interaction_post]))*4-704
-# i.e. at 372 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 372 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_neg == min(pe_coefficients$coef_neg[significanteffect_interaction_post]))
@@ -822,7 +822,7 @@ pe_coefficients$coeff_diff[significanteffect_interaction_post] # coefficients ar
 which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post]))
 # minimum at samplepoint 258 (as for 2b)
 which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post]))*4-704
-# i.e. at 328 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 328 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coeff_diff == min(pe_coefficients$coeff_diff[significanteffect_interaction_post]))
@@ -838,7 +838,7 @@ pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients before feedbac
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
 # min at samplepoint 1 (as for 2b)
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))*4-704
-# i.e. at -700 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at -700 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
@@ -903,7 +903,7 @@ pe_coefficients$coef_valence[significanteffect_valence] # vast majority of coeff
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[significanteffect_valence]))
 # maximum at samplepoint 254 (as for 2b)
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[significanteffect_valence]))*4-704
-#i.e. at 312 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at 312 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[significanteffect_valence]))
@@ -915,7 +915,7 @@ round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$
 which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[significanteffect_valence]))
 # minimum at samplepoint 319 (2b: 418)
 which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[significanteffect_valence]))*4-704
-#i.e. at 572 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at 572 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[significanteffect_valence]))
@@ -935,7 +935,7 @@ significanteffect_diff_valence_pe
 
 pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients are mostly negatively signed, therefore we look for the minimum at first
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
-# minimum at samplepoint 1, i.e. at -700 ms relative to fb omission onset (samplepoint*4-704)
+# minimum at samplepoint 1, i.e. at -700 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
@@ -946,7 +946,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef
 # look for later max
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
 which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))*4-704
-# maximum at samplepoint 265 (2b: 264), i.e. at 356 ms relative to fb omission onset (samplepoint*4-704)
+# maximum at samplepoint 265 (2b: 264), i.e. at 356 ms relative to fb (omission) onset (samplepoint*4-704)
 
 round(pe_coefficients[which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
                       , c("coef_pos", "se_pos", "pvalue_pos")],3)
@@ -958,7 +958,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == max(pe_coefficients$coef
 
 pe_coefficients$coef_neg[significanteffect_neg_pe] # coefficients are all positively signed, therefore we look for the maximum
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_neg_pe]))
-# maximum at samplepoint 5, i.e. at -684 ms relative to fb omission onset (samplepoint*4-704)
+# maximum at samplepoint 5, i.e. at -684 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_neg_pe]))
@@ -1026,7 +1026,7 @@ pe_coefficients$coef_valence[early_valence_effects] # coefficients are all posit
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))
 # maximum at samplepoint 135 (as for 2b)
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))*4-704
-#i.e. at -164 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at -164 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[early_valence_effects]))
@@ -1043,7 +1043,7 @@ pe_coefficients$coef_valence[late_valence_effects] # coefficients are mostly pos
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects]))
 # maximum at samplepoint 269 (as for 2b)
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects]))*4-704
-#i.e. at 372 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at 372 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[late_valence_effects])), c("coef_valence", "se_valence", "df_valence", "t_valence" , "prob_valence", "effectsize_valence")],3)
@@ -1054,7 +1054,7 @@ round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$
 which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[late_valence_effects]))
 # min at samplepoint 375 (as for 2b)
 which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[late_valence_effects]))*4-704
-#i.e. at 796 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at 796 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == min(pe_coefficients$coef_valence[late_valence_effects])), c("coef_valence", "se_valence", "df_valence", "t_valence" , "prob_valence", "effectsize_valence")],3)
@@ -1081,7 +1081,7 @@ split(significanteffect_diff_valence_pe*4-704, cumsum(c(TRUE, diff(significantef
 
 pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients are all negatively signed, therefore we look for the minimum
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
-# minimum at samplepoint 16, i.e. at -640 ms relative to fb omission onset (samplepoint*4-704)
+# minimum at samplepoint 16, i.e. at -640 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe])), c("coef_pos", "se_pos", "pvalue_pos")],3)
@@ -1091,7 +1091,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef
 
 pe_coefficients$coef_neg[significanteffect_neg_pe] # coefficients are all positively signed, therefore we look for the maximum
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_neg_pe]))
-# maximum at samplepoint 1, i.e. at -700 ms relative to fb omission onset (samplepoint*4-704)
+# maximum at samplepoint 1, i.e. at -700 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_neg_pe])), c("coef_neg", "se_neg", "pvalue_neg")],3)
@@ -1145,7 +1145,7 @@ pe_coefficients$coef_pe[significanteffect_pe] # coefficients are at first negati
 which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe]))
 # maximum at samplepoint 381
 which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe]))*4-704
-# i.e. at 820 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 820 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pe == max(pe_coefficients$coef_pe[significanteffect_pe])), c("coef_pe", "se_pe", "df_pe", "t_pe" , "prob_pe", "effectsize_pe")],3)
@@ -1156,7 +1156,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pe == max(pe_coefficients$coef_
 which(pe_coefficients$coef_pe == min(pe_coefficients$coef_pe[significanteffect_pe]))
 # minimum at samplepoint 181
 which(pe_coefficients$coef_pe == min(pe_coefficients$coef_pe[significanteffect_pe]))*4-704
-# i.e. at 20 ms relative to fb omission onset (samplepoint*4-704)
+# i.e. at 20 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pe == min(pe_coefficients$coef_pe[significanteffect_pe])), c("coef_pe", "se_pe", "df_pe", "t_pe" , "prob_pe", "effectsize_pe")],3)
@@ -1176,7 +1176,7 @@ pe_coefficients$coef_valence[significanteffect_valence] # coefficients are all p
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[significanteffect_valence]))
 # maximum at samplepoint 238 (2b: 237)
 which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[significanteffect_valence]))*4-704
-#i.e. at 248 ms relative to fb omission onset (samplepoint*4-704)
+#i.e. at 248 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$coef_valence[significanteffect_valence]))
@@ -1197,7 +1197,7 @@ significanteffect_diff_valence_pe
 pe_coefficients$coef_pos[significanteffect_pos_pe] # coefficients are all negatively signed, therefore we look for the minimum
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))*4-704
-# minimum at samplepoint 5, i.e. at -684 ms relative to fb omission onset (samplepoint*4-704)
+# minimum at samplepoint 5, i.e. at -684 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe]))
@@ -1209,7 +1209,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef
 
 pe_coefficients$coef_neg[significanteffect_neg_pe] # coefficients are all positively signed, therefore we look for the maximum
 which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_neg_pe]))
-# maximum at samplepoint 1, i.e. at -700 ms relative to fb omission onset (samplepoint*4-704)
+# maximum at samplepoint 1, i.e. at -700 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_neg == max(pe_coefficients$coef_neg[significanteffect_neg_pe]))
@@ -1226,7 +1226,7 @@ significanteffect_interaction_late <- significanteffect_interaction[significante
 pe_coefficients$coef_interaction_pe_valence[significanteffect_interaction_late] # coefficients are all negatively signed, therefore we look for the minimum
 which(pe_coefficients$coef_interaction_pe_valence == min(pe_coefficients$coef_interaction_pe_valence[significanteffect_interaction_late]))
 which(pe_coefficients$coef_interaction_pe_valence == min(pe_coefficients$coef_interaction_pe_valence[significanteffect_interaction_late]))*4-704
-# minimum at samplepoint 172, i.e. at -16 ms relative to fb omission onset (samplepoint*4-704)
+# minimum at samplepoint 172, i.e. at -16 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_interaction_pe_valence == min(pe_coefficients$coef_interaction_pe_valence[significanteffect_interaction_late]))
@@ -1241,7 +1241,7 @@ significanteffect_pos_pe_late <- significanteffect_pos_pe[significanteffect_pos_
 pe_coefficients$coef_pos[significanteffect_pos_pe_late] # coefficients are all negatively signed, therefore we look for the minimum
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe_late]))
 which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe_late]))*4-704
-# minimum at samplepoint 173, i.e. at -12 ms relative to fb omission onset (samplepoint*4-704)
+# minimum at samplepoint 173, i.e. at -12 ms relative to fb (omission) onset (samplepoint*4-704)
 
 # get relevant info
 round(pe_coefficients[which(pe_coefficients$coef_pos == min(pe_coefficients$coef_pos[significanteffect_pos_pe_late]))
