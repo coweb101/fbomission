@@ -28,7 +28,7 @@ All files except the first are copies of the files of the same name in `PE_model
 
 ## How to run
 
-1. Set R's working directory to this folder (`Behavioural_analysis`), e.g. with `setwd()` at the top of the script.
+1. Set R's working directory to this folder (`Behavioural_analysis`; replace `setwd()` at the top of the script).
 2. Create a folder `plots/` in this folder. The script saves all figures there.
 3. Install the required packages (see below) and run the script from top to bottom.
 
