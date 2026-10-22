@@ -11,7 +11,7 @@ Sample-wise linear mixed models (LMMs) of the effects of contextual valence and 
 | `FBOMISS_Multitemporal_Analysis_700Pre_1500Post.R` | One LMM per sample point, separately for display and omission trials and for the frontocentral and centroparietal cluster, for both models | merged data (`_BIC`, `_5b`) | `multitemp_pre700_post1500_<cluster>_cluster_<condition>_trials_no_baseline_<model>.csv` |
 | `FBOMISS_Multitemporal_Analysis_Results_Plots_BIC.R`, `..._5b.R` | Plots of the LMM coefficients (with significant effects after Benjamini-Hochberg correction and at least five consecutive sample points) and grand averages (with 40 ms moving average) | LMM results and merged data of the respective model | figures in `plots/` |
 | `FBOMISS_extraction_of_peak_effects.R` | Extracts the peak effects of the significant time windows | LMM results | console output |
-| `FBOMISS_omission_P3_characterization.R` | Characterizes the P3-like waveform in omission trials | merged data | latencies and peaks |
+| `FBOMISS_omission_P3_characterization.R` | Characterizes the P3-like waveform in omission (and display) trials | merged data | latencies and peaks |
 
 ## Analysis details
 
