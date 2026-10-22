@@ -296,7 +296,7 @@ dev.off()
 behav_obs <- behav
 
 
-#### BIC Model ####
+#### BIC Model (2.1) ####
 #### Analysis of accuracy data from simulated_data ####
 
 behav_sim <- read.csv("aggregated_data/FBOmiss_behav_recovered_BIC.csv", sep=",", header=T)
@@ -960,7 +960,7 @@ legend(-100, -.5, c("90 %", "70 %", "50 %"),
        x.intersp=.7, ncol=5, lty=c(1)) # with default ncol=1, legend is vertical
 dev.off()
 
-# Solid lines indicate the estimates for the correct action in response to each respective stimulus while dashed indicate the incorrect one. Upper panels show stimuli learned in the reward context while lower panels show stimuli learned in the avoid punishment context.
+# Solid lines indicate the estimates for the correct action in response to each respective stimulus while dashed indicate the incorrect one. left panels show stimuli learned in the reward context while right panels show stimuli learned in the avoid punishment context.
 
 #### Create plots 
 
@@ -1023,7 +1023,7 @@ text(240, 1.1, "Avoid Loss", xpd=T, cex=1.2)
 dev.off()
 
 
-#### 2nd best BIC Model (BIC) ####
+#### 2nd best BIC Model (5.2) ####
 #### Analysis of accuracy data from simulated_data ####
 
 behav_sim <- read.csv("aggregated_data/FBOmiss_behav_recovered_5b.csv", sep=",", header=T)
@@ -1791,7 +1791,7 @@ legend(-100, -.5, c("90 %", "70 %", "50 %"),
        x.intersp=.7, ncol=5, lty=c(1)) # with default ncol=1, legend is vertical
 dev.off()
 
-# Solid lines indicate the estimates for the correct action in response to each respective stimulus while dashed indicate the incorrect one. Upper panels show stimuli learned in the reward context while lower panels show stimuli learned in the avoid punishment context.
+# Solid lines indicate the estimates for the correct action in response to each respective stimulus while dashed indicate the incorrect one. Left panels show stimuli learned in the reward context while right panels show stimuli learned in the avoid punishment context.
 
 #### Create plots 
 
