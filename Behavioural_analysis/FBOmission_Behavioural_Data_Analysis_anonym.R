@@ -5,7 +5,7 @@
 #### General settings & loading of packages ####
 remove(list = ls()) # clear workspace
 getwd() # show current working directory
-#setwd("\\\\psychologie.ad.hhu.de/biopsych_experimente/Studien_Daten/2024_CB_CW_FBOmiss") # set wd if necessary
+setwd("\\\\psychologie.ad.hhu.de/biopsych_experimente/Studien_Daten/2024_CB_CW_FBOmiss") # set wd if necessary
 
 # for data wrangling
 library(plyr)
