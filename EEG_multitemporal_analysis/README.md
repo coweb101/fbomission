@@ -27,7 +27,7 @@ Sample-wise linear mixed models (LMMs) of the effects of contextual valence and 
 
 ## Data
 
-The merged EEG and PE data (`eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv`, `…_5b.csv`) are too large for GitHub and are available at https://osf.io/fzcqj/. To rerun the analyses, place them in aggregated_data/. `FBOMISS_Read_and_Merge_Data_700Pre_1500Post.R` created these files from the single-trial BrainVision exports and is included for transparency only. It needs the non-anonymized exports and the participant key, which are not public.
+The merged EEG and PE data (`eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv`, `…_5b.csv`) are too large for GitHub and are available at [OSF](https://doi.org/10.17605/OSF.IO/FZCQJ ). To rerun the analyses, place them in aggregated_data/. `FBOMISS_Read_and_Merge_Data_700Pre_1500Post.R` created these files from the single-trial BrainVision exports and is included for transparency only. It needs the non-anonymized exports and the participant key, which are not public.
 
 ## How to run
 
