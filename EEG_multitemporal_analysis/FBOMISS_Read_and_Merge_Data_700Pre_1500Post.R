@@ -254,6 +254,19 @@ pe_data <- data.table::fread("aggregated_data/behav_and_pe_data_concatenated_5b.
 #   other:
 #     5 - no response
 
+# exact marker list:
+# marker  context type  valence version
+# 245 no_response	no_response	no_response	a
+# 247	win	omission	negative	a
+# 248	loss	omission	positive	a
+# 249	loss	presentation	negative	a
+# 250	win	presentation	positive	a
+# 235	no_response	no_response	no_response	b
+# 237	win	omission	negative	b
+# 238	loss	omission	positive	b
+# 239	loss	presentation	negative	b
+# 240	win	presentation	positive	b
+
 # code variable to compare in both data sets
 pe_data$eeg_marker <- ifelse(pe_data$feedback==11, 0,
                              ifelse(pe_data$feedback==1, 8,
@@ -314,6 +327,19 @@ pe_data <- data.table::fread("aggregated_data/behav_and_pe_data_concatenated_BIC
 #     9 - feedback is presented which indicates a monetary loss
 #   other:
 #     5 - no response
+
+# exact marker list:
+# marker  context type  valence version
+# 245 no_response	no_response	no_response	a
+# 247	win	omission	negative	a
+# 248	loss	omission	positive	a
+# 249	loss	presentation	negative	a
+# 250	win	presentation	positive	a
+# 235	no_response	no_response	no_response	b
+# 237	win	omission	negative	b
+# 238	loss	omission	positive	b
+# 239	loss	presentation	negative	b
+# 240	win	presentation	positive	b
 
 # code variable to compare in both data sets
 pe_data$eeg_marker <- ifelse(pe_data$feedback==11, 0,
