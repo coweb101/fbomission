@@ -13,7 +13,6 @@ setwd("\\\\psychologie.ad.hhu.de/biopsych_experimente/Studien_Daten/2024_CB_CW_F
 
 data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv") # read data again
 data <- data.table::setDT(data) # convert to data.table
-data <- subset(data, omission==1) # subset to trials with omitted feedback
 
 # same exclusion as in the analyses: participants with SD(|PE|) < .05 in display or omission trials
 pe_sd <- data[!is.na(PE) & omission %in% c(-1, 1),
@@ -22,6 +21,7 @@ low_var_ids <- unique(pe_sd[sd_abs_pe < .05, id])
 print(paste0("excluded: ", paste(sort(low_var_ids), collapse = ", ")))
 data <- data[!(id %in% low_var_ids)]
 
+data <- subset(data, omission==1) # subset to trials with omitted feedback
 
 segment_length <- 550 # samplepoints (-700 to 1500 ms with sampling rate 250 Hz)
 
@@ -206,7 +206,6 @@ data_se[which(data_avg$negative == max(data_avg[175:550,"negative"])), "negative
 
 data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv") # read data again
 data <- data.table::setDT(data) # convert to data.table
-data <- subset(data, omission==-1) # subset to trials with displayed feedback
 
 # same exclusion as in the analyses: participants with SD(|PE|) < .05 in display or omission trials
 pe_sd <- data[!is.na(PE) & omission %in% c(-1, 1),
@@ -214,6 +213,8 @@ pe_sd <- data[!is.na(PE) & omission %in% c(-1, 1),
 low_var_ids <- unique(pe_sd[sd_abs_pe < .05, id])
 print(paste0("excluded: ", paste(sort(low_var_ids), collapse = ", ")))
 data <- data[!(id %in% low_var_ids)]
+
+data <- subset(data, omission==-1) # subset to trials with displayed feedback
 
 segment_length <- 550 # samplepoints (-700 to 1500 ms with sampling rate 250 Hz)
 
