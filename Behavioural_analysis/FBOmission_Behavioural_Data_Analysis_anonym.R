@@ -65,7 +65,7 @@ behav[which(behav$stim == 5|behav$stim == 6), "correct"] <- NA
 # Note: "correct" is taken from the logged response codes. Responses after the
 # response deadline (RT > 2500 ms) and the two trials without a valid button
 # press (choice = 9, correct = 0) are scored as incorrect here, whereas the RL
-# models only use trials with a valid choice and feedback. This concerns 12
+# models only use trials with a valid choice and feedback. This concerns 11
 # trials of stimuli 1-4 (9 participants) and has no relevant effect.
 
 # Check whether performance was below chance based on binomial distribution
