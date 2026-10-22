@@ -6,7 +6,13 @@
 
 # First: EEG data is read (BVA exportfiles)
 # Second: Empty rows are added for excluded trials (BVA artifact rejection)
-# or missing trials and the data set is merged with the havioural/pe-data.
+# or missing trials
+# Three: The data is anonymized
+# Four: The data set is merged with the havioural/pe-data.
+
+# This script is published for transparency. Non-anonymized raw data files, BVA
+# exportfiles and artifact rejection reports are not public. The data sets 
+# created within this script can be accessed via OSF: https://doi.org/10.17605/OSF.IO/FZCQJ 
 
 
 #### Routine ####
