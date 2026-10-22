@@ -7,7 +7,7 @@ Importantly, these omissions entailed contextual valence based on the alternativ
 
 The folders are meant to be run in this order; each folder has its own README with details.
 
-1) `PE_modelling`: fitting of 42 reinforcement-learning models to the choice data, model comparison (BIC), simulation of trial-wise action values and prediction errors (PEs) with the two best models, parameter recovery and posterior predictive checks (MATLAB)
+1) `PE_modelling`: fitting of 42 reinforcement-learning models to the choice data, model comparison (BIC), simulation of trial-wise action values and prediction errors (PEs) with the two best models, parameter recovery and data simulation for posterior predictive checks (MATLAB)
 2) `Behavioural_analysis`: statistical analysis of choice accuracy, posterior predictive checks, modelled learning rates, parameter recovery and action values; merges the behavioural data with the trial-wise PEs for the EEG analysis (R)
 3) `EEG_multitemporal_analysis`: merging of EEG and PE data and sample-wise linear mixed models of the effects of contextual valence and PEs on display- and omission-related amplitudes, with plots (R)
 
