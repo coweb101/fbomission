@@ -121,8 +121,7 @@ data$trial <- trial # append trial vector to data
 ## we need to add empty rows for all trials that are not included in the EEG 
 ## data export
 
-# List removed segments from artifact rejection (two files as there were
-# separate preprocessing trees for experiment version a and b)
+# List removed segments from artifact rejection
 art <- readLines(paste0(eegdatafolder, "/", "Report_Artifact Rejection_Long.txt"))
 
 seglist <- list()
