@@ -172,7 +172,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == max(pe_coefficients$coef
 round(pe_coefficients[which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
 , c("coef_pos", "se_pos", "pvalue_pos")],2)
 
-## simple slope of neg PEs
+## largest (non-significant) effect of neg PEs
 
 significanteffect_interaction_post <- significanteffect_interaction[significanteffect_interaction>50] # exclude those in the choice review period
 
@@ -785,7 +785,7 @@ round(pe_coefficients[which(pe_coefficients$coef_pos == max(pe_coefficients$coef
 round(pe_coefficients[which(pe_coefficients$coef_pos == max(pe_coefficients$coef_pos[significanteffect_pos_pe]))
                       , c("coef_pos", "se_pos", "pvalue_pos")],2)
 
-## simple slope of neg PEs
+## largest (non-significant) effect of neg PEs
 
 significanteffect_interaction_post <- significanteffect_interaction[significanteffect_interaction>50] # exclude those in the choice review period
 
