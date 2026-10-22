@@ -6,7 +6,7 @@ Sample-wise linear mixed models (LMMs) of the effects of contextual valence and 
 
 | Script | What it does | Input | Output |
 |---|---|---|---|
-| `FBOMISS_Read_and_Merge_Data_700Pre_1500Post.R` | Reads the single-trial EEG exports (BrainVision Analyzer), adds empty rows for trials rejected during preprocessing, checks the trial order against the behavioural data via the feedback markers and merges EEG and PE data | BrainVision exports (.dat and .vmrk) and ID key (created within the MATLAB pipelin; both not public), `behav_and_pe_data_concatenated_BIC.csv` / `_5b.csv` (from `Behavioural_analysis`) | `eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv` / `_5b.csv` |
+| `FBOMISS_Read_and_Merge_Data_700Pre_1500Post.R` | Reads the single-trial EEG exports (BrainVision Analyzer), adds empty rows for trials rejected during preprocessing, checks the trial order against the behavioural data via the feedback markers and merges EEG and PE data | BrainVision exports (.dat and .vmrk) and ID key (created within the MATLAB pipeline; both not public), `behav_and_pe_data_concatenated_BIC.csv` / `_5b.csv` (from `Behavioural_analysis`) | `eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv` / `_5b.csv` |
 | `FBOMISS_Trial_Count_Table.R` | Number of valid trials per condition | merged data | console output |
 | `FBOMISS_Multitemporal_Analysis_700Pre_1500Post.R` | One LMM per sample point, separately for display and omission trials and for the frontocentral and centroparietal cluster, for both models | merged data (`_BIC`, `_5b`) | `multitemp_pre700_post1500_<cluster>_cluster_<condition>_trials_no_baseline_<model>.csv` |
 | `FBOMISS_Multitemporal_Analysis_Results_Plots_BIC.R`, `..._5b.R` | Plots of the LMM coefficients (with significant effects after Benjamini-Hochberg correction and at least five consecutive sample points) and grand averages | LMM results and merged data of the respective model | figures in `plots/` |
@@ -27,7 +27,7 @@ Sample-wise linear mixed models (LMMs) of the effects of contextual valence and 
 
 ## Data
 
-The merged EEG and PE data (eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv, …_5b.csv) are too large for GitHub and are available at https://osf.io/fzcqj/. To rerun the analyses, place them in aggregated_data/. FBOMISS_Read_and_Merge_Data_700Pre_1500Post.R created these files from the single-trial BrainVision exports and is included for transparency only. It needs the non-anonymized exports and the participant key, which are not public.
+The merged EEG and PE data (`eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv`, `…_5b.csv`) are too large for GitHub and are available at https://osf.io/fzcqj/. To rerun the analyses, place them in aggregated_data/. `FBOMISS_Read_and_Merge_Data_700Pre_1500Post.R` created these files from the single-trial BrainVision exports and is included for transparency only. It needs the non-anonymized exports and the participant key, which are not public.
 
 ## How to run
 
