@@ -296,7 +296,7 @@ dev.off()
 behav_obs <- behav
 
 
-#### BIC Model (2.1) ####
+#### Best BIC Model (2.1) ####
 #### Analysis of accuracy data from simulated_data ####
 
 behav_sim <- read.csv("aggregated_data/FBOmiss_behav_recovered_BIC.csv", sep=",", header=T)
@@ -435,10 +435,10 @@ for (ctx in c(1, -1)) { # loop through contexts
   # create empty plot (for first plot with y-axis label)
   if (ctx==1){
     plot(NA, xlim = c(-1, 1), ylim = c(0, 100), xlab = "", ylab = "Choice Accuracy (%)",
-         xaxt = "n", yaxt="n", main = ctx_label, cex.main = 0.9, cex.lab = 0.9, cex.axis = 0.8)
+         xaxt = "n", yaxt="n", main = ctx_label, cex.main = 0.9, cex.lab = 0.9, cex.axis = 0.8, bty="n")
   } else{
     plot(NA, xlim = c(-1, 1), ylim = c(0, 100), xlab = "", ylab = "", xaxt = "n",
-         yaxt="n", main = ctx_label, cex.main = 0.9, cex.lab = 0.9, cex.axis = 0.8)
+         yaxt="n", main = ctx_label, cex.main = 0.9, cex.lab = 0.9, cex.axis = 0.8, bty="n")
     # add legend
     legend("bottomright", legend = c("90%", "70%"),
            col = c(col_90, col_70), lty = c(2, 1), lwd = 1.5, #pch = 16,
@@ -1183,10 +1183,10 @@ for (ctx in c(1, -1)) { # loop through contexts
   # create empty plot (for first plot with y-axis label)
   if (ctx==1){
     plot(NA, xlim = c(-1, 1), ylim = c(0, 100), xlab = "", ylab = "Choice Accuracy (%)",
-         xaxt = "n", yaxt="n", main = ctx_label, cex.main = 0.9, cex.lab = 0.9, cex.axis = 0.8)
+         xaxt = "n", yaxt="n", main = ctx_label, cex.main = 0.9, cex.lab = 0.9, cex.axis = 0.8, bty="n")
   } else{
     plot(NA, xlim = c(-1, 1), ylim = c(0, 100), xlab = "", ylab = "", xaxt = "n",
-         yaxt="n", main = ctx_label, cex.main = 0.9, cex.lab = 0.9, cex.axis = 0.8)
+         yaxt="n", main = ctx_label, cex.main = 0.9, cex.lab = 0.9, cex.axis = 0.8, bty="n")
     # add legend
     legend("bottomright", legend = c("90%", "70%"),
            col = c(col_90, col_70), lty = c(2, 1), lwd = 1.5, #pch = 16,
@@ -1550,6 +1550,33 @@ for (j in 1:length(list_parameter)) {
   
 }
 
+
+
+#### Additional Analysis: Recovery of the difference between learning rates for displayed and omitted outcomes (M5.1) ####
+
+# difference displayed - omitted (cube-root scale), for positive and negative outcomes
+for (v in c("pos", "neg")) {
+  
+  # fitted difference per participant
+  fitted_diff <- parameter_fitted[, paste0("alpha_", v, "presented")]^(1/3) -
+    parameter_fitted[, paste0("alpha_", v, "omitted")]^(1/3)
+  
+  # recovered difference per participant: computed per simulation, then averaged across the 25 simulations
+  recovered_diff_mat <- matrix(NA, nrow = nrow(parameter_recovered), ncol = 25)
+  for (i in 1:25) {
+    sim <- sprintf("%02d", i)
+    recovered_diff_mat[, i] <- parameter_recovered[, paste0("alpha_", v, "presented_", sim)]^(1/3) -
+      parameter_recovered[, paste0("alpha_", v, "omitted_", sim)]^(1/3)
+  }
+  recovered_diff <- rowMeans(recovered_diff_mat)
+  
+  # correlation and sign agreement
+  print(paste0(v, " outcomes: r = ", round(cor(fitted_diff, recovered_diff), 2),
+               "; same sign in ", sum(sign(fitted_diff) == sign(recovered_diff)),
+               " of ", length(fitted_diff), " participants"))
+  print(paste0("exceptions (fitted): ", paste(round(fitted_diff[sign(fitted_diff) != sign(recovered_diff)], 3), collapse = ", ")))
+  print(paste0("mean fitted = ", round(mean(fitted_diff), 2), ", mean recovered = ", round(mean(recovered_diff), 2)))
+}
 
 #### Merge PE and behavioural data and visualize Action Value Estimates ####
 
