@@ -638,10 +638,10 @@ for (j in 1:length(list_parameter)) {
                       paste0(list_parameter[j], "_0", i),
                       paste0(list_parameter[j], "_", i))
     
-    if (list_parameter[j] != "beta") { # transform learning rates
-      recovered_mat[, i] <- parameter_recovered[, colname]^(1/3)
+    if (list_parameter[j] != "beta") { 
+      recovered_mat[, i] <- parameter_recovered[, colname]^(1/3) # cube-root transfrom learning rates
     } else {
-      recovered_mat[, i] <- parameter_recovered[, colname]
+      recovered_mat[, i] <- log(parameter_recovered[, colname]) # log-transform inverse temperature (right-skewed)
     }
   }
   
@@ -662,9 +662,9 @@ for (j in 1:length(list_parameter)) {
     }
     
   } else {
-    fitted <- parameter_fitted[, list_parameter[j]]
-    xlim_use <- c(0, 100)
-    ylim_use <- c(0, 100)
+    fitted <- log(parameter_fitted[, list_parameter[j]]) # log-transform inverse temperature (right-skewed)
+    xlim_use <- log(c(0.01, 100))
+    ylim_use <- log(c(0.01, 100))
     if (!exists("plot_title")){
       plot_title <- "Inverse Temperature"
     }
@@ -694,7 +694,8 @@ for (j in 1:length(list_parameter)) {
     pch = 19,
     col = rgb(0, 0, 0, 0.5),
     cex = 1.1, lwd=0,
-    cex.axis = .7, las=1 , xaxt="n" #, ann=F
+    cex.axis = .7, las=1 , xaxt="n",
+    yaxt = "n"
   )
   
   
@@ -703,11 +704,15 @@ for (j in 1:length(list_parameter)) {
   
   if (list_parameter[j] != "beta") {
     
-    axis(1, at=seq(0,1, 0.2), las=1, cex.axis=.7, mgp=c(1.6,.001,0))
+    lr_ticks <- c(0, 0.01, 0.1, 0.5, 1)
+    axis(1, at=lr_ticks^(1/3), labels=lr_ticks, las=1, cex.axis=.7, mgp=c(1.6,.001,0))
+    axis(2, at=lr_ticks^(1/3), labels=lr_ticks, las=1, cex.axis=.7)
     
-  }else{ # adjust axis for beta
+  }else{ # adjust axes for beta (log scale, labels on original scale)
     
-    axis(1, at=seq(0,100, 20), las=1, cex.axis=.7, mgp=c(1.6,.001,0))
+    beta_ticks <- c(0.01, 0.1, 1, 10, 100)
+    axis(1, at=log(beta_ticks), labels=beta_ticks, las=1, cex.axis=.7, mgp=c(1.6,.001,0))
+    axis(2, at=log(beta_ticks), labels=beta_ticks, las=1, cex.axis=.7)
     
   }
   
@@ -1467,10 +1472,10 @@ for (j in 1:length(list_parameter)) {
                       paste0(list_parameter[j], "_0", i),
                       paste0(list_parameter[j], "_", i))
     
-    if (list_parameter[j] != "beta") { # transform learning rates
-      recovered_mat[, i] <- parameter_recovered[, colname]^(1/3)
+    if (list_parameter[j] != "beta") { 
+      recovered_mat[, i] <- parameter_recovered[, colname]^(1/3) # cube-root transform learning rates
     } else {
-      recovered_mat[, i] <- parameter_recovered[, colname]
+      recovered_mat[, i] <- log(parameter_recovered[, colname]) # log-transform inverse temperature (right-skewed)
     }
   }
   
@@ -1492,9 +1497,9 @@ for (j in 1:length(list_parameter)) {
     }
     
   } else {
-    fitted <- parameter_fitted[, list_parameter[j]]
-    xlim_use <- c(0, 100)
-    ylim_use <- c(0, 100)
+    fitted <- log(parameter_fitted[, list_parameter[j]]) # log-transform inverse temperature (right-skewed)
+    xlim_use <- log(c(0.01, 100))
+    ylim_use <- log(c(0.01, 100))
     if (!exists("plot_title")){
       plot_title <- "Inverse Temperature"
     }
@@ -1523,7 +1528,8 @@ for (j in 1:length(list_parameter)) {
     pch = 19,
     col = rgb(0, 0, 0, 0.5),
     cex = 1.1, lwd=0,
-    cex.axis = .7, las=1 , xaxt="n" #, ann=F
+    cex.axis = .7, las=1 , xaxt="n",
+    yaxt = "n" 
   )
   
   
@@ -1532,11 +1538,15 @@ for (j in 1:length(list_parameter)) {
   
   if (list_parameter[j] != "beta") {
     
-    axis(1, at=seq(0,1, 0.2), las=1, cex.axis=.7, mgp=c(1.6,.001,0))
+    lr_ticks <- c(0, 0.01, 0.1, 0.5, 1)
+    axis(1, at=lr_ticks^(1/3), labels=lr_ticks, las=1, cex.axis=.7, mgp=c(1.6,.001,0))
+    axis(2, at=lr_ticks^(1/3), labels=lr_ticks, las=1, cex.axis=.7)
     
-  }else{ # adjust axis for beta
+  }else{ # adjust axes for beta (log scale, labels on original scale)
     
-    axis(1, at=seq(0,100, 20), las=1, cex.axis=.7, mgp=c(1.6,.001,0))
+    beta_ticks <- c(0.01, 0.1, 1, 10, 100)
+    axis(1, at=log(beta_ticks), labels=beta_ticks, las=1, cex.axis=.7, mgp=c(1.6,.001,0))
+    axis(2, at=log(beta_ticks), labels=beta_ticks, las=1, cex.axis=.7)
     
   }
   
