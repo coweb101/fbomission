@@ -109,8 +109,8 @@ names(data_avg) <- c("negative", "positive")
 data_avg <- data_avg[-1,]
 
 ## latency
-which(data_avg$positive == max(data_avg$positive))*4-704 
-which(data_avg$negative == max(data_avg$negative))*4-704
+which(data_avg$positive == max(data_avg[175:550, "positive"]))*4-704 
+which(data_avg$negative == max(data_avg[175:550, "negative"]))*4-704
 # for both pos and neg, the most positive amplitude is observed at 444 ms
 
 ## amplitude
@@ -122,8 +122,8 @@ which(data_avg$negative == max(data_avg$negative))*4-704
 # -200 is samplepoint: 126 (because (-200+704)/4)
 # 200 is samplepoint: 226
 
-max(data_avg$positive) - mean(data_avg[126:226, "positive"])
-max(data_avg$negative) - mean(data_avg[126:226, "negative"])
+max(data_avg[175:550, "positive"]) - mean(data_avg[126:226, "positive"])
+max(data_avg[175:550, "negative"]) - mean(data_avg[126:226, "negative"])
 
 peak_pos <- 175 + which.max(data_avg[175:550, "positive"]) - 1
 peak_neg <- 175 + which.max(data_avg[175:550, "negative"]) - 1
@@ -323,8 +323,8 @@ names(data_avg) <- c("negative", "positive")
 data_avg <- data_avg[-1,]
 
 ## latency
-which(data_avg$positive == max(data_avg$positive))*4-704 
-which(data_avg$negative == max(data_avg$negative))*4-704
+which(data_avg$positive == max(data_avg[175:550, "positive"]))*4-704 
+which(data_avg$negative == max(data_avg[175:550, "negative"]))*4-704
 
 
 ## amplitude
@@ -337,8 +337,8 @@ which(data_avg$negative == max(data_avg$negative))*4-704
 # -200 is samplepoint: 126 (because (-200+704)/4)
 # 200 is samplepoint: 226
 
-max(data_avg$positive) - mean(data_avg[126:226, "positive"])
-max(data_avg$negative) - mean(data_avg[126:226, "negative"])
+max(data_avg[175:550, "positive"]) - mean(data_avg[126:226, "positive"])
+max(data_avg[175:550, "negative"]) - mean(data_avg[126:226, "negative"])
 
 peak_pos <- 175 + which.max(data_avg[175:550, "positive"]) - 1
 peak_neg <- 175 + which.max(data_avg[175:550, "negative"]) - 1
