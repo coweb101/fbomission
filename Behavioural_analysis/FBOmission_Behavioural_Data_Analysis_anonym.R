@@ -64,9 +64,12 @@ behav[which(behav$stim == 5|behav$stim == 6), "correct"] <- NA
 
 # Note: "correct" is taken from the logged response codes. Responses after the
 # response deadline (RT > 2500 ms) and the two trials without a valid button
-# press (choice = 9, correct = 0) are scored as incorrect here, whereas the RL
-# models only use trials with a valid choice and feedback. This concerns 11
-# trials of stimuli 1-4 and has no relevant effect.
+# press (choice = 9, correct = 0) are scored as incorrect here. Of these 11
+# trials of stimuli 1-4, 6 received no feedback (context = NA) and are therefore
+# not included in the GLMM; the remaining 5 enter the GLMM as incorrect
+# (5 of 15,302 trials, i.e. 0.03%). The RL models use all trials with a valid 
+# choice and feedback, including 4 responses registered shortly after the 
+# deadline (2506-2517 ms; 4 of 22,940 trials, i.e. 0.02%); see dataprep_PE_paper.m.
 
 # Check whether performance was below chance based on binomial distribution
 
@@ -1903,4 +1906,76 @@ knitr::kable(
 
 fits[which(fits$BIC==min(fits$BIC)),] # show model with lowest BIC
 fits[order(fits$BIC),] # show all models ordered by BIC
+
+
+#### Comparison of the two best models (M2.1 = model 2b, M5.1 = model 5b) ####
+
+## Mean and summed differences (modelfits.csv contains means across participants)
+
+# per-participant BIC values of both models
+bic_2b <- read.csv("aggregated_data/FBOmiss_learning_parameter_BIC.csv")
+bic_5b <- read.csv("aggregated_data/FBOmiss_learning_parameter_5b.csv")
+stopifnot(all(bic_2b$filename == bic_5b$filename)) # same participant order in both files
+
+n_participants <- nrow(bic_2b)
+
+# BIC difference (M5.1 - M2.1): mean per participant and summed across participants
+delta_bic_mean <- fits[model == "5b", BIC] - fits[model == "2b", BIC]
+print(paste0("BIC (M5.1 - M2.1): mean = ", round(delta_bic_mean, 2),
+             ", summed = ", round(delta_bic_mean * n_participants, 1)))
+
+# AIC difference (M2.1 - M5.1): mean per participant and summed across participants
+delta_aic_mean <- fits[model == "2b", AIC] - fits[model == "5b", AIC]
+print(paste0("AIC (M2.1 - M5.1): mean = ", round(delta_aic_mean, 2),
+             ", summed = ", round(delta_aic_mean * n_participants, 1)))
+
+
+## Per-participant differences
+
+# per-participant AIC from BIC: AIC = BIC - k*ln(n) + 2k
+# (k = 3 for M2.1 and 5 for M5.1; n = trials with valid response and feedback, as in the model fitting)
+behav_raw <- data.table::fread("aggregated_data/FBOmiss_behaviour_immediate_anonymized.csv")
+n_valid <- behav_raw[choice %in% c(1, 2) & feedback %in% c(11, 1, -11, -1), .N, by = id]
+n_valid <- n_valid$N[match(bic_2b$filename, n_valid$id)]
+aic_2b <- bic_2b$BIC - 3 * log(n_valid) + 2 * 3
+aic_5b <- bic_5b$BIC - 5 * log(n_valid) + 2 * 5
+
+delta_bic <- bic_5b$BIC - bic_2b$BIC # positive = M2.1 better
+delta_aic <- aic_2b - aic_5b         # positive = M5.1 better
+
+# check: must equal the summed AIC difference above (363.7)
+print(paste0("check summed AIC difference: ", round(sum(delta_aic), 1)))
+
+# number of participants favoring each model
+print(paste0("lower BIC for M2.1 in ", sum(delta_bic > 0), " of ", n_participants, " participants"))
+print(paste0("lower AIC for M5.1 in ", sum(delta_aic > 0), " of ", n_participants, " participants"))
+
+# distribution of BIC differences
+print(paste0("delta BIC across all participants: median = ", round(median(delta_bic), 2),
+             ", IQR = ", round(quantile(delta_bic, .25), 2), " to ", round(quantile(delta_bic, .75), 2)))
+
+
+## Participants excluded from the EEG analyses
+
+# same criterion as in the EEG scripts: SD of |PE| < .05 in display or omission trials
+pe_data_2b <- data.table::fread("aggregated_data/behav_and_pe_data_concatenated_BIC.csv")
+pe_sd <- pe_data_2b[!is.na(PE) & omission %in% c(-1, 1),
+                    .(sd_abs_pe = sd(abs(PE))), by = .(id, omission)]
+low_var_ids <- unique(pe_sd[sd_abs_pe < .05, id])
+excluded <- bic_2b$filename %in% low_var_ids
+
+# values of the excluded participants and their rank among all participants (1 = strongest preference for M2.1)
+print(data.frame(id = bic_2b$filename[excluded],
+                 delta_bic = round(delta_bic[excluded], 2),
+                 delta_aic = round(delta_aic[excluded], 2),
+                 rank_delta_bic = rank(-delta_bic)[excluded]))
+
+# model comparison without the excluded participants
+print(paste0("without excluded participants (n = ", sum(!excluded), "): ",
+             "BIC mean = ", round(mean(delta_bic[!excluded]), 2),
+             ", summed = ", round(sum(delta_bic[!excluded]), 1),
+             "; lower BIC for M2.1 in ", sum(delta_bic[!excluded] > 0), " of ", sum(!excluded),
+             "; lower AIC for M5.1 in ", sum(delta_aic[!excluded] > 0), " of ", sum(!excluded),
+             "; AIC mean = ", round(mean(delta_aic[!excluded]), 2),
+             ", summed = ", round(sum(delta_aic[!excluded]), 1)))
 
