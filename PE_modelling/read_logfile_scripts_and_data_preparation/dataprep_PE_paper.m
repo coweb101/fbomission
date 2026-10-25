@@ -23,6 +23,14 @@ choices = catalldata(:,[1 5:6 9]);
 % Spalte 3: Choice
 % Spalte 4: Feedback - nur Platzhalter, wird ersetzt durch no_choice
 
+% Note on invalid and late trials: trials without a valid response (choice = 9)
+% or without feedback (feedback = 9) are set to NaN below and are skipped in the
+% model fitting (22,940 of 23,040 trials enter the fits). Four responses were
+% registered shortly after the response deadline (2506-2517 ms) but were still
+% followed by feedback; they are treated as valid trials. Four trials with
+% choice = 9 were also followed by feedback, but are excluded here because the
+% choice is set to NaN.
+
 % replace "9" in column 3 with NaN
 ntrials = length(choices(:,1));
 for i = 1:ntrials
