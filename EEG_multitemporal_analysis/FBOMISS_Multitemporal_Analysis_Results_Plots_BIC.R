@@ -117,7 +117,7 @@ plot(1, type="l", ylim=ylim, xlim=c(0,segment_length), axes=F, ylab = NA, xlab =
 effects <- c("significanteffect_pe", "significanteffect_valence", "significanteffect_interaction")
 
 # Define the mixed color
-mid_color <- scales::alpha("#006780", 0.7)
+mid_color <- "#4D95A6" # opaque equivalent of #006780 at alpha .7 on white (avoids darkening where significance squares overlap)
 col <- c("purple", mid_color, "cornflowerblue")
 pch <- c(15, 15, 15)
 
@@ -254,6 +254,8 @@ data$pe_absolute <- abs(data$PE)
 #   labels = FALSE
 data[, pe_c_cat := ceiling(3 * data.table::frank(pe_absolute, ties.method = "first", na.last = "keep") /
                              sum(!is.na(pe_absolute))), by = .(id, valence)]
+# Note: PE terciles (frank() lines) are formed on all trials, including those later
+# rejected as artefacts; tercile sizes therefore differ slightly (about 2-3% of trials).
 
 #data$pe_c_cat <- cut(data$pe_absolute, breaks = 4, include.lowest = TRUE, labels = FALSE) 
 
@@ -633,7 +635,7 @@ plot(1, type="l", ylim=ylim, xlim=c(0,segment_length), axes=F, ylab = NA, xlab =
 effects <- c("significanteffect_pe", "significanteffect_valence", "significanteffect_interaction")
 
 # Define the mixed color
-mid_color <- scales::alpha("#006780", 0.7)
+mid_color <- "#4D95A6" # opaque equivalent of #006780 at alpha .7 on white (avoids darkening where significance squares overlap)
 col <- c("purple", mid_color, "cornflowerblue")
 pch <- c(15, 15, 15)
 
@@ -1210,7 +1212,7 @@ effects <- c( "significanteffect_pos_pe",
               "significanteffect_neg_pe", "significanteffect_diff_valence_pe")
 
 # Define the mixed color
-mid_color <- scales::alpha("#006780", 0.7)
+mid_color <- "#4D95A6" # opaque equivalent of #006780 at alpha .7 on white (avoids darkening where significance squares overlap)
 col <- c("blue", "green3", "cyan1")
 
 pch <- c(15, 15, 15)
@@ -1544,7 +1546,7 @@ effects <- c( "significanteffect_pos_pe",
              "significanteffect_neg_pe", "significanteffect_diff_valence_pe")
 
 # Define the mixed color
-mid_color <- scales::alpha("#006780", 0.7)
+mid_color <- "#4D95A6" # opaque equivalent of #006780 at alpha .7 on white (avoids darkening where significance squares overlap)
 col <- c("blue", "green3", "cyan1")
 
 pch <- c(15, 15, 15)
@@ -1867,7 +1869,7 @@ plot(1, type="l", ylim=ylim, xlim=c(0,segment_length), axes=F, ylab = NA, xlab =
 effects <- c("significanteffect_pe", "significanteffect_valence", "significanteffect_interaction")
 
 # Define the mixed color
-mid_color <- scales::alpha("#006780", 0.7)
+mid_color <- "#4D95A6" # opaque equivalent of #006780 at alpha .7 on white (avoids darkening where significance squares overlap)
 col <- c("purple", mid_color, "cornflowerblue")
 pch <- c(15, 15, 15)
 
@@ -2384,7 +2386,7 @@ plot(1, type="l", ylim=ylim, xlim=c(0,segment_length), axes=F, ylab = NA, xlab =
 effects <- c("significanteffect_pe", "significanteffect_valence", "significanteffect_interaction")
 
 # Define the mixed color
-mid_color <- scales::alpha("#006780", 0.7)
+mid_color <- "#4D95A6" # opaque equivalent of #006780 at alpha .7 on white (avoids darkening where significance squares overlap)
 col <- c("purple", mid_color, "cornflowerblue")
 pch <- c(15, 15, 15)
 
@@ -2963,7 +2965,7 @@ effects <- c( "significanteffect_pos_pe",
               "significanteffect_neg_pe", "significanteffect_diff_valence_pe")
 
 # Define the mixed color
-mid_color <- scales::alpha("#006780", 0.7)
+mid_color <- "#4D95A6" # opaque equivalent of #006780 at alpha .7 on white (avoids darkening where significance squares overlap)
 col <- c("blue", "green3", "cyan1")
 
 pch <- c(15, 15, 15)
@@ -3294,7 +3296,7 @@ effects <- c( "significanteffect_pos_pe",
               "significanteffect_neg_pe", "significanteffect_diff_valence_pe")
 
 # Define the mixed color
-mid_color <- scales::alpha("#006780", 0.7)
+mid_color <- "#4D95A6" # opaque equivalent of #006780 at alpha .7 on white (avoids darkening where significance squares overlap)
 col <- c("blue", "green3", "cyan1")
 
 pch <- c(15, 15, 15)
@@ -3532,7 +3534,7 @@ legend(-1,11, c("Positive Outcomes", "Negative Outcomes", "Diff. Test of Simple 
 
 # Legend Fixed Effects Coefficients
 text(-1, 6.5, as.expression(bquote(bold("Fixed Effects"))), pos=4, xpd=T)
-mid_color <- scales::alpha("#006780", 0.7)
+mid_color <- "#4D95A6" # opaque equivalent of #006780 at alpha .7 on white (avoids darkening where significance squares overlap)
 legend(-1,6, c(as.expression(bquote("Absolute PE")),
                as.expression(bquote("Feedback Valence")),
                as.expression(bquote("Absolute PE x Feedback Valence")),
