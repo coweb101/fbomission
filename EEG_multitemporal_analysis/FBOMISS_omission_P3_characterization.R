@@ -65,7 +65,7 @@ for (e in 1:length(electrodes)){
   
   
   data_avg_all <- rbind(data_avg_all, data_avg)
-  #data_se_all <- rbind(data_se_all, data_se)
+ 
 }
 
 data_avg_all <- do.call(cbind.data.frame, data_avg_all)
@@ -81,6 +81,14 @@ data_avg <- aggregate(. ~ uniquecond, data= data_avg_all, mean) # average across
 
 # Define function for standard error computation
 std <- function(x) sd(x)/sqrt(length(x))
+
+# peak-minus-baseline amplitude per participant at the latency of the grand-average peak,
+# baseline = mean of -200 to 200 ms (sample points 126 to 226); returns mean and SE across participants
+peak_minus_baseline <- function(data_avg_all, valence, peak_sample) {
+  rows <- data_avg_all[data_avg_all$uniquecond == valence, as.character(1:segment_length)]
+  diff <- rows[, as.character(peak_sample)] - rowMeans(rows[, as.character(126:226)])
+  c(mean = mean(diff), se = std(diff))
+}
 
 # Calculate SE for average across participants
 data_se <- c()
@@ -117,9 +125,10 @@ which(data_avg$negative == max(data_avg$negative))*4-704
 max(data_avg$positive) - mean(data_avg[126:226, "positive"])
 max(data_avg$negative) - mean(data_avg[126:226, "negative"])
 
-data_se[which(data_avg$positive == max(data_avg$positive)), "positive"]
-data_se[which(data_avg$negative == max(data_avg$negative)), "negative"]
-
+peak_pos <- 175 + which.max(data_avg[175:550, "positive"]) - 1
+peak_neg <- 175 + which.max(data_avg[175:550, "negative"]) - 1
+peak_minus_baseline(data_avg_all, 1, peak_pos)
+peak_minus_baseline(data_avg_all, -1, peak_neg)
 #### Aggregate data and get latencies and relative amplitudes for maxima for the centroparietal cluster ####
 
 electrodes <- c( "CP1", "CP2", "P3", "Pz", "P4")
@@ -165,6 +174,14 @@ data_avg <- aggregate(. ~ uniquecond, data= data_avg_all, mean) # average across
 # Define function for standard error computation
 std <- function(x) sd(x)/sqrt(length(x))
 
+# peak-minus-baseline amplitude per participant at the latency of the grand-average peak,
+# baseline = mean of -200 to 200 ms (sample points 126 to 226); returns mean and SE across participants
+peak_minus_baseline <- function(data_avg_all, valence, peak_sample) {
+  rows <- data_avg_all[data_avg_all$uniquecond == valence, as.character(1:segment_length)]
+  diff <- rows[, as.character(peak_sample)] - rowMeans(rows[, as.character(126:226)])
+  c(mean = mean(diff), se = std(diff))
+}
+
 # Calculate SE for average across participants
 data_se <- c()
 data_se <- aggregate(. ~ uniquecond, data= data_avg_all, std)
@@ -199,8 +216,12 @@ which(data_avg$negative == max(data_avg[175:550,"negative"]))*4-704 # most pos a
 max(data_avg[175:550,"positive"]) - mean(data_avg[126:226, "positive"])
 max(data_avg[175:550,"negative"]) - mean(data_avg[126:226, "negative"])
 
-data_se[which(data_avg$positive == max(data_avg[175:550,"positive"])), "positive"]
-data_se[which(data_avg$negative == max(data_avg[175:550,"negative"])), "negative"]
+peak_pos <- 175 + which.max(data_avg[175:550, "positive"]) - 1
+peak_neg <- 175 + which.max(data_avg[175:550, "negative"]) - 1
+peak_minus_baseline(data_avg_all, 1, peak_pos)
+peak_minus_baseline(data_avg_all, -1, peak_neg)
+
+
 
 #### Display Data ####
 
@@ -275,6 +296,14 @@ data_avg <- aggregate(. ~ uniquecond, data= data_avg_all, mean) # average across
 # Define function for standard error computation
 std <- function(x) sd(x)/sqrt(length(x))
 
+# peak-minus-baseline amplitude per participant at the latency of the grand-average peak,
+# baseline = mean of -200 to 200 ms (sample points 126 to 226); returns mean and SE across participants
+peak_minus_baseline <- function(data_avg_all, valence, peak_sample) {
+  rows <- data_avg_all[data_avg_all$uniquecond == valence, as.character(1:segment_length)]
+  diff <- rows[, as.character(peak_sample)] - rowMeans(rows[, as.character(126:226)])
+  c(mean = mean(diff), se = std(diff))
+}
+
 # Calculate SE for average across participants
 data_se <- c()
 data_se <- aggregate(. ~ uniquecond, data= data_avg_all, std)
@@ -311,8 +340,10 @@ which(data_avg$negative == max(data_avg$negative))*4-704
 max(data_avg$positive) - mean(data_avg[126:226, "positive"])
 max(data_avg$negative) - mean(data_avg[126:226, "negative"])
 
-data_se[which(data_avg$positive == max(data_avg$positive)), "positive"]
-data_se[which(data_avg$negative == max(data_avg$negative)), "negative"]
+peak_pos <- 175 + which.max(data_avg[175:550, "positive"]) - 1
+peak_neg <- 175 + which.max(data_avg[175:550, "negative"]) - 1
+peak_minus_baseline(data_avg_all, 1, peak_pos)
+peak_minus_baseline(data_avg_all, -1, peak_neg)
 
 #### Aggregate data and get latencies and relative amplitudes for maxima for the centroparietal cluster ####
 
@@ -359,6 +390,14 @@ data_avg <- aggregate(. ~ uniquecond, data= data_avg_all, mean) # average across
 # Define function for standard error computation
 std <- function(x) sd(x)/sqrt(length(x))
 
+# peak-minus-baseline amplitude per participant at the latency of the grand-average peak,
+# baseline = mean of -200 to 200 ms (sample points 126 to 226); returns mean and SE across participants
+peak_minus_baseline <- function(data_avg_all, valence, peak_sample) {
+  rows <- data_avg_all[data_avg_all$uniquecond == valence, as.character(1:segment_length)]
+  diff <- rows[, as.character(peak_sample)] - rowMeans(rows[, as.character(126:226)])
+  c(mean = mean(diff), se = std(diff))
+}
+
 # Calculate SE for average across participants
 data_se <- c()
 data_se <- aggregate(. ~ uniquecond, data= data_avg_all, std)
@@ -394,5 +433,7 @@ which(data_avg$negative == max(data_avg[175:550,"negative"]))*4-704
 max(data_avg[175:550,"positive"]) - mean(data_avg[126:226, "positive"])
 max(data_avg[175:550,"negative"]) - mean(data_avg[126:226, "negative"])
 
-data_se[which(data_avg$positive == max(data_avg[175:550,"positive"])), "positive"]
-data_se[which(data_avg$negative == max(data_avg[175:550,"negative"])), "negative"]
+peak_pos <- 175 + which.max(data_avg[175:550, "positive"]) - 1
+peak_neg <- 175 + which.max(data_avg[175:550, "negative"]) - 1
+peak_minus_baseline(data_avg_all, 1, peak_pos)
+peak_minus_baseline(data_avg_all, -1, peak_neg)
