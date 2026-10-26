@@ -25,6 +25,8 @@ options(width=500, scipen=6, digits=8)
 options("jtools-digits" = 3)
 control=glmerControl(optCtrl=list(maxfun=1e6))
 
+sink("behavioural_analysis_output.txt")
+
 set.seed(17)
 
 #### Learning Performance (Choice Accuracy) ####
@@ -54,22 +56,41 @@ behav$omission <- ifelse(behav$feedback == 1 | behav$feedback == -1, 1, ifelse(b
 behav$context <- ifelse(behav$feedback == 11 | behav$feedback == -1, 1, ifelse(behav$feedback == -11 | behav$feedback == 1, -1, NA)) # reward context = 1; loss context = -1
 behav$rew_prob <- ifelse(behav$stim == 3 | behav$stim == 4, 70, ifelse(behav$stim==1|behav$stim==2, 90, NA))
 
+# Invalid key presses (choice = 9): two of these trials were nevertheless
+# followed by feedback (according to the log file) and logged as incorrect 
+# (correct = 0). As they are no valid choices, "correct" is set to NA for all 
+# of them (as in the RL models, see dataprep_PE_paper.m). This must be done
+# before choice is recoded to NA.
+behav[which(behav$choice == 9), "correct"] <- NA
+
 # Recode "9" to NAs in "correct" and "choice" columns
 behav[which(behav$correct == 9), "correct"] <- NA
 behav[which(behav$choice == 9), "choice"] <- NA
+
+# Four responses were logged marginally after the response deadline
+# (2506-2517 ms) but were accepted by Presentation and followed by feedback;
+# they are treated as valid responses (as in the RL models). Their logged
+# response code is "incorrect" regardless of the key pressed, so accuracy is
+# recoded from the chosen key and the participant's correct key for the
+# respective stimulus (taken from trials with valid response codes).
+# (This changes 1 of the 3 affected trials of stimuli 1-4 to correct.)
+
+correct_key <- unique(behav[correct == 1 & response_time <= 2500 & stim %in% 1:4,
+                            .(id, stim, correct_key = choice)])
+stopifnot(!anyDuplicated(correct_key[, .(id, stim)])) # one correct key per stimulus
+late <- which(behav$response_time > 2500 & !is.na(behav$choice) &
+                behav$feedback %in% c(11, 1, -11, -1) & behav$stim %in% 1:4)
+behav$correct[late] <- as.integer(
+  behav$choice[late] == correct_key$correct_key[match(paste(behav$id[late], behav$stim[late]),
+                                                      paste(correct_key$id, correct_key$stim))])
 
 # Stimulus 5 & 6 had a reward probability of 50%; accordingly, there is no "correct choice".
 # Therefore I recode the correct column for these stimuli before evaluating accuracy rates.
 behav[which(behav$stim == 5|behav$stim == 6), "correct"] <- NA
 
-# Note: "correct" is taken from the logged response codes. Responses after the
-# response deadline (RT > 2500 ms) and the two trials without a valid button
-# press (choice = 9, correct = 0) are scored as incorrect here. Of these 11
-# trials of stimuli 1-4, 6 received no feedback (context = NA) and are therefore
-# not included in the GLMM; the remaining 5 enter the GLMM as incorrect
-# (5 of 15,302 trials, i.e. 0.03%). The RL models use all trials with a valid 
-# choice and feedback, including 4 responses registered shortly after the 
-# deadline (2506-2517 ms; 4 of 22,940 trials, i.e. 0.02%); see dataprep_PE_paper.m.
+# Note: Trials without a response within the deadline received no feedback
+# (feedback = 9, context = NA) and are therefore not included in the GLMM.
+# With the recoding above, the GLMM comprises 15,300 trials.
 
 # Check whether performance was below chance based on binomial distribution
 
@@ -1989,3 +2010,6 @@ print(paste0("without excluded participants (n = ", sum(!excluded), "): ",
              "; AIC mean = ", round(mean(delta_aic[!excluded]), 2),
              ", summed = ", round(sum(delta_aic[!excluded]), 1)))
 
+
+#### Stop saving output ####
+sink()
