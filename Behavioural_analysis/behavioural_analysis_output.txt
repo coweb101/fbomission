@@ -1,0 +1,598 @@
+[1] "0 participants performed significantly below chance and will be excluded. The resulting samples comprises 48 participants."
+Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+ Family: binomial  ( logit )
+Formula: correct ~ trialno_centered * context * rew_prob + (1 + trialno_centered *      context * rew_prob | id)
+   Data: behav
+Control: glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000))
+
+     AIC      BIC   logLik deviance df.resid 
+ 14439.7  14775.7  -7175.8  14351.7    15256 
+
+Scaled residuals: 
+      Min        1Q    Median        3Q       Max 
+-27.60706  -0.62908   0.22866   0.60400   8.94759 
+
+Random effects:
+ Groups Name                              Variance Std.Dev. Corr                                            
+ id     (Intercept)                       1.91593  1.38417                                                  
+        trialno_centered                  1.64433  1.28231   0.942                                          
+        context                           0.33937  0.58255   0.573  0.570                                   
+        rew_prob                          0.60648  0.77877  -0.044 -0.077  0.288                            
+        trialno_centered:context          0.24629  0.49627   0.615  0.675  0.776 -0.078                     
+        trialno_centered:rew_prob         0.34299  0.58566  -0.265 -0.191 -0.179  0.543 -0.234              
+        context:rew_prob                  0.76266  0.87331   0.051  0.079  0.317  0.771  0.000  0.464       
+        trialno_centered:context:rew_prob 0.34315  0.58579  -0.143 -0.041  0.086  0.309  0.002  0.597  0.632
+Number of obs: 15300, groups:  id, 48
+
+Fixed effects:
+                                   Estimate Std. Error z value  Pr(>|z|)    
+(Intercept)                        1.484303   0.205124  7.2361 4.617e-13 ***
+trialno_centered                   1.286347   0.196749  6.5380 6.234e-11 ***
+context                            0.243174   0.095635  2.5427  0.010999 *  
+rew_prob                          -0.592067   0.121560 -4.8706 1.113e-06 ***
+trialno_centered:context           0.284474   0.097144  2.9284  0.003408 ** 
+trialno_centered:rew_prob         -0.217601   0.107576 -2.0228  0.043098 *  
+context:rew_prob                  -0.326659   0.134427 -2.4300  0.015099 *  
+trialno_centered:context:rew_prob -0.215034   0.107841 -1.9940  0.046152 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr) trln_c contxt rw_prb trln_: trl_:_ cntx:_
+triln_cntrd  0.919                                          
+context      0.556  0.552                                   
+rew_prob    -0.078 -0.119  0.165                            
+trln_cntrd:  0.518  0.586  0.737 -0.143                     
+trln_cntr:_ -0.260 -0.222 -0.229  0.567 -0.268              
+cntxt:rw_pr  0.017  0.030  0.189  0.750 -0.092  0.450       
+trln_cnt::_ -0.157 -0.094 -0.058  0.343 -0.158  0.568  0.623
+# R2 for Mixed Models
+
+  Conditional R2: 0.631
+     Marginal R2: 0.127
+$emtrends
+trialno_centered = 0.000663:
+ rew_prob context trialno_centered.trend    SE  df asymp.LCL asymp.UCL z.ratio p.value
+       -1      -1                  1.004 0.197 Inf     0.618      1.39   5.092  <.0001
+        1      -1                  0.999 0.181 Inf     0.645      1.35   5.532  <.0001
+       -1       1                  2.003 0.359 Inf     1.299      2.71   5.573  <.0001
+        1       1                  1.138 0.291 Inf     0.568      1.71   3.913  0.0001
+
+Confidence level used: 0.95 
+
+$contrasts
+trialno_centered = 0.000663:
+ contrast         estimate    SE  df asymp.LCL asymp.UCL z.ratio p.value
+ (-1 -1) - (1 -1)  0.00513 0.200 Inf    -0.523     0.533   0.026  1.0000
+ (-1 -1) - (-1 1) -0.99902 0.312 Inf    -1.823    -0.175  -3.199  0.0083
+ (-1 -1) - 1 1    -0.13375 0.248 Inf    -0.789     0.521  -0.539  1.0000
+ (1 -1) - (-1 1)  -1.00415 0.326 Inf    -1.865    -0.143  -3.078  0.0125
+ (1 -1) - 1 1     -0.13888 0.266 Inf    -0.842     0.564  -0.521  1.0000
+ (-1 1) - 1 1      0.86527 0.382 Inf    -0.141     1.872   2.268  0.1400
+
+Confidence level used: 0.95 
+Conf-level adjustment: bonferroni method for 6 estimates 
+P value adjustment: bonferroni method for 6 tests 
+
+RStudioGD 
+        2 
+Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+ Family: binomial  ( logit )
+Formula: correct ~ trialno_centered * context * rew_prob + (1 + trialno_centered *      context * rew_prob | subj:sim_iteration)
+   Data: behav
+Control: glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000))
+
+      AIC       BIC    logLik  deviance  df.resid 
+ 368872.1  369349.9 -184392.1  368784.1    383956 
+
+Scaled residuals: 
+      Min        1Q    Median        3Q       Max 
+-30.42374   0.06634   0.33765   0.58570   4.40405 
+
+Random effects:
+ Groups             Name                              Variance Std.Dev. Corr                                            
+ subj:sim_iteration (Intercept)                       1.090350 1.04420                                                  
+                    trialno_centered                  0.697256 0.83502   0.804                                          
+                    context                           0.050600 0.22494  -0.015  0.013                                   
+                    rew_prob                          0.080421 0.28359  -0.341 -0.376 -0.164                            
+                    trialno_centered:context          0.084031 0.28988  -0.041  0.016  0.102 -0.075                     
+                    trialno_centered:rew_prob         0.076875 0.27726  -0.131 -0.047  0.033  0.104  0.078              
+                    context:rew_prob                  0.051627 0.22722   0.020  0.046  0.847 -0.174  0.159  0.038       
+                    trialno_centered:context:rew_prob 0.072515 0.26929   0.027  0.120  0.136 -0.112  0.577  0.146  0.011
+Number of obs: 384000, groups:  subj:sim_iteration, 1200
+
+Fixed effects:
+                                    Estimate Std. Error  z value  Pr(>|z|)    
+(Intercept)                        1.5323745  0.0306863  49.9368 < 2.2e-16 ***
+trialno_centered                   0.7707448  0.0259240  29.7309 < 2.2e-16 ***
+context                            0.0079159  0.0085452   0.9264  0.354259    
+rew_prob                          -0.2866455  0.0099821 -28.7159 < 2.2e-16 ***
+trialno_centered:context          -0.0042005  0.0124210  -0.3382  0.735229    
+trialno_centered:rew_prob         -0.0393156  0.0123020  -3.1959  0.001394 ** 
+context:rew_prob                   0.0094199  0.0085904   1.0966  0.272834    
+trialno_centered:context:rew_prob  0.0200538  0.0120187   1.6686  0.095206 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr) trln_c contxt rw_prb trln_: trl_:_ cntx:_
+triln_cntrd  0.767                                          
+context     -0.012  0.008                                   
+rew_prob    -0.302 -0.321 -0.099                            
+trln_cntrd: -0.028  0.011  0.253 -0.037                     
+trln_cntr:_ -0.107 -0.087  0.022  0.247  0.038              
+cntxt:rw_pr  0.017  0.036  0.413 -0.111  0.030  0.015       
+trln_cnt::_  0.020  0.076  0.013 -0.063  0.157  0.062  0.210
+# R2 for Mixed Models
+
+  Conditional R2: 0.362
+     Marginal R2: 0.055
+$emtrends
+trialno_centered = -0.0000836:
+ rew_prob context trialno_centered.trend     SE  df asymp.LCL asymp.UCL z.ratio p.value
+       -1      -1                  0.834 0.0341 Inf     0.767     0.901  24.447  <.0001
+        1      -1                  0.716 0.0321 Inf     0.653     0.778  22.308  <.0001
+       -1       1                  0.786 0.0331 Inf     0.721     0.851  23.720  <.0001
+        1       1                  0.747 0.0346 Inf     0.679     0.815  21.596  <.0001
+
+Confidence level used: 0.95 
+
+$contrasts
+trialno_centered = -0.0000836:
+ contrast         estimate     SE  df asymp.LCL asymp.UCL z.ratio p.value
+ (-1 -1) - (1 -1)   0.1187 0.0333 Inf   0.03084    0.2066   3.564  0.0022
+ (-1 -1) - (-1 1)   0.0485 0.0317 Inf  -0.03525    0.1323   1.528  0.7592
+ (-1 -1) - 1 1      0.0870 0.0356 Inf  -0.00697    0.1810   2.443  0.0875
+ (1 -1) - (-1 1)   -0.0702 0.0343 Inf  -0.16068    0.0202  -2.048  0.2431
+ (1 -1) - 1 1      -0.0317 0.0372 Inf  -0.12978    0.0664  -0.853  1.0000
+ (-1 1) - 1 1       0.0385 0.0354 Inf  -0.05498    0.1320   1.087  1.0000
+
+Confidence level used: 0.95 
+Conf-level adjustment: bonferroni method for 6 estimates 
+P value adjustment: bonferroni method for 6 tests 
+
+RStudioGD 
+        2 
+          vars  n mean    sd median trimmed  mad  min max range skew kurtosis   se
+alpha_pos    1 48 0.38  0.26   0.29    0.35 0.22 0.00   1  1.00 0.86     0.11 0.04
+alpha_neg    2 48 0.13  0.26   0.02    0.06 0.03 0.00   1  1.00 2.52     5.60 0.04
+beta         3 48 5.20 15.66   2.34    2.17 1.63 0.14 100 99.86 5.10    26.37 2.26
+Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+Formula: learning_rate ~ valence + (1 | filename)
+   Data: data_BIC
+Control: lmerControl(optimizer = "bobyqa", optCtr = list(maxfun = 1000000000))
+
+REML criterion at convergence: 12.5
+
+Scaled residuals: 
+      Min        1Q    Median        3Q       Max 
+-1.619496 -0.556077 -0.068241  0.430998  2.063750 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ filename (Intercept) 0.028266 0.16812 
+ Residual             0.038658 0.19662 
+Number of obs: 96, groups:  filename, 48
+
+Fixed effects:
+             Estimate Std. Error        df t value  Pr(>|t|)    
+(Intercept)  0.480862   0.031489 47.000000 15.2707 < 2.2e-16 ***
+valence      0.194450   0.020067 47.000000  9.6899 8.762e-13 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+        (Intr)
+valence 0.000 
+# R2 for Mixed Models
+
+  Conditional R2: 0.632
+     Marginal R2: 0.363
+$emmeans
+ valence emmean     SE  df asymp.LCL asymp.UCL z.ratio p.value
+      -1  0.286 0.0373 Inf     0.213     0.360   7.670  <.0001
+       1  0.675 0.0373 Inf     0.602     0.748  18.086  <.0001
+
+Degrees-of-freedom method: asymptotic 
+Confidence level used: 0.95 
+
+$contrasts
+ contrast estimate     SE  df asymp.LCL asymp.UCL z.ratio p.value
+ (-1) - 1   -0.389 0.0401 Inf    -0.468     -0.31  -9.690  <.0001
+
+Degrees-of-freedom method: asymptotic 
+Confidence level used: 0.95 
+
+
+	Paired t-test
+
+data:  parameter_BIC$alpha_pos^(1/3) and parameter_BIC$alpha_neg^(1/3)
+t = 9.68995, df = 47, p-value = 8.7624e-13
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 0.30815983 0.46963966
+sample estimates:
+mean of the differences 
+             0.38889974 
+
+RStudioGD 
+        2 
+[1] "Learning Rate (Positive Feedback)"
+[1] "Learning Rate (Negative Feedback)"
+[1] "Inverse Temperature"
+RStudioGD 
+        2 
+RStudioGD 
+        2 
+Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+ Family: binomial  ( logit )
+Formula: correct ~ trialno_centered * context * rew_prob + (1 + trialno_centered *      context * rew_prob | subj:sim_iteration)
+   Data: behav
+Control: glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000))
+
+      AIC       BIC    logLik  deviance  df.resid 
+ 361908.5  362386.3 -180910.3  361820.5    383956 
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-37.1209  -0.2043   0.2930   0.6050   6.7239 
+
+Random effects:
+ Groups             Name                              Variance Std.Dev. Corr                                            
+ subj:sim_iteration (Intercept)                       1.395689 1.18139                                                  
+                    trialno_centered                  1.092120 1.04505   0.853                                          
+                    context                           0.285393 0.53422   0.197  0.171                                   
+                    rew_prob                          0.183003 0.42779  -0.392 -0.431  0.245                            
+                    trialno_centered:context          0.168747 0.41079   0.084  0.349  0.443  0.051                     
+                    trialno_centered:rew_prob         0.109469 0.33086  -0.392 -0.284  0.007  0.353  0.232              
+                    context:rew_prob                  0.117259 0.34243   0.081 -0.017  0.362  0.646  0.114  0.180       
+                    trialno_centered:context:rew_prob 0.077282 0.27800   0.000  0.125  0.163  0.112  0.575  0.686  0.126
+Number of obs: 384000, groups:  subj:sim_iteration, 1200
+
+Fixed effects:
+                                   Estimate Std. Error  z value     Pr(>|z|)    
+(Intercept)                        1.641205   0.034844  47.1011    < 2.2e-16 ***
+trialno_centered                   0.981421   0.032174  30.5033    < 2.2e-16 ***
+context                            0.281543   0.016961  16.5997    < 2.2e-16 ***
+rew_prob                          -0.364967   0.014201 -25.7001    < 2.2e-16 ***
+trialno_centered:context           0.084990   0.016159   5.2595 0.0000001445 ***
+trialno_centered:rew_prob         -0.139909   0.014488  -9.6571    < 2.2e-16 ***
+context:rew_prob                  -0.039469   0.012045  -3.2769      0.00105 ** 
+trialno_centered:context:rew_prob  0.015626   0.013407   1.1655      0.24380    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr) trln_c contxt rw_prb trln_: trl_:_ cntx:_
+triln_cntrd  0.825                                          
+context      0.199  0.172                                   
+rew_prob    -0.370 -0.400  0.174                            
+trln_cntrd:  0.086  0.298  0.461  0.007                     
+trln_cntr:_ -0.297 -0.255 -0.019  0.418  0.075              
+cntxt:rw_pr  0.053 -0.029  0.191  0.546 -0.031  0.184       
+trln_cnt::_ -0.013  0.049  0.004  0.138  0.102  0.430  0.321
+# R2 for Mixed Models
+
+  Conditional R2: 0.478
+     Marginal R2: 0.087
+$emtrends
+trialno_centered = -0.0000836:
+ rew_prob trialno_centered.trend     SE  df asymp.LCL asymp.UCL z.ratio p.value
+       -1                  1.121 0.0385 Inf     1.046     1.197  29.122  <.0001
+        1                  0.842 0.0317 Inf     0.779     0.904  26.511  <.0001
+
+Results are averaged over the levels of: context 
+Confidence level used: 0.95 
+
+$contrasts
+trialno_centered = -0.0000836:
+ contrast estimate    SE  df asymp.LCL asymp.UCL z.ratio p.value
+ (-1) - 1     0.28 0.029 Inf     0.223     0.337   9.657  <.0001
+
+Results are averaged over the levels of: context 
+Confidence level used: 0.95 
+
+$emtrends
+trialno_centered = -0.0000836:
+ context trialno_centered.trend     SE  df asymp.LCL asymp.UCL z.ratio p.value
+      -1                  0.896 0.0314 Inf     0.835     0.958  28.547  <.0001
+       1                  1.066 0.0401 Inf     0.988     1.145  26.606  <.0001
+
+Results are averaged over the levels of: rew_prob 
+Confidence level used: 0.95 
+
+$contrasts
+trialno_centered = -0.0000836:
+ contrast estimate     SE  df asymp.LCL asymp.UCL z.ratio p.value
+ (-1) - 1    -0.17 0.0323 Inf    -0.233    -0.107  -5.259  <.0001
+
+Results are averaged over the levels of: rew_prob 
+Confidence level used: 0.95 
+
+$emmeans
+context = -1:
+ rew_prob emmean     SE  df asymp.LCL asymp.UCL z.ratio p.value
+       -1   1.69 0.0429 Inf     1.601      1.77  39.248  <.0001
+        1   1.03 0.0318 Inf     0.972      1.10  32.551  <.0001
+
+context =  1:
+ rew_prob emmean     SE  df asymp.LCL asymp.UCL z.ratio p.value
+       -1   2.33 0.0493 Inf     2.230      2.42  47.206  <.0001
+        1   1.52 0.0459 Inf     1.428      1.61  33.047  <.0001
+
+Results are given on the logit (not the response) scale. 
+Confidence level used: 0.95 
+
+$contrasts
+context = -1:
+ contrast estimate     SE  df asymp.LCL asymp.UCL z.ratio p.value
+ (-1) - 1    0.651 0.0253 Inf     0.601     0.701  25.739  <.0001
+
+context =  1:
+ contrast estimate     SE  df asymp.LCL asymp.UCL z.ratio p.value
+ (-1) - 1    0.809 0.0462 Inf     0.718     0.899  17.509  <.0001
+
+Results are given on the log odds ratio (not the response) scale. 
+Confidence level used: 0.95 
+
+ rew_prob_pairwise context_pairwise estimate     SE  df asymp.LCL asymp.UCL z.ratio p.value
+ (-1) - 1          (-1) - 1           -0.158 0.0482 Inf    -0.252   -0.0635  -3.277  0.0010
+
+Results are given on the log odds ratio (not the response) scale. 
+Confidence level used: 0.95 
+$emtrends
+trialno_centered = -0.0000836:
+ rew_prob context trialno_centered.trend     SE  df asymp.LCL asymp.UCL z.ratio p.value
+       -1      -1                  1.052 0.0385 Inf     0.977     1.127  27.348  <.0001
+        1      -1                  0.741 0.0306 Inf     0.681     0.801  24.195  <.0001
+       -1       1                  1.191 0.0477 Inf     1.097     1.284  24.943  <.0001
+        1       1                  0.942 0.0453 Inf     0.853     1.031  20.820  <.0001
+
+Confidence level used: 0.95 
+
+$contrasts
+trialno_centered = -0.0000836:
+ contrast         estimate     SE  df asymp.LCL asymp.UCL z.ratio p.value
+ (-1 -1) - (1 -1)    0.311 0.0298 Inf   0.23235    0.3898  10.425  <.0001
+ (-1 -1) - (-1 1)   -0.139 0.0398 Inf  -0.24382   -0.0336  -3.483  0.0030
+ (-1 -1) - 1 1       0.110 0.0450 Inf  -0.00887    0.2285   2.441  0.0878
+ (1 -1) - (-1 1)    -0.450 0.0418 Inf  -0.55996   -0.3396 -10.772  <.0001
+ (1 -1) - 1 1       -0.201 0.0440 Inf  -0.31744   -0.0850  -4.568  <.0001
+ (-1 1) - 1 1        0.249 0.0472 Inf   0.12407    0.3731   5.267  <.0001
+
+Confidence level used: 0.95 
+Conf-level adjustment: bonferroni method for 6 estimates 
+P value adjustment: bonferroni method for 6 tests 
+
+RStudioGD 
+        2 
+                   vars  n mean    sd median trimmed  mad  min    max range skew kurtosis   se
+alpha_pospresented    1 48 0.41  0.31   0.34    0.39 0.31 0.00   1.00  1.00 0.67    -0.68 0.05
+alpha_posomitted      2 48 0.19  0.24   0.06    0.14 0.08 0.00   1.00  1.00 1.56     2.08 0.03
+alpha_negpresented    3 48 0.10  0.19   0.01    0.06 0.01 0.00   0.85  0.85 2.33     4.96 0.03
+alpha_negomitted      4 48 0.11  0.21   0.03    0.06 0.04 0.00   1.00  1.00 3.05     9.47 0.03
+beta                  5 48 5.15 14.22   2.82    2.87 2.56 0.19 100.00 99.81 6.17    38.20 2.05
+Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+Formula: learning_rate ~ valence * omission + (1 | filename)
+   Data: data
+Control: lmerControl(optimizer = "bobyqa", optCtr = list(maxfun = 1000000000))
+
+REML criterion at convergence: 57.4
+
+Scaled residuals: 
+      Min        1Q    Median        3Q       Max 
+-2.043776 -0.633106 -0.031192  0.627153  2.778810 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ filename (Intercept) 0.018469 0.13590 
+ Residual             0.057851 0.24052 
+Number of obs: 192, groups:  filename, 48
+
+Fixed effects:
+                   Estimate Std. Error         df t value  Pr(>|t|)    
+(Intercept)        0.410568   0.026193  47.000000 15.6748 < 2.2e-16 ***
+valence            0.141352   0.017358 141.000000  8.1432 1.844e-13 ***
+omission          -0.056353   0.017358 141.000000 -3.2464 0.0014601 ** 
+valence:omission  -0.068293   0.017358 141.000000 -3.9343 0.0001305 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr) valenc omissn
+valence     0.000               
+omission    0.000  0.000        
+valenc:mssn 0.000  0.000  0.000 
+# R2 for Mixed Models
+
+  Conditional R2: 0.445
+     Marginal R2: 0.268
+$emmeans
+ omission valence emmean     SE  df asymp.LCL asymp.UCL z.ratio p.value
+       -1      -1  0.257 0.0399 Inf     0.179     0.335   6.452  <.0001
+        1      -1  0.281 0.0399 Inf     0.203     0.359   7.051  <.0001
+       -1       1  0.677 0.0399 Inf     0.598     0.755  16.967  <.0001
+        1       1  0.427 0.0399 Inf     0.349     0.505  10.715  <.0001
+
+Degrees-of-freedom method: asymptotic 
+Confidence level used: 0.95 
+
+$contrasts
+ contrast         estimate     SE  df asymp.LCL asymp.UCL z.ratio p.value
+ (-1 -1) - (1 -1)  -0.0239 0.0491 Inf    -0.153    0.1056  -0.486  1.0000
+ (-1 -1) - (-1 1)  -0.4193 0.0491 Inf    -0.549   -0.2898  -8.540  <.0001
+ (-1 -1) - 1 1     -0.1700 0.0491 Inf    -0.300   -0.0405  -3.463  0.0032
+ (1 -1) - (-1 1)   -0.3954 0.0491 Inf    -0.525   -0.2659  -8.054  <.0001
+ (1 -1) - 1 1      -0.1461 0.0491 Inf    -0.276   -0.0166  -2.976  0.0175
+ (-1 1) - 1 1       0.2493 0.0491 Inf     0.120    0.3788   5.078  <.0001
+
+Degrees-of-freedom method: asymptotic 
+Confidence level used: 0.95 
+Conf-level adjustment: bonferroni method for 6 estimates 
+P value adjustment: bonferroni method for 6 tests 
+
+RStudioGD 
+        2 
+[1] "LR (Positive, Display)"
+[1] "LR (Positive, Omission)"
+[1] "LR (Negative, Display)"
+[1] "LR (Negative, Omission)"
+[1] "Inverse Temperature"
+[1] "pos outcomes: r = 0.96; same sign in 46 of 48 participants"
+[1] "exceptions (fitted): -0.046, 0"
+[1] "mean fitted = 0.25, mean recovered = 0.23"
+[1] "neg outcomes: r = 0.96; same sign in 45 of 48 participants"
+[1] "exceptions (fitted): 0, 0, 0"
+[1] "mean fitted = -0.02, mean recovered = -0.03"
+RStudioGD 
+        2 
+RStudioGD 
+        2 
+
+
+| round(fits$AIC, 2)|
+|------------------:|
+|             541.11|
+|             550.24|
+|             541.44|
+|             490.18|
+|             491.56|
+|             491.98|
+|             479.37|
+|             480.00|
+|             482.75|
+|             477.88|
+|             479.08|
+|             480.86|
+|             504.35|
+|             523.09|
+|             503.47|
+|             534.37|
+|             542.50|
+|             535.93|
+|             480.51|
+|             480.81|
+|             481.41|
+|             471.80|
+|             471.36|
+|             474.96|
+|             473.44|
+|             473.77|
+|             476.14|
+|             525.93|
+|             537.83|
+|             528.33|
+|             481.55|
+|             476.75|
+|             477.44|
+|             486.32|
+|             509.97|
+|             490.33|
+|             505.60|
+|             521.59|
+|             514.44|
+|             471.68|
+|             468.35|
+|             481.25|
+
+
+| round(fits$BIC, 2)|
+|------------------:|
+|             549.44|
+|             558.57|
+|             553.95|
+|             502.69|
+|             508.24|
+|             512.83|
+|             491.88|
+|             496.68|
+|             503.59|
+|             498.72|
+|             504.10|
+|             510.04|
+|             516.85|
+|             535.60|
+|             524.32|
+|             546.88|
+|             555.01|
+|             556.78|
+|             501.36|
+|             505.83|
+|             510.60|
+|             492.65|
+|             496.38|
+|             504.15|
+|             510.97|
+|             515.47|
+|             522.00|
+|             542.60|
+|             554.51|
+|             557.52|
+|             510.73|
+|             505.94|
+|             531.64|
+|             515.51|
+|             539.16|
+|             544.53|
+|             534.79|
+|             550.78|
+|             568.64|
+|             525.89|
+|             522.55|
+|             585.48|
+   model no_free_parameter                    features        ll       BIC       AIC
+1:    2b                 3 valence (+ unchosen update) 236.68741 491.88309 479.37481
+    model no_free_parameter                                                               features        ll       BIC       AIC
+ 1:    2b                 3                                            valence (+ unchosen update) 236.68741 491.88309 479.37481
+ 2:    5b                 5                               valence + appearance (+ unchosen update) 230.89901 492.64513 471.79801
+ 3:   5ba                 6           valence + appearance (+ unchosen update + exponential decay) 229.68020 496.37695 471.36040
+ 4:   2ba                 4                        valence (+ unchosen update + exponential decay) 236.00091 496.67952 480.00182
+ 5:    2c                 5                                   valence + choice (+ unchosen update) 233.93871 498.72454 477.87742
+ 6:     5                 5                                                   valence + appearance 235.25643 501.35998 480.51286
+ 7:     2                 3                                                                valence 242.08907 502.68641 490.17813
+ 8:   2bb                 5                            valence (+ unchosen update + RW-PH dynamic) 236.37309 503.59331 482.74618
+ 9:   2ca                 6               valence + choice (+ unchosen update + exponential decay) 233.54117 504.09888 479.08233
+10:   5bb                 7               valence + appearance (+ unchosen update + RW-PH dynamic) 230.48090 504.14777 474.96180
+11:   5xa                 6                             valence + appearance (+ exponential decay) 234.40477 505.82610 480.80955
+12:    7b                 7                       valence + reward probability (+ unchosen update) 231.37720 505.94037 476.75439
+13:   2xa                 4                                          valence (+ exponential decay) 241.77948 508.23666 491.55896
+14:   2cb                 7                   valence + choice (+ unchosen update + RW-PH dynamic) 233.42923 510.04444 480.85847
+15:   5xb                 7                                 valence + appearance (+ RW-PH dynamic) 233.70725 510.60048 481.41450
+16:     7                 7                                           valence + reward probability 233.77333 510.73263 481.54666
+17:    5c                 9                      valence + appearance + choice (+ unchosen update) 227.72190 510.96862 473.44380
+18:   2xb                 5                                              valence (+ RW-PH dynamic) 240.98901 512.82513 491.97801
+19:   5ca                10  valence + appearance + choice (+ unchosen update + exponential decay) 226.88704 515.46832 473.77407
+20:     8                 7                                        appearance + reward probability 236.16147 515.50892 486.32295
+21:     3                 3                                                             appearance 249.17288 516.85404 504.34577
+22:   5cb                11      valence + appearance + choice (+ unchosen update + RW-PH dynamic) 227.06913 522.00193 476.13826
+23:   10b                13          valence + reward probability + appearance (+ unchosen update) 221.17315 522.54881 468.34629
+24:    3c                 5                                appearance + choice (+ unchosen update) 246.73681 524.32074 503.47362
+25:    10                13                              valence + reward probability + appearance 222.84223 525.88699 471.68447
+26:    7c                13              valence + reward probability + choice (+ unchosen update) 225.72074 531.64401 477.44149
+27:     9                 7                                  learning context + reward probability 245.80186 534.78969 505.60372
+28:    3b                 3                                         appearance (+ unchosen update) 258.54693 535.60214 523.09387
+29:    8b                 7                    appearance + reward probability (+ unchosen update) 247.98453 539.15503 509.96906
+30:     6                 4                                                     reward probability 258.96317 542.60403 525.92633
+31:    8c                13           appearance + reward probability + choice (+ unchosen update) 232.16308 544.52868 490.32616
+32:     4                 3                                                                context 264.18572 546.87972 534.37144
+33:     1                 2                                                                 global 268.55304 549.44493 541.10608
+34:    9b                 7              learning context + reward probability (+ unchosen update) 253.79699 550.77995 521.59397
+35:    1c                 3                                             choice (+ unchosen update) 267.71892 553.94612 541.43784
+36:    6b                 4                                 reward probability (+ unchosen update) 264.91496 554.50762 537.82992
+37:    4b                 3                                            context (+ unchosen update) 268.25166 555.01159 542.50331
+38:    4c                 5                                   context + choice (+ unchosen update) 262.96720 556.78153 535.93440
+39:    6c                 7                        reward probability + choice (+ unchosen update) 257.16578 557.51753 528.33156
+40:    1b                 2                                             global (+ unchosen update) 273.11796 558.57477 550.23592
+41:    9c                13     learning context + reward probability + choice (+ unchosen update) 244.22059 568.64371 514.44119
+42:   10c                25 valence + reward probability + appearance + choice (+ unchosen update) 215.62393 585.48348 481.24786
+    model no_free_parameter                                                               features        ll       BIC       AIC
+[1] "BIC (M5.1 - M2.1): mean = 0.76, summed = 36.6"
+[1] "AIC (M2.1 - M5.1): mean = 7.58, summed = 363.7"
+[1] "check summed AIC difference: 363.7"
+[1] "lower BIC for M2.1 in 35 of 48 participants"
+[1] "lower AIC for M5.1 in 33 of 48 participants"
+[1] "delta BIC across all participants: median = 6.32, IQR = -1.35 to 9.49"
+       id delta_bic delta_aic rank_delta_bic
+1 subj_26      5.10      3.25             28
+2 subj_44      7.03      1.31             22
+[1] "without excluded participants (n = 46): BIC mean = 0.53, summed = 24.4; lower BIC for M2.1 in 33 of 46; lower AIC for M5.1 in 31 of 46; AIC mean = 7.81, summed = 359.1"
