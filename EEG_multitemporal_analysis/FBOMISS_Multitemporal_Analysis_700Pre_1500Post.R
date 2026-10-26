@@ -13,11 +13,11 @@ data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500pos
 
 #### Exclude participants without variance in the model-derived |PE| ####
 
-# For participants whose fitted learning rates are ~0 (with the inverse
-# temperature at its upper bound) or decay almost immediately, |PE| stays ~0.5
-# on every trial. Their by-participant PE slopes cannot be estimated, which
-# makes the LMM fits unstable (spikes in the PE coefficient). Criterion: SD of
-# |PE| < 0.05 in omission or display trials (same sample for both conditions).
+# For participants whose fitted learning rates are ~0 (in combination with high
+# inverse temperatures), |PE| stays ~0.5 on every trial. Their by-participant 
+# PE slopes cannot be estimated, which makes the LMM fits unstable (spikes in 
+# the PE coefficient). Criterion: SD of |PE| < 0.05 in omission or display 
+# trials (same sample for both conditions).
 
 sd_criterion <- 0.05
 
@@ -809,11 +809,11 @@ data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500pos
 
 #### Exclude participants without variance in the model-derived |PE| ####
 
-# For participants whose fitted learning rates are ~0 (with the inverse
-# temperature at its upper bound) or decay almost immediately, |PE| stays ~0.5
-# on every trial. Their by-participant PE slopes cannot be estimated, which
-# makes the LMM fits unstable (spikes in the PE coefficient). Criterion: SD of
-# |PE| < 0.05 in omission or display trials (same sample for both conditions).
+# For participants whose fitted learning rates are ~0 (in combination with high
+# inverse temperatures), |PE| stays ~0.5 on every trial. Their by-participant 
+# PE slopes cannot be estimated, which makes the LMM fits unstable (spikes in 
+# the PE coefficient). Criterion: SD of |PE| < 0.05 in omission or display 
+# trials (same sample for both conditions).
 
 sd_criterion <- 0.05
 
