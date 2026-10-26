@@ -56,9 +56,9 @@ behav$omission <- ifelse(behav$feedback == 1 | behav$feedback == -1, 1, ifelse(b
 behav$context <- ifelse(behav$feedback == 11 | behav$feedback == -1, 1, ifelse(behav$feedback == -11 | behav$feedback == 1, -1, NA)) # reward context = 1; loss context = -1
 behav$rew_prob <- ifelse(behav$stim == 3 | behav$stim == 4, 70, ifelse(behav$stim==1|behav$stim==2, 90, NA))
 
-# Invalid key presses (choice = 9): two of these trials were nevertheless
-# followed by feedback (according to the log file) and logged as incorrect 
-# (correct = 0). As they are no valid choices, "correct" is set to NA for all 
+# Invalid key presses (choice = 9): four of these trials were nevertheless
+# followed by feedback (according to the log file); two of them were logged
+# as incorrect (correct = 0). As they are no valid choices, "correct" is set to NA for all 
 # of them (as in the RL models, see dataprep_PE_paper.m). This must be done
 # before choice is recoded to NA.
 behav[which(behav$choice == 9), "correct"] <- NA
