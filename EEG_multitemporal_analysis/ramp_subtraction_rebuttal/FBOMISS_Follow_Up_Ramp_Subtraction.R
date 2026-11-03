@@ -108,7 +108,7 @@ data <- data.table::as.data.table(data)
 ## Valence
 
 hist(data$valence)
-# center around mean as suggested by Reviewer 3
+# center around mean as suggested by Reviewer 1
 data$valence <- data$valence - mean(data$valence, na.rm=T)
 hist(data$valence)
 
