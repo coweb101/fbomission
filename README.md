@@ -40,7 +40,7 @@ All analyses based on PEs are run for the two best models according to BIC. File
 | Fig. S3, S5, S6 (Topographies) | – (created in BrainVision Analyzer, S6 assembled in MS PowerPoint) | – |
 | Fig. S4 (display, M5.1) | `…_Results_Plots_5b.R` | `multitemp_results_display_…_5b_<date>.png`, `…_simple_slopes_5b_<date>.png` |
 | Fig. S7 (ERPs by absolute PE) | `…_Results_Plots_BIC.R` | - |
-| Figure R1 (ramp subtraction, review only) | `EEG_multitemporal_analysis/ramp_subtraction_rebuttal/FBOMISS_Multitemporal_Analysis_Follow_Up_Ramp_Subtraction.R` | `multitemp_results_omission_…_ramp_corrected_5b_<date>.png` |
+| Figure R1 (ramp subtraction, review only) | `EEG_multitemporal_analysis/`<br>`ramp_subtraction_rebuttal/FBOMISS_Multitemporal_Analysis_Follow_Up_Ramp_Subtraction.R` | `multitemp_results_omission_…_ramp_corrected_5b_<date>.png` |
 
 Figures 3–5 and S4 were assembled from the two PNG files per analysis (fixed effects and grand averages; simple slopes and grand averages by PE). All figures are saved in a folder `plots/` within the respective analysis folder.
 
