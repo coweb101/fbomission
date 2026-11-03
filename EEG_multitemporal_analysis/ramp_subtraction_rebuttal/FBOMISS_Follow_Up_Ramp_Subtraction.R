@@ -552,7 +552,7 @@ abline(v=zero_line_sample_points, h=0, lty=3) # dashed zerolines at feedback ons
 title(ylab = expression(beta~"-coefficient of PE"))
 
 legend(180,-5, c("Positive Outcomes", "Negative Outcomes", "Diff. Test of Simple Slopes"),
-       col=c("blue","green3", "cyan1"),bty="n", xpd=T, lty=c(1,1,NA), pch=c(NA,NA,14), lwd=c(4,4,4),#lwd=c(6,6),
+       col=c("blue","green3", "cyan1"),bty="n", xpd=T, lty=c(1,1,NA), pch=c(NA,NA,15), lwd=c(4,4,4),#lwd=c(6,6),
        x.intersp=.7, cex=.7) # add legend for line colours
 
 #### Close plot ####
