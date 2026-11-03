@@ -52,11 +52,11 @@ The scripts create the individual plots of all figures (except for the figure sh
 
 If you use this code, please cite the publication:
 
-Weber, C., Jocham, G., Bellebaum, C. (under review) Cortical prediction error responses to reward and loss omission.
+Weber, C., Jocham, G., & Bellebaum, C. (under review). Cortical prediction error responses to reward and loss omission.
 
 and the archived version of the code:
 
-Weber, C., Jocham, G., Bellebaum, C. (2026). *FBOmission: Computational pipeline for quantifying valence and prediction error coding in omission-related responses* (Version v[…]) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.[…]
+Weber, C., Jocham, G., & Bellebaum, C. (2026). *Computational pipeline for quantifying valence and prediction error coding in omission-related responses* (Version v[…]) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.[…]
 
 **License**
 
