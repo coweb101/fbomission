@@ -38,10 +38,10 @@ The scripts create the individual plots of all figures (except for the figure sh
 | Fig. S1 (Parameter Recovery) | `Behavioural_analysis/…`, part 4 | `scatter_<parameter>_<model>.png` |
 | Fig. S2, Table S2 (Posterior Predictive Check) | `Behavioural_analysis/…`, part 2 | `accuracy_posterior_prediction_BIC.png` /<br> `_5b.png`, `behavioural_analysis_output.txt` |
 | Table S3 (Trial Counts) | `FBOMISS_Trial_Count_Table.R` | console output |
-| Table S4 (Mapping) | - (created in MS Word) | - |
+| Table S4 (Mapping) | – (created in MS Word) | – |
 | Fig. S3, S5, S6 (Topographies) | – (created in BrainVision Analyzer) | – |
 | Fig. S4 (Display, M5.1) | `…_Results_Plots_5b.R` | `multitemp_results_display_…_5b_<date>.png`,<br> `…_simple_slopes_5b_<date>.png` |
-| Fig. S7 (ERPs by absolute PE) | `…_Results_Plots_BIC.R`, <br> `…_Results_Plots_5b.R` | bottom rows of<br>`multitemp_results_display_…<model>_<date>.png`<br> and `multitemp_results_omission_…`<br>`<model>_<date>.png` |
+| Fig. S7 (ERPs by absolute PE) | `…_Results_Plots_BIC.R`, <br> `…_Results_Plots_5b.R` | bottom rows of<br>`multitemp_results_display_…_<model>_<date>.png`<br> and `multitemp_results_omission_…`<br>`_<model>_<date>.png` |
 | Figure R1 (ramp subtraction, review only) | `EEG_multitemporal_analysis/`<br>`ramp_subtraction_rebuttal/FBOMISS_Follow_Up_Ramp_Subtraction.R` | `multitemp_results_omission_…_ramp_corrected_5b_<date>.png` |
 
 
