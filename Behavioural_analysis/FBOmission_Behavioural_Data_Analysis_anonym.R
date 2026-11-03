@@ -492,7 +492,7 @@ for (ctx in c(1, -1)) { # loop through contexts
     # lines for predicted accuracy
     lines(pd$trialno_centered, pd$accuracy_percent, col = col, lty = lty, lwd = 1.8)
     
-    # plot observed data
+    # plot data
     
     # prepare jitter
     jitter <- ifelse(rw==-1, .035, -.035)
@@ -1249,7 +1249,7 @@ for (ctx in c(1, -1)) { # loop through contexts
     # lines for predicted accuracy
     lines(pd$trialno_centered, pd$accuracy_percent, col = col, lty = lty, lwd = 1.8)
     
-    # plot observed data
+    # plot data
     
     # prepare jitter
     jitter <- ifelse(rw==-1, .035, -.035)
