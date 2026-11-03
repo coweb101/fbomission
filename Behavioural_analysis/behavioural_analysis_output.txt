@@ -1,4 +1,4 @@
-[1] "0 participants performed significantly below chance and will be excluded. The resulting samples comprises 48 participants."
+[1] "0 participants performed significantly below chance and will be excluded. The resulting samples comprises 48 participants." 
 Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
  Family: binomial  ( logit )
 Formula: correct ~ trialno_centered * context * rew_prob + (1 + trialno_centered *      context * rew_prob | id)
@@ -35,7 +35,7 @@ trialno_centered:rew_prob         -0.217601   0.107576 -2.0228  0.043098 *
 context:rew_prob                  -0.326659   0.134427 -2.4300  0.015099 *  
 trialno_centered:context:rew_prob -0.215034   0.107841 -1.9940  0.046152 *  
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
 
 Correlation of Fixed Effects:
             (Intr) trln_c contxt rw_prb trln_: trl_:_ cntx:_
@@ -112,7 +112,7 @@ trialno_centered:rew_prob         -0.0393156  0.0123020  -3.1959  0.001394 **
 context:rew_prob                   0.0094199  0.0085904   1.0966  0.272834    
 trialno_centered:context:rew_prob  0.0200538  0.0120187   1.6686  0.095206 .  
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
 
 Correlation of Fixed Effects:
             (Intr) trln_c contxt rw_prb trln_: trl_:_ cntx:_
@@ -179,7 +179,7 @@ Fixed effects:
 (Intercept)  0.480862   0.031489 47.000000 15.2707 < 2.2e-16 ***
 valence      0.194450   0.020067 47.000000  9.6899 8.762e-13 ***
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
 
 Correlation of Fixed Effects:
         (Intr)
@@ -260,7 +260,7 @@ trialno_centered:rew_prob         -0.139909   0.014488  -9.6571    < 2.2e-16 ***
 context:rew_prob                  -0.039469   0.012045  -3.2769      0.00105 ** 
 trialno_centered:context:rew_prob  0.015626   0.013407   1.1655      0.24380    
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
 
 Correlation of Fixed Effects:
             (Intr) trln_c contxt rw_prb trln_: trl_:_ cntx:_
@@ -396,7 +396,7 @@ valence            0.141352   0.017358 141.000000  8.1432 1.844e-13 ***
 omission          -0.056353   0.017358 141.000000 -3.2464 0.0014601 ** 
 valence:omission  -0.068293   0.017358 141.000000 -3.9343 0.0001305 ***
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
 
 Correlation of Fixed Effects:
             (Intr) valenc omissn
