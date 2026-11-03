@@ -18,7 +18,7 @@ All analyses based on PEs are run for the two best models according to BIC. File
 | Suffix | Model (code) | Model (manuscript) | Learning rates |
 |---|---|---|---|
 | `_BIC` | 2b | M2.1 (Valence-Only model) | separate for positive and negative outcomes, with update of the unchosen action |
-| `_5b` | 5b | M5.1 (Valence-Context model) | separate for positive/negative × presented/omitted outcomes, with update of the unchosen action |
+| `_5b` | 5b | M5.1 (Valence-Context model) | separate for positive/negative × displayed/omitted outcomes, with update of the unchosen action |
 
 **Data availability**
 
