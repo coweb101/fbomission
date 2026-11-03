@@ -7,7 +7,7 @@ Sample-wise linear mixed models (LMMs) of the effects of (contextual) feedback v
 All scripts start with `FBOMISS_`.
 
 | Script&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | What&nbsp;it&nbsp;does&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Input | Output |
-|---|---|---|---|
+|:---|:---|:---|:---|
 | `Read_and_Merge_Data`<br>`_700Pre_1500Post.R` | Reads the single-trial EEG exports (BrainVision Analyzer), adds empty rows for trials rejected during preprocessing, checks the trial order against the behavioural data via the feedback markers and merges EEG and PE data | BrainVision exports (.dat and .vmrk) and ID key (created within the MATLAB pipeline; both not public), `behav_and_pe_data`<br>`_concatenated_BIC.csv` / `_5b.csv` (from `Behavioural_analysis`) | `eeg_and_pe_data_merged`<br>`_700pre_1500post_anonym`<br>`_BIC.csv` / `_5b.csv` |
 | `Trial_Count_Table.R` | Number of valid trials per condition | merged data | console output |
 | `Multitemporal_Analysis`<br>`_700Pre_1500Post.R` | One LMM per sample point, separately for display and omission trials and for the frontocentral and centroparietal cluster, for both models | merged data (`_BIC`, `_5b`) | `multitemp_pre700_post1500`<br>`_cluster_condition_trials`<br>`_no_baseline_model.csv` |
