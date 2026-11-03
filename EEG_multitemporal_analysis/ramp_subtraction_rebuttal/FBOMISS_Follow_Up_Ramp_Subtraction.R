@@ -214,6 +214,10 @@ withCallingHandlers({
     
     
     ### Conduct simple slope tests for positive and negative PEs ###
+
+    # Note: simple slopes are tested with asymptotic z tests (lmer.df = "asymp"),
+    # whereas the fixed effects above use Satterthwaite degrees of freedom (lmerTest).
+    
     emmeans <- emmeans::emtrends(samplepoint_regression,
                                  specs=pairwise~valence+pe_absolute, 
                                  var="pe_absolute",
