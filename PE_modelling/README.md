@@ -1,4 +1,4 @@
-# PE modelling
+**PE modelling**
 
 `FBOmiss_PE_modelling_pipeline.m` runs the complete PE modelling pipeline. It calls the scripts and functions in the subfolders, so the folder structure and names must not be changed, and MATLAB's current folder must be `PE_modelling`.
 
