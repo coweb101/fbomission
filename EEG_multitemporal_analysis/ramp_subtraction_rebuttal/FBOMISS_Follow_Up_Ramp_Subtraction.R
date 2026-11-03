@@ -41,7 +41,7 @@ print(paste0("remaining participants: ", length(unique(data$id))))
 ## the pre-onset ramp, they should disappear in the residuals.
 ##
 ## Sample timing: 250 Hz, sample i corresponds to (i * 4 - 704) ms,
-## i.e. sample 1 = -700 ms, sample 76 = -400 ms, sample 176 = 0 ms, sample 550 = 1492 ms.
+## i.e. sample 1 = -700 ms, sample 76 = -400 ms, sample 176 = 0 ms, sample 550 = 1496 ms.
 
 fit_from <- 76   # -400 ms
 fit_to   <- 176  #    0 ms
