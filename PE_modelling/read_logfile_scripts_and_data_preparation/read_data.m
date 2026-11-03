@@ -106,7 +106,8 @@ function [filenames]=getfilenames(folder, varargin)
 % INPUT
 % folder [string]           Total or relative path to the folder.
 % varargin [string]         Arbitrary amount of strings to specifiy
-%                           conditions. Condition strings starting with '/'%                           are used to exclude entries from the file name
+%                           conditions. Condition strings starting with '/'
+%                           are used to exclude entries from the file name
 %                           list, all others are form a requirement each
 %                           entry must meet. Each entry must meet all
 %                           requirements set by the conditions.
