@@ -102,19 +102,6 @@ for (i in 1:length(unique(behav$id))){
   # file currently evaluated:
   file <- unique(behav$id)[i]
   
-  # total number of trials with responses in current file:
-  size <- sum(!is.na(behav$correct[which(behav$id==file)]))
-  # number of trials with correct responses in current file:
-  n_correct <- sum(behav$correct[which(behav$id==file)], na.rm=T)
-  
-  # minimum of correct responses (of total number of trials of current data (defined in
-  # size)) to not be classified as "false below chance"
-  # with a p-value below .05 and a probability to be correct at random of .5:
-  n_below_chance <- qbinom(.05, size=size, prob=.5, lower.tail=TRUE)
-  
-  # fill data frame 
-  learnerlist[i,1] <- file
-
   # trials with responses (excluding responses after the deadline, which received no feedback)
   valid <- which(behav$id == file & behav$feedback != 9)
   size <- sum(!is.na(behav$correct[valid]))
