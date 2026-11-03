@@ -21,7 +21,7 @@ All scripts start with `FBOMISS_`.
 - Segments from −700 to 1500 ms relative to feedback (omission) onset, 250 Hz (550 sample points; sample point *i* corresponds to *i* × 4 − 704 ms), no baseline correction.
 - Electrode clusters: frontocentral (F3, Fz, F4, FC1, FCz, FC2) and centroparietal (CP1, CP2, P3, Pz, P4).
 - Model per sample point: `amplitude ~ |PE| × valence + (1 + |PE| + |PE|:valence | participant) + (1 | electrode)`, with |PE| rescaled to [−1, 1] and centred and valence centred; simple slopes of |PE| for positive and negative outcomes with emmeans.
-- Participants whose |PE| hardly varies (SD of |PE| < .05 in display or omission trials) are excluded from all PE analyses, as their participant-specific PE slopes cannot be estimated. The criterion is applied to the PEs of each model separately.
+- Participants whose |PE| hardly varies (SD of |PE| < .05 in display or omission trials) are excluded from all EEG analyses, as their participant-specific PE slopes cannot be estimated. The criterion is applied to the PEs of each model separately.
 - Grand averages for the PE plots use three quantile groups (terciles) of |PE| formed within participant and outcome valence.
 - Sample points with convergence warnings or singular fits are retained and marked in the fixed effects plots (see manuscript).
 
