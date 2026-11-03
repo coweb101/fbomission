@@ -14,7 +14,7 @@ All scripts start with `FBOMISS_`.
 | `Multitemporal_Analysis`<br>`_Results_Plots_BIC.R`,<br>`..._5b.R` | Plots of the LMM coefficients (with significant effects after Benjamini-Hochberg correction and at least five consecutive sample points) and grand averages (with 40 ms moving average) | LMM results and merged data of the respective model | figures in `plots/` |
 | `extraction_of_peak_effects.R` | Determines the significant time windows (Benjamini-Hochberg correction, at least five consecutive sample points, Bonferroni-adjusted follow-up tests) and extracts the peak effects | LMM results | console output |
 | `omission_P3_characterization.R` | Characterizes the P3-like waveform in omission (and display) trials | merged data (`_BIC`) | console output (latencies and peaks) |
-| `Follow_Up_Ramp_Subtraction.R` in the subfolder `ramp_subtraction_rebuttal` | Follow-up analysis for the review (ramp subtraction; M5.1, omission, centroparietal cluster); not part of the manuscript | `eeg_and_pe_data_merged`<br>`_700pre_1500post_anonym_5b.csv` | `multitemp_pre700_post1500_centroparietal_cluster`<br>`_omission_trials_no_baseline_5b_with_ramp_subtraction.csv`, figure in `plots/` |
+| `Follow_Up_Ramp_Subtraction.R` in the subfolder `ramp_subtraction_rebuttal` | Follow-up analysis for the review (ramp subtraction; M5.1, omission, centroparietal cluster); not part of the manuscript | `eeg_and_pe_data_merged`<br>`_700pre_1500post_anonym_5b.csv` | `multitemp_pre700_post1500`<br>`_centroparietal_cluster`<br>`_omission_trials_no_baseline`<br>`_5b_with_ramp_subtraction.csv`, figure in `plots/` |
 
 **Analysis details**
 
