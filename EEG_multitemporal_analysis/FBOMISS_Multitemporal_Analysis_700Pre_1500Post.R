@@ -1,6 +1,6 @@
 #### FBOmission: Multitemporal Analysis | Extended Segment (-700 to 1500 ms) ####
 
-### (CW, 05/2026)
+### (CW, last modified 11/2026)
 
 ##### Routine #####
 
