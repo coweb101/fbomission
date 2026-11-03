@@ -24,7 +24,7 @@ All analyses based on PEs are run for the two best models according to BIC. File
 | `_BIC` | 2b | M2.1 (Valence-Only model) | separate for positive and negative outcomes,<br>with update of the unchosen action |
 | `_5b` | 5b | M5.1 (Valence-Context model) | separate for positive/negative × displayed/omitted outcomes,<br>with update of the unchosen action |
 
-In modelfits.csv and the MATLAB code, the models are labelled by their features: M2.1 as “valence (+ unchosen update)”, M5.1 as “valence + appearance (+ unchosen update)”, where “appearance” refers to displayed vs omitted feedback.
+In `modelfits.csv` and the MATLAB code, the models are labelled by their features: M2.1 as “valence (+ unchosen update)”, M5.1 as “valence + appearance (+ unchosen update)”, where “appearance” refers to displayed vs omitted feedback.
 
 **From scripts to figures and tables**
 
