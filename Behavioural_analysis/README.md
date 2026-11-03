@@ -2,14 +2,15 @@
 
 `FBOmission_Behavioural_Data_Analysis_anonym.R` analyses the behavioural data and the output of the PE modelling (folder `PE_modelling`). All model-based parts are run for the two best models according to BIC: files ending in `_BIC` refer to M2.1 (model 2b, lowest BIC), files ending in `_5b` to M5.1 (model 5b, second-lowest BIC).
 
-The script contains six parts:
+The script contains seven parts. Part 1 refers to the observed data; parts 2–5 are run separately for each model (M2.1 from line 323, M5.1 from line 1055, each marked by a section header #### Best BIC Model (2.1) #### / #### 2nd best BIC Model (5.1) ####); parts 6 and 7 refer to both models:
 
 1. **Choice accuracy:** exclusion of participants performing below chance (binomial test) and a GLMM of choice accuracy (trial × learning context × reward probability), with plots.
 2. **Posterior predictive check:** the same GLMM on choices simulated with each of the two models (25 simulated data sets per participant), with plots.
 3. **Learning rates:** linear mixed models of the fitted (cube-root transformed) learning rates of both models (M2.1: valence; M5.1: valence × feedback appearance), with plots.
-4. **Parameter recovery:** correlation of fitted and recovered parameters of both models (recovered parameters averaged across the 25 simulated data sets), one scatter plot per parameter.
+4. **Parameter recovery:** correlation of fitted and recovered parameters of both models (recovered parameters averaged across the 25 simulated data sets), one scatter plot per parameter. For M5.1, this part additionally tests the recovery of the difference between learning rates for displayed and omitted outcomes (section 3.2).
 5. **Action values:** trial-wise action values of the correct and incorrect action per stimulus, with plots. This part also writes the behavioural data merged with the trial-wise action values and prediction errors, which the EEG analysis (`EEG_multitemporal_analysis`) merges with the EEG data.
 6. **Model fits:** table of the fit indices of all 42 models (for Supplementary Table S1).
+7. **Comparison of the two best models:** mean and summed differences in BIC and AIC between M2.1 and M5.1 and the number of participants with lower values for each model (section 2.3).
 
 **Input data**
 
@@ -24,7 +25,7 @@ All input files are in `aggregated_data/`. They contain only anonymous participa
 | `FBOmiss_behav_recovered_BIC.csv`, `_5b.csv` | Choices simulated with the model (25 data sets per participant) | `PE_modelling`, step 4 |
 | `FBOmiss_learning_parameter_recovered_BIC.csv`, `_5b.csv` | Parameters recovered from the simulated data | `PE_modelling`, step 4 |
 
-All files except the first are copies of the files of the same name in `PE_modelling/comp_model_fit_export/`. If you rerun the modelling, copy them here again.
+The first file is written by create_correct_response_key.m to PE_modelling/interim_datasets/; all other files are copies of the files of the same name in PE_modelling/comp_model_fit_export/. If you rerun the modelling, copy them here again.
 
 **How to run**
 
