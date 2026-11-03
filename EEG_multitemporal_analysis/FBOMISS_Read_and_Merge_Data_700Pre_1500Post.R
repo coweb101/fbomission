@@ -194,6 +194,7 @@ for (i in 1:length(seglist)) {
 table(insertdata$id) # check whether trials are now complete for each subject
 
 stopifnot(all(table(insertdata$id) == 480)) # stop if any participant does not have 480 trials
+stopifnot(length(unique(insertdata$id)) == 48) # stop if any participant is missing
 
 data <- insertdata
 remove(insertdata)
