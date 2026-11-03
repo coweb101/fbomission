@@ -109,6 +109,10 @@ names(data_avg) <- c("negative", "positive")
 data_avg <- data_avg[-1,]
 
 ## latency
+
+# latencies are determined from the unsmoothed grand averages (the figures
+# show a 40 ms moving average, so peaks in the figures may differ by a few ms)
+
 which(data_avg$positive == max(data_avg[175:550, "positive"]))*4-704 
 which(data_avg$negative == max(data_avg[175:550, "negative"]))*4-704
 # for both pos and neg, the most positive amplitude is observed at 444 ms
@@ -201,6 +205,10 @@ names(data_avg) <- c("negative", "positive")
 data_avg <- data_avg[-1,]
 
 ## latency (because values in the first 200ms are even more positive, I restrict this maximum search to timepoints from -4 ms on, i.e. sample 175)
+
+# latencies are determined from the unsmoothed grand averages (the figures
+# show a 40 ms moving average, so peaks in the figures may differ by a few ms)
+
 which(data_avg$positive == max(data_avg[175:550,"positive"]))*4-704 # most pos amp for pos fb at 528 ms
 which(data_avg$negative == max(data_avg[175:550,"negative"]))*4-704 # most pos amp for neg fb at 664 ms
 
@@ -323,6 +331,10 @@ names(data_avg) <- c("negative", "positive")
 data_avg <- data_avg[-1,]
 
 ## latency
+
+# latencies are determined from the unsmoothed grand averages (the figures
+# show a 40 ms moving average, so peaks in the figures may differ by a few ms)
+
 which(data_avg$positive == max(data_avg[175:550, "positive"]))*4-704 
 which(data_avg$negative == max(data_avg[175:550, "negative"]))*4-704
 
@@ -417,6 +429,10 @@ names(data_avg) <- c("negative", "positive")
 data_avg <- data_avg[-1,]
 
 ## latency (because values in the first 200ms are even more positive, I restrict this maximum search to timepoints from -4 ms on, i.e. sample 175)
+
+# latencies are determined from the unsmoothed grand averages (the figures
+# show a 40 ms moving average, so peaks in the figures may differ by a few ms)
+
 which(data_avg$positive == max(data_avg[175:550,"positive"]))*4-704 
 which(data_avg$negative == max(data_avg[175:550,"negative"]))*4-704 
 
