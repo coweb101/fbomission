@@ -14,6 +14,7 @@ authors:
     affiliation: Heinrich Heine University Düsseldorf, Faculty of Mathematics and Natural Sciences, Institute of Experimental Psychology
 version: 1.0.0
 date-released: "2026-11-03"
+doi: 10.5281/zenodo.23923852
 license: MIT
 repository-code: "https://github.com/coweb101/fbomission"
 abstract: >-
