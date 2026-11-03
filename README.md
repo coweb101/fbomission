@@ -11,6 +11,10 @@ The folders are meant to be run in this order; each folder has its own README wi
 2) `Behavioural_analysis`: statistical analysis of choice accuracy, posterior predictive checks, modelled learning rates, parameter recovery and action values; merges the behavioural data with the trial-wise PEs for the EEG analysis (R)
 3) `EEG_multitemporal_analysis`: merging of EEG and PE data and sample-wise linear mixed models of the effects of contextual valence and PEs on display- and omission-related amplitudes, with plots (R)
 
+**Data availability**
+
+All data files in this repository contain only anonymous participant IDs (`subj_01` to `subj_48`). The raw logfiles are not public; the code that reads them is included for transparency. The preprocessed EEG data (read from .dat and .vmrk BVA export files, anonymized and merged with PE data of the two best models in `FBOMISS_Read_and_Merge_Data_700Pre_1500Post.R`; each of the two about 2.3 GB) are available at OSF via https://doi.org/10.17605/OSF.IO/FZCQJ.
+
 **Models**
 
 All analyses based on PEs are run for the two best models according to BIC. File names indicate the model:
@@ -44,8 +48,16 @@ The scripts create the individual plots of all figures (except for the figure sh
 | Fig. S7 (ERPs by absolute PE) | `…_Results_Plots_BIC.R`, <br> `…_Results_Plots_5b.R` | bottom rows of<br>`multitemp_results_display_…_<model>_<date>.png`<br> and `multitemp_results_omission_…`<br>`_<model>_<date>.png` |
 | Figure R1 (ramp subtraction, review only) | `EEG_multitemporal_analysis/`<br>`ramp_subtraction_rebuttal/FBOMISS_Follow_Up_Ramp_Subtraction.R` | `multitemp_results_omission_…_ramp_corrected_5b_<date>.png` |
 
+**Citation**
 
+If you use this code, please cite the publication:
 
-**Data availability**
+Weber, C., Jocham, G., Bellebaum, C. (under review) Cortical prediction error responses to reward and loss omission.
 
-All data files in this repository contain only anonymous participant IDs (`subj_01` to `subj_48`). The raw logfiles are not public; the code that reads them is included for transparency. The preprocessed EEG data (read from .dat and .vmrk BVA export files, anonymized and merged with PE data of the two best models in `FBOMISS_Read_and_Merge_Data_700Pre_1500Post.R`; each of the two about 2.3 GB) are available at OSF via https://doi.org/10.17605/OSF.IO/FZCQJ.
+and the archived version of the code:
+
+Weber, C., Jocham, G., Bellebaum, C. (2026). *FBOmission: Computational pipeline for quantifying valence and prediction error coding in omission-related responses* (Version v[…]) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.[…]
+
+**License**
+
+The code in this repository is licensed under the MIT License (see `LICENSE`). The data on OSF are licensed under CC BY-NC 4.0 (Attribution-NonCommercial 4.0 International).
