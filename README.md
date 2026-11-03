@@ -22,13 +22,13 @@ All analyses based on PEs are run for the two best models according to BIC. File
 
 **From scripts to figures and tables**
 
-The scripts create the individual plots of all figures (except for the figure showing the task and topographies, see below); the final figures were arranged and annotated (e.g. panel labels) in PowerPoint. Figures 3–5, S4 and S7 were assembled from the two PNG files per analysis (fixed effects and grand averages; simple slopes and grand averages by PE). All plots created from scripts are saved in a folder `plots/` within the respective analysis folder.
+The scripts create the individual plots of all figures (except for the figure showing the task and topographies, see below); the final figures were arranged and annotated (e.g. panel labels) in PowerPoint. Figures 3–5 and S4 combine panels from the two PNG files created per multitemporal analysis (one with fixed effects and grand averages, one with simple slopes and grand averages by PE). Fig. S7 combines the grand averages by PE (bottom rows) of the first PNG file of each of the four analyses. All plots created from scripts are saved in a folder `plots/` within the respective analysis folder.
 
 | Manuscript | Script | Output |
 |:---|:---|:---|
 | Fig. 1 (Task) | – (created in MS PowerPoint) | – |
 | Fig. 2a, Table 1 (Choice Accuracy) | `Behavioural_analysis/`<br>`FBOmission_Behavioural_Data`<br>`_Analysis_anonym.R`, part 1 | `predicted_accuracy.png`, `behavioural_analysis_output.txt` |
-| Fig. 2b/c, section 3.2 (Learning Rates) | `Behavioural_analysis/…`, part 3 | `learning_rates_predicted_BIC.png` / `_5b.png`, `behavioural_analysis_output.txt` |
+| Fig. 2b/c, section 3.2 (Learning Rates) | `Behavioural_analysis/…`, part 3; <br> recovery of the learning-rate difference: part 4 | `learning_rates_predicted_BIC.png` / `_5b.png`, `behavioural_analysis_output.txt` |
 | Fig. 3 (Display, M2.1) | `EEG_multitemporal_analysis/FBOMISS_Multitemporal_Analysis`<br>`_Results_Plots_BIC.R` | `multitemp_results_display_…_BIC_<date>.png`, `…_simple_slopes_BIC_<date>.png` |
 | Fig. 4 (Omission, M2.1) | `…_Results_Plots_BIC.R` | `multitemp_results_omission_…_BIC_<date>.png`, `…_simple_slopes_BIC_<date>.png` |
 | Fig. 5 (Omission, M5.1) | `…_Results_Plots_5b.R` | `multitemp_results_omission_…_5b_<date>.png`, `…_simple_slopes_5b_<date>.png` |
@@ -40,7 +40,7 @@ The scripts create the individual plots of all figures (except for the figure sh
 | Table S3 (Trial Counts) | `FBOMISS_Trial_Count_Table.R` | console output |
 | Fig. S3, S5, S6 (Topographies) | – (created in BrainVision Analyzer) | – |
 | Fig. S4 (Display, M5.1) | `…_Results_Plots_5b.R` | `multitemp_results_display_…_5b_<date>.png`, `…_simple_slopes_5b_<date>.png` |
-| Fig. S7 (ERPs by absolute PE) | `…_Results_Plots_BIC.R`, <br> `…Results_Plots_5b.R` | bottom rows of `multitemp_results_display…<model><date>.png` and `multitemp_results_omission…<model><date>.png` |
+| Fig. S7 (ERPs by absolute PE) | `…_Results_Plots_BIC.R`, <br> `…_Results_Plots_5b.R` | bottom rows of `multitemp_results_display_…<model>_<date>.png` and `multitemp_results_omission_…<model>_<date>.png` |
 | Figure R1 (ramp subtraction, review only) | `EEG_multitemporal_analysis/`<br>`ramp_subtraction_rebuttal/FBOMISS_Follow_Up_Ramp_Subtraction.R` | `multitemp_results_omission_…_ramp_corrected_5b_<date>.png` |
 
 
