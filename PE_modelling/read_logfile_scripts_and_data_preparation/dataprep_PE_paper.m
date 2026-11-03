@@ -14,8 +14,8 @@ catalldata = cat(1,allmatrices{:});
 
 ntrials_sub=length(VP01_all_data);
 
-% die betreffenden Spalten auswählen und in einer neuen Datei abspeichern
-% Spalte 1,5, 6 und 9 für choices
+% die betreffenden Spalten auswÃ¤hlen und in einer neuen Datei abspeichern
+% Spalte 1,5, 6 und 9 fÃ¼r choices
 choices = catalldata(:,[1 5:6 9]);
 % -> choices mit 4 Spalten erstellt
 % Spalte 1: VPname
@@ -140,7 +140,7 @@ save('interim_datasets\datastruc_feedback_type.mat', 'datastruc_feedback_type');
 save('interim_datasets\feedback.mat', 'feedback');
 save('interim_datasets\choices.mat', 'choices');
 save('interim_datasets\filenames.mat', 'filenames');
-save('interim_datasets\all_vp_behav.mat');
+save('interim_datasets\all_vp_behav.mat'); % complete workspace after data preparation (not used in later steps)
 
 catalldata = cell2table(catalldata);
 catalldata.Properties.VariableNames = ["id","block","trialno_full","trialno_block","stim","choice","correct","response_time","feedback","money"];
