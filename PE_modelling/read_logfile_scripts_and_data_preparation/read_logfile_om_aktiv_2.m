@@ -1,5 +1,5 @@
 function [all_data,learn_data,resp_ti_data,stat_outcome]=read_logfile_om_aktiv_2(vp,filename)
-%vp = vp-K¸rzel als string
+%vp = vp-K√ºrzel als string
 %filename = kompletter filename OHNE extension als string
 
 
@@ -21,7 +21,7 @@ num_session=0;
 pattern_presented=0;
 test_pattern_presented=0;
 
-ende_uebung=0; %wenn die Ende_Uebung Folie pr‰sentiert wurde geht das Experiment erst richtig los.
+ende_uebung=0; %wenn die Ende_Uebung Folie pr√§sentiert wurde geht das Experiment erst richtig los.
 
 learn_session=0;
 test_session=0;
@@ -43,7 +43,7 @@ while zeile >= 0
                 
             [token,zeile] = strtok(zeile); %3.Level: hier steht die Art des Ereignisses
             token;
-            if (strcmp(token,'Picture')) & start_session==0 % hier sind jetzt 2 Loops nˆtig - die erste, damit das erste start_learn_session entdeckt wird
+            if (strcmp(token,'Picture')) & start_session==0 % hier sind jetzt 2 Loops n√∂tig - die erste, damit das erste start_learn_session entdeckt wird
                 [token,zeile] = strtok(zeile); %
                 token; 
                 if strcmp(token,'fixlearn_start_learn_session')
@@ -62,7 +62,7 @@ while zeile >= 0
             end
                
             
-            if (strcmp(token,'Picture')) & num_session>0 % diese zweite Loop soll nur starten, wenn Ende_Uebung schon pr‰sentiert wurde
+            if (strcmp(token,'Picture')) & num_session>0 % diese zweite Loop soll nur starten, wenn Ende_Uebung schon pr√§sentiert wurde
                 [token,zeile] = strtok(zeile);
                  
                 
@@ -206,7 +206,7 @@ while zeile >= 0
                     [token,zeile] = strtok(zeile); 
                     resp_time(trialnum_ges,1)=str2num(token)/10;
                     all_data{trialnum_ges,8}=(resp_time(trialnum_ges,1)-pattern_time(trialnum_ges,1));
-                     pattern_presented=0; %n‰chste Reaktion soll nicht mehr gez‰hlt werden
+                     pattern_presented=0; %n√§chste Reaktion soll nicht mehr gez√§hlt werden
                 end
                 
                 if test_pattern_presented==1                  
@@ -232,7 +232,7 @@ while zeile >= 0
                     resp_time(trialnum_ges,1)=str2num(token)/10;
                     resp_time(trialnum_ges,1);
                     all_data{trialnum_ges,8}=(resp_time(trialnum_ges,1)-pattern_time(trialnum_ges,1));  
-                    test_pattern_presented=0; %n‰chste Reaktion soll nicht mehr gez‰hlt werden
+                    test_pattern_presented=0; %n√§chste Reaktion soll nicht mehr gez√§hlt werden
                 end                               
               
             end
@@ -276,7 +276,13 @@ for i=1:trialnum_ges
     
 end
 
-   
+
+   % Note: for the 50% stimuli (stimulus 5 = e, stimulus 6 = f), the keys counted as
+   % "correct" below are not consistent within this script or with the logged response
+   % codes (stimulus 5: key 1, stimulus 6: key 2, as in read_logfile_om_aktiv_1.m).
+   % This only affects the summary outputs learn_data and stat_outcome, which are not
+   % used in the analyses (dataprep_PE_paper.m uses only all_data).
+
 for k=1:numtrials_learn/60
     st_le_block=st_le((k-1)*60+1:k*60,1);
     resp_bu_le_block=resp_bu_le((k-1)*60+1:k*60,1);
@@ -299,7 +305,7 @@ for k=1:numtrials_learn/60
     resp_ti_le_block_d=resp_ti_le_block(st_le_block(:,1)==4 & resp_bu_le_block(:,1)~=9);
     
     resp_bu_le_block_e=resp_bu_le_block(st_le_block(:,1)==5); 
-    acc_resp_le_block_e=resp_bu_le_block_e(resp_bu_le_block_e(:,1)==1); % same as in other read logfile script (doesn't matter for 50% stimulus)
+    acc_resp_le_block_e=resp_bu_le_block_e(resp_bu_le_block_e(:,1)==1); % see note above (no correct choice for 50% stimuli)
     resp_ti_le_block_e=resp_ti_le_block(st_le_block(:,1)==5 & resp_bu_le_block(:,1)~=9);
     
     resp_bu_le_block_f=resp_bu_le_block(st_le_block(:,1)==6); 
