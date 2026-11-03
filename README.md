@@ -22,7 +22,7 @@ All analyses based on PEs are run for the two best models according to BIC. File
 
 **From scripts to figures and tables**
 
-The scripts create the individual plots of all figures (except from the task and topographies, see below); the final figures were arranged and annotated (e.g. panel labels) in PowerPoint. Figures 3–5, S4 and S7 were assembled from the two PNG files per analysis (fixed effects and grand averages; simple slopes and grand averages by PE). All figures are saved in a folder `plots/` within the respective analysis folder. All plots created from scripts are saved in a folder `plots/` within the respective analysis folder.
+The scripts create the individual plots of all figures (except from the task and topographies, see below); the final figures were arranged and annotated (e.g. panel labels) in PowerPoint. Figures 3–5, S4 and S7 were assembled from the two PNG files per analysis (fixed effects and grand averages; simple slopes and grand averages by PE). All plots created from scripts are saved in a folder `plots/` within the respective analysis folder.
 
 | Manuscript | Script | Output |
 |:---|:---|:---|
