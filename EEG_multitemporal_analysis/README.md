@@ -12,7 +12,7 @@ Sample-wise linear mixed models (LMMs) of the effects of (contextual) feedback v
 | `Multitemporal_Analysis_Results_Plots_BIC.R`, `..._5b.R` | Plots of the LMM coefficients (with significant effects after Benjamini-Hochberg correction and at least five consecutive sample points) and grand averages (with 40 ms moving average) | LMM results and merged data of the respective model | figures in `plots/` |
 | `extraction_of_peak_effects.R` | Extracts the peak effects of the significant time windows | LMM results | console output |
 | `omission_P3_characterization.R` | Characterizes the P3-like waveform in omission (and display) trials | merged data (`_BIC`) | console output (latencies and peaks) |
-| `Multitemporal_Analysis_Follow_Up_Ramp_Subtraction.R` in `ramp_subtraction_rebuttal`| Follow-up analysis for the review; not part of the manuscript | `eeg_and_pe_data_merged_700pre_1500post_anonym_5b.csv` | figure in `plots/` |
+| `Follow_Up_Ramp_Subtraction.R` in `ramp_subtraction_rebuttal`| Follow-up analysis for the review; not part of the manuscript | `eeg_and_pe_data_merged_700pre_1500post_anonym_5b.csv` | figure in `plots/` |
 
 ## Analysis details
 
