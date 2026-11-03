@@ -193,6 +193,8 @@ for (i in 1:length(seglist)) {
 
 table(insertdata$id) # check whether trials are now complete for each subject
 
+stopifnot(all(table(insertdata$id) == 480)) # stop if any participant does not have 480 trials
+
 data <- insertdata
 remove(insertdata)
 
@@ -282,8 +284,8 @@ data$eeg_marker <- as.numeric(substr(data$stim,3,3))
 
 # compare this column between data sets (row index created with order() sorts
 # the column by id) and print the number of non-matching entries:
-sum(pe_data[order(as.numeric(as.factor(pe_data$id))),"eeg_marker"] !=
-      data[order(as.numeric(as.factor(data$id))),"eeg_marker"], na.rm=T)
+stopifnot(sum(pe_data[order(as.numeric(as.factor(pe_data$id))),"eeg_marker"] !=
+      data[order(as.numeric(as.factor(data$id))),"eeg_marker"], na.rm=T)==0)
 
 ##### Merge behavioural/pe- and eeg-data ##### 
 
@@ -362,8 +364,8 @@ data$eeg_marker <- as.numeric(substr(data$stim,3,3))
 
 # compare this column between data sets (row index created with order() sorts
 # the column by id) and print the number of non-matching entries:
-sum(pe_data[order(as.numeric(as.factor(pe_data$id))),"eeg_marker"] !=
-      data[order(as.numeric(as.factor(data$id))),"eeg_marker"], na.rm=T)
+stopifnot(sum(pe_data[order(as.numeric(as.factor(pe_data$id))),"eeg_marker"] !=
+      data[order(as.numeric(as.factor(data$id))),"eeg_marker"], na.rm=T)==0)
 
 ##### Merge behavioural/pe- and eeg-data ##### 
 
