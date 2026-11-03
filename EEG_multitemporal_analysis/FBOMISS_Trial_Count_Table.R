@@ -44,6 +44,12 @@ data <- data[!(id %in% low_var_ids)]
 
 data$valid_trial <- ifelse(!is.na(data$F7_1), 1, 0)
 
+# Note: valid_trial only requires a valid EEG segment. Four trials (subj_16
+# trial 261, subj_33 trial 4, subj_41 trial 35, subj_42 trial 354) showed
+# feedback despite an invalid or missing response and therefore have no PE.
+# They are counted here (and included in the grand averages by valence) but
+# not in the LMMs, which drop trials without a PE.
+
 data <- as.data.frame(data)
 trial_count <- aggregate(data$valid_trial, by=list(data$id, data$omission, data$valence), FUN="sum")
 
