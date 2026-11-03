@@ -1,4 +1,4 @@
-% Model 1: Update of chosen + unchosen action + separate learning rates for
+% Model 1c: Update of chosen + unchosen action + separate learning rates for
 % chosen and unchosen
 
 addpath(genpath('./interim_datasets/'));
