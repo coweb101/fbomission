@@ -24,20 +24,20 @@ All analyses based on PEs are run for the two best models according to BIC. File
 
 | Manuscript | Script | Output |
 |:---|:---|:---|
-| Fig. 1 (Task) | – (created manually in MS PowerPoint) | – |
-| Fig. 2a, Table 1 (Choice Accuracy) | `Behavioural_analysis/FBOmission_Behavioural_Data_Analysis_anonym.R`, part 1 | `predicted_accuracy.png`, `behavioural_analysis_output.txt` |
+| Fig. 1 (Task) | – (created in MS PowerPoint) | – |
+| Fig. 2a, Table 1 (Choice Accuracy) | `Behavioural_analysis/`<br>`FBOmission_Behavioural_Data`<br>`_Analysis_anonym.R`, part 1 | `predicted_accuracy.png`, `behavioural_analysis_output.txt` |
 | Fig. 2b/c, section 3.2 (Learning Rates) | `Behavioural_analysis/…`, part 3 | `learning_rates_predicted_BIC.png` / `_5b.png`, `behavioural_analysis_output.txt` |
-| Fig. 3 (Display, M2.1) | `EEG_multitemporal_analysis/FBOMISS_Multitemporal_Analysis_Results_Plots_BIC.R` | `multitemp_results_display_…_BIC_<date>.png`, `…_simple_slopes_BIC_<date>.png` |
+| Fig. 3 (Display, M2.1) | `EEG_multitemporal_analysis/FBOMISS_Multitemporal_Analysis`<br>`_Results_Plots_BIC.R` | `multitemp_results_display_…_BIC_<date>.png`, `…_simple_slopes_BIC_<date>.png` |
 | Fig. 4 (Omission, M2.1) | `…_Results_Plots_BIC.R` | `multitemp_results_omission_…_BIC_<date>.png`, `…_simple_slopes_BIC_<date>.png` |
 | Fig. 5 (Omission, M5.1) | `…_Results_Plots_5b.R` | `multitemp_results_omission_…_5b_<date>.png`, `…_simple_slopes_5b_<date>.png` |
-| Tables 2 and 3 (Significant Time Windows) | `FBOMISS_Multitemporal_Analysis_700Pre_1500Post.R` (LMMs), significance criteria as in the plot scripts | `multitemp results files/` |
+| Tables 2 and 3 (Significant Time Windows) | `FBOMISS_Multitemporal_Analysis`<br>`_700Pre_1500Post.R` | `multitemp results files/` |
 | Peak effects reported in sections 3.3.1 and 3.3.2 | `FBOMISS_extraction_of_peak_effects.R` | console output |
 | Section 3.3.3 ((Omission) P3) | `FBOMISS_omission_P3_characterization.R` | console output |
-| Table S1 (Model Comparison) | `PE_modelling/FBOmiss_PE_modelling_pipeline.m` (step 2); `Behavioural_analysis/…`, part 6 | `modelfits.csv` |
+| Table S1 (Model Comparison) | `PE_modelling/`<br>`FBOmiss_PE_modelling_pipeline.m` (step 2); `Behavioural_analysis/…`, part 6 | `modelfits.csv` |
 | Fig. S1 (Parameter Recovery) | `Behavioural_analysis/…`, part 4 | `scatter_<parameter>_<model>.png` |
 | Fig. S2, Table S2 (Posterior Predictive Check) | `Behavioural_analysis/…`, part 2 | `accuracy_posterior_prediction_BIC.png` / `_5b.png`, `behavioural_analysis_output.txt` |
 | Table S3 (Trial Counts) | `FBOMISS_Trial_Count_Table.R` | console output |
-| Fig. S3, S5, S6 (Topographies) | – (created in BrainVision Analyzer, S6 assembled in MS PowerPoint) | – |
+| Fig. S3, S5, S6 (Topographies) | – (created in BrainVision Analyzer, <br> S6 assembled in MS PowerPoint) | – |
 | Fig. S4 (display, M5.1) | `…_Results_Plots_5b.R` | `multitemp_results_display_…_5b_<date>.png`, `…_simple_slopes_5b_<date>.png` |
 | Fig. S7 (ERPs by absolute PE) | `…_Results_Plots_BIC.R` | - |
 | Figure R1 (ramp subtraction, review only) | `EEG_multitemporal_analysis/`<br>`ramp_subtraction_rebuttal/FBOMISS_Follow_Up_Ramp_Subtraction.R` | `multitemp_results_omission_…_ramp_corrected_5b_<date>.png` |
