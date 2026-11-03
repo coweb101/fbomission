@@ -2,7 +2,7 @@
 
 `FBOmission_Behavioural_Data_Analysis_anonym.R` analyses the behavioural data and the output of the PE modelling (folder `PE_modelling`). All model-based parts are run for the two best models according to BIC: files ending in `_BIC` refer to M2.1 (model 2b, lowest BIC), files ending in `_5b` to M5.1 (model 5b, second-lowest BIC).
 
-The script contains seven parts. Part 1 refers to the observed data; parts 2–5 are run separately for each model (M2.1 from line 323, M5.1 from line 1055, each marked by a section header `#### Best BIC Model (2.1) ####` / `#### 2nd best BIC Model (5.1) ####`); parts 6 and 7 refer to both models:
+The script contains seven parts. Part 1 refers to the observed data; parts 2–5 are run separately for each model (each marked by a section header `#### Best BIC Model (2.1) ####` / `#### 2nd best BIC Model (5.1) ####`); parts 6 and 7 refer to both models:
 
 1. **Choice accuracy:** exclusion of participants performing below chance (binomial test) and a GLMM of choice accuracy (trial × learning context × reward probability), with plots.
 2. **Posterior predictive check:** the same GLMM on choices simulated with each of the two models (25 simulated data sets per participant), with plots.
