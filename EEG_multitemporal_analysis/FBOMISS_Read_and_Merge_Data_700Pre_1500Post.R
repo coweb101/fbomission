@@ -299,6 +299,12 @@ library(plyr) # to use join() (merging data while preserving row order (merge() 
 
 merged_data <- plyr::join(pe_data, data, by = c("id", "trial"))
 
+# Note: Both data sets contain the columns "stim" and "eeg_marker", which are
+# therefore duplicated in the merged data. The first occurrence stems from the
+# behavioural data (stim: stimulus number 1-6; eeg_marker: marker code derived
+# from the feedback), the second from the EEG data (stim: EEG feedback marker
+# 235-250; eeg_marker: third digit of the EEG marker, used for the order check
+# above). When accessing columns by name, R returns the first occurrence.
 
 data.table::fwrite(merged_data, file="aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_5b.csv", row.names=F) # wanna save data in between?
 #data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_5b.csv")
@@ -373,6 +379,12 @@ library(plyr) # to use join() (merging data while preserving row order (merge() 
 
 merged_data <- plyr::join(pe_data, data, by = c("id", "trial"))
 
+# Note: Both data sets contain the columns "stim" and "eeg_marker", which are
+# therefore duplicated in the merged data. The first occurrence stems from the
+# behavioural data (stim: stimulus number 1-6; eeg_marker: marker code derived
+# from the feedback), the second from the EEG data (stim: EEG feedback marker
+# 235-250; eeg_marker: third digit of the EEG marker, used for the order check
+# above). When accessing columns by name, R returns the first occurrence.
 
 data.table::fwrite(merged_data, file="aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv", row.names=F) # wanna save data in between?
 #data <- data.table::fread("aggregated_data/eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv")
