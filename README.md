@@ -22,7 +22,7 @@ All analyses based on PEs are run for the two best models according to BIC. File
 
 **From scripts to figures and tables**
 
-The scripts create the individual plots of all figures (except from the task and topographies, see below); the final figures were arranged and annotated (e.g. panel labels) in PowerPoint. Figures 3–5, S4 and S7 were assembled from the two PNG files per analysis (fixed effects and grand averages; simple slopes and grand averages by PE). All plots created from scripts are saved in a folder `plots/` within the respective analysis folder.
+The scripts create the individual plots of all figures (except for the figure showing the task and topographies, see below); the final figures were arranged and annotated (e.g. panel labels) in PowerPoint. Figures 3–5, S4 and S7 were assembled from the two PNG files per analysis (fixed effects and grand averages; simple slopes and grand averages by PE). All plots created from scripts are saved in a folder `plots/` within the respective analysis folder.
 
 | Manuscript | Script | Output |
 |:---|:---|:---|
@@ -47,4 +47,4 @@ The scripts create the individual plots of all figures (except from the task and
 
 **Data availability**
 
-All data files in this repository contain only anonymous participant IDs (`subj_01` to `subj_48`). The raw logfiles are not public; the code that reads them is included for transparency. The preprocessed EEG data (read from .dat and .vmrk BVA export files, anonymized and merged with PE data in `FBOMISS_Read_and_Merge_Data_700Pre_1500Post.R`; two files (with PEs derived from the two best models; each about 2.3 GB) are available at OSF via https://doi.org/10.17605/OSF.IO/FZCQJ.
+All data files in this repository contain only anonymous participant IDs (`subj_01` to `subj_48`). The raw logfiles are not public; the code that reads them is included for transparency. The preprocessed EEG data (read from .dat and .vmrk BVA export files, anonymized and merged with PE data of the two best models in `FBOMISS_Read_and_Merge_Data_700Pre_1500Post.R`; each of the two about 2.3 GB) are available at OSF via https://doi.org/10.17605/OSF.IO/FZCQJ.
