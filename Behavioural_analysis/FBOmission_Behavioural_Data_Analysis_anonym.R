@@ -802,6 +802,8 @@ for (i in 1:length(unique(data$id))){
   for (j in 1:num) {
     
     # Find the first occurrence where stim is current stim in loop
+    # Note: the correct/incorrect assignment is taken from the first trial with a
+    # valid choice; in the present data, correct and context are not NA in any of these trials.
     first_index <- which(currdata$stim == j & !is.na(currdata$choice))[1]
     
     # Get the values for choice and correct at that index
@@ -1663,6 +1665,8 @@ for (i in 1:length(unique(data$id))){
   for (j in 1:num) {
     
     # Find the first occurrence where stim is current stim in loop
+    # Note: the correct/incorrect assignment is taken from the first trial with a
+    # valid choice; in the present data, correct and context are not NA in any of these trials.
     first_index <- which(currdata$stim == j & !is.na(currdata$choice))[1]
     
     # Get the values for choice and correct at that index
