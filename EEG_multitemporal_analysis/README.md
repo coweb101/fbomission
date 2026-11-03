@@ -1,6 +1,6 @@
 # EEG multitemporal analysis
 
-Sample-wise linear mixed models (LMMs) of the effects of (contextual) feedback valence and the absolute prediction error on feedback-locked EEG amplitudes, separately for displayed and omitted feedback, and the corresponding plots. All PE-based analyses are run for the two best models from `PE_modelling` (`_BIC` = M2.1 (Valence-Only model), model 2b; `_5b` = M5.1 (Valence-Context model), model 5b).
+Sample-wise linear mixed models (LMMs) of the effects of (contextual) feedback valence and the absolute prediction error on feedback-locked EEG amplitudes, separately for displayed and omitted feedback, and the corresponding plots. All PE-based analyses are run with PEs from the two best reinforcement learning models from `PE_modelling` (`_BIC` = M2.1 (Valence-Only model), model 2b; `_5b` = M5.1 (Valence-Context model), model 5b).
 
 ## Scripts (in the order in which they are run)
 
