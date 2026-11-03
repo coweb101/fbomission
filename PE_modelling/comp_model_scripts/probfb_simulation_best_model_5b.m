@@ -6,8 +6,10 @@
 % set directory for model fit
 addpath(genpath('./comp_model_fit_export/'));
 
-% load parameters of best fit of model 5b (fit_BIC: within a model the
-% iteration with the lowest BIC is also the one with the lowest -LL and AIC)
+% load parameters of best fit of model 5b (fit_BIC: within a model, the
+% iteration with the lowest BIC also has the lowest -LL and AIC, as the number
+% of parameters is constant; for tied optima, fit and fit_BIC may contain
+% different but equally well-fitting parameter sets, e.g. in model 9c)
 load fit_model_5b_bic;
 
 % names of the free parameters in the order of params(1), params(2), ...
