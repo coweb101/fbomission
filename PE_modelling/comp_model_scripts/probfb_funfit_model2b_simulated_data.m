@@ -2,6 +2,10 @@
 % Model 2b: separate learning rates for positive and negative feedback (+ update of chosen and unchosen option)
 % (start values, bounds and fmincon call copied from probfb_funfit_model2b.m)
 
+% Note: this script is called within FBOmiss_PE_modelling_pipeline.m and uses
+% nsim (number of simulated data sets, set in the simulation script) and niter
+% (number of fmincon iterations, set in the pipeline) from the workspace.
+
 addpath(genpath('./interim_datasets/'));
 
 % remove fits of the empirical data from the workspace (same variable names)
