@@ -1,7 +1,6 @@
 function [all_data,learn_data,resp_ti_data,stat_outcome]=read_logfile_om_aktiv_1(vp,filename)
-%vp = vp-Kürzel als string
+%vp = vp-KÃ¼rzel als string
 %filename = kompletter filename OHNE extension als string
-
 
 
 path='logfiles\';
@@ -21,7 +20,7 @@ num_session=0;
 pattern_presented=0;
 test_pattern_presented=0;
 
-ende_uebung=0; %wenn die Ende_Uebung Folie präsentiert wurde geht das Experiment erst richtig los.
+ende_uebung=0; %wenn die Ende_Uebung Folie prÃ¤sentiert wurde geht das Experiment erst richtig los.
 
 learn_session=0;
 test_session=0;
@@ -43,7 +42,7 @@ while zeile >= 0
                 
             [token,zeile] = strtok(zeile); %3.Level: hier steht die Art des Ereignisses
             token;
-            if (strcmp(token,'Picture')) & start_session==0 % hier sind jetzt 2 Loops nötig - die erste, damit das erste start_learn_session entdeckt wird
+            if (strcmp(token,'Picture')) & start_session==0 % hier sind jetzt 2 Loops nÃ¶tig - die erste, damit das erste start_learn_session entdeckt wird
                 [token,zeile] = strtok(zeile); %
                 token; 
                 if strcmp(token,'fixlearn_start_learn_session')
@@ -62,7 +61,7 @@ while zeile >= 0
             end
                
             
-            if (strcmp(token,'Picture')) & num_session>0 % diese zweite Loop soll nur starten, wenn Ende_Uebung schon präsentiert wurde
+            if (strcmp(token,'Picture')) & num_session>0 % diese zweite Loop soll nur starten, wenn Ende_Uebung schon prÃ¤sentiert wurde
                 [token,zeile] = strtok(zeile);
                  
                 
@@ -206,7 +205,7 @@ while zeile >= 0
                     [token,zeile] = strtok(zeile); 
                     resp_time(trialnum_ges,1)=str2num(token)/10;
                     all_data{trialnum_ges,8}=(resp_time(trialnum_ges,1)-pattern_time(trialnum_ges,1));
-                     pattern_presented=0; %nächste Reaktion soll nicht mehr gezählt werden
+                     pattern_presented=0; %nÃ¤chste Reaktion soll nicht mehr gezÃ¤hlt werden
                 end
                 
                 if test_pattern_presented==1                  
@@ -232,7 +231,7 @@ while zeile >= 0
                     resp_time(trialnum_ges,1)=str2num(token)/10;
                     resp_time(trialnum_ges,1);
                     all_data{trialnum_ges,8}=(resp_time(trialnum_ges,1)-pattern_time(trialnum_ges,1));  
-                    test_pattern_presented=0; %nächste Reaktion soll nicht mehr gezählt werden
+                    test_pattern_presented=0; %nÃ¤chste Reaktion soll nicht mehr gezÃ¤hlt werden
                 end                               
               
             end
