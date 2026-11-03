@@ -4,7 +4,7 @@ Sample-wise linear mixed models (LMMs) of the effects of (contextual) feedback v
 
 ## Scripts (in the order in which they are run)
 
-| Script (all start with `FBOMISS_`)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | What it does &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Input | Output |
+| Script (all start with `FBOMISS_`)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | What it does &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Input | Output |
 |---|---|---|---|
 | `Read_and_Merge_Data_700Pre_1500Post.R` | Reads the single-trial EEG exports (BrainVision Analyzer), adds empty rows for trials rejected during preprocessing, checks the trial order against the behavioural data via the feedback markers and merges EEG and PE data | BrainVision exports (.dat and .vmrk) and ID key (created within the MATLAB pipeline; both not public), `behav_and_pe_data_concatenated_BIC.csv` / `_5b.csv` (from `Behavioural_analysis`) | `eeg_and_pe_data_merged_700pre_1500post`<br>`_anonym_BIC.csv` / `_5b.csv` |
 | `Trial_Count_Table.R` | Number of valid trials per condition | merged data | console output |
@@ -12,7 +12,7 @@ Sample-wise linear mixed models (LMMs) of the effects of (contextual) feedback v
 | `Multitemporal_Analysis_Results`<br>`_Plots_BIC.R`, `..._5b.R` | Plots of the LMM coefficients (with significant effects after Benjamini-Hochberg correction and at least five consecutive sample points) and grand averages (with 40 ms moving average) | LMM results and merged data of the respective model | figures in `plots/` |
 | `extraction_of_peak_effects.R` | Extracts the peak effects of the significant time windows | LMM results | console output |
 | `omission_P3_characterization.R` | Characterizes the P3-like waveform in omission (and display) trials | merged data (`_BIC`) | console output (latencies and peaks) |
-| `Follow_Up_Ramp_Subtraction.R` in the subfolder `ramp_subtraction_rebuttal`| Follow-up analysis for the review; not part of the manuscript | `eeg_and_pe_data_merged_700pre_1500post_anonym_5b.csv` | figure in `plots/` |
+| `Follow_Up_Ramp_Subtraction.R` in the subfolder `ramp_subtraction_rebuttal`| Follow-up analysis for the review; not part of the manuscript | `eeg_and_pe_data_merged`<br>`_700pre_1500post_anonym_5b.csv` | figure in `plots/` |
 
 ## Analysis details
 
