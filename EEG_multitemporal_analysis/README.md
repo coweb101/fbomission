@@ -1,6 +1,6 @@
 # EEG multitemporal analysis
 
-Sample-wise linear mixed models (LMMs) of the effects of contextual valence and the absolute prediction error (|PE|) on feedback-locked EEG amplitudes, separately for displayed and omitted feedback, and the corresponding plots. All PE-based analyses are run for the two best models from `PE_modelling` (`_BIC` = M2.1, model 2b; `_5b` = M5.1, model 5b).
+Sample-wise linear mixed models (LMMs) of the effects of (contextual) feedback valence and the absolute prediction error on feedback-locked EEG amplitudes, separately for displayed and omitted feedback, and the corresponding plots. All PE-based analyses are run for the two best models from `PE_modelling` (`_BIC` = M2.1 (Valence-Only model), model 2b; `_5b` = M5.1 (Valence-Context model), model 5b).
 
 ## Scripts (in the order in which they are run)
 
@@ -12,6 +12,7 @@ Sample-wise linear mixed models (LMMs) of the effects of contextual valence and 
 | `FBOMISS_Multitemporal_Analysis_Results_Plots_BIC.R`, `..._5b.R` | Plots of the LMM coefficients (with significant effects after Benjamini-Hochberg correction and at least five consecutive sample points) and grand averages (with 40 ms moving average) | LMM results and merged data of the respective model | figures in `plots/` |
 | `FBOMISS_extraction_of_peak_effects.R` | Extracts the peak effects of the significant time windows | LMM results | console output |
 | `FBOMISS_omission_P3_characterization.R` | Characterizes the P3-like waveform in omission (and display) trials | merged data (`_BIC`) | console output (latencies and peaks) |
+| `FBOMISS_Multitemporal_Analysis_Follow_Up_Ramp_Subtraction.R` in `ramp_subtraction_rebuttal`| Follow-up analysis for the review; not part of the manuscript | `eeg_and_pe_data_merged_700pre_1500post_anonym_5b.csv` | figure in `plots/` |
 
 ## Analysis details
 
