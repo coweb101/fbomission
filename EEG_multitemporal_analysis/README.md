@@ -1,8 +1,8 @@
-# EEG multitemporal analysis
+**EEG multitemporal analysis**
 
 Sample-wise linear mixed models (LMMs) of the effects of (contextual) feedback valence and the absolute prediction error on feedback-locked EEG amplitudes, separately for displayed and omitted feedback, and the corresponding plots. All PE-based analyses are run with PEs from the two best reinforcement learning models from `PE_modelling` (`_BIC` = M2.1 (Valence-Only model), model 2b; `_5b` = M5.1 (Valence-Context model), model 5b).
 
-## Scripts (in the order in which they are run)
+**Scripts (in the order in which they are run)**
 
 All scripts start with `FBOMISS_`.
 
@@ -12,11 +12,11 @@ All scripts start with `FBOMISS_`.
 | `Trial_Count_Table.R` | Number of valid trials per condition | merged data | console output |
 | `Multitemporal_Analysis`<br>`_700Pre_1500Post.R` | One LMM per sample point, separately for display and omission trials and for the frontocentral and centroparietal cluster, for both models | merged data (`_BIC`, `_5b`) | `multitemp_pre700_post1500`<br>`_cluster_condition_trials`<br>`_no_baseline_model.csv` |
 | `Multitemporal_Analysis_Results`<br>`_Plots_BIC.R`, `..._5b.R` | Plots of the LMM coefficients (with significant effects after Benjamini-Hochberg correction and at least five consecutive sample points) and grand averages (with 40 ms moving average) | LMM results and merged data of the respective model | figures in `plots/` |
-| `extraction_of_peak_effects.R` | Extracts the peak effects of the significant time windows | LMM results | console output |
+| `extraction_of_peak_effects.R` | Determines the significant time windows (Benjamini-Hochberg correction, at least five consecutive sample points, Bonferroni-adjusted follow-up tests) and extracts the peak effects | LMM results | console output |
 | `omission_P3_characterization.R` | Characterizes the P3-like waveform in omission (and display) trials | merged data (`_BIC`) | console output (latencies and peaks) |
-| `Follow_Up_Ramp_Subtraction.R` in the subfolder `ramp_subtraction_rebuttal`| Follow-up analysis for the review; not part of the manuscript | `eeg_and_pe_data_merged`<br>`_700pre_1500post_anonym_5b.csv` | figure in `plots/` |
+| `Follow_Up_Ramp_Subtraction.R` in the subfolder `ramp_subtraction_rebuttal` | Follow-up analysis for the review (ramp subtraction; M5.1, omission, centroparietal cluster); not part of the manuscript | `eeg_and_pe_data_merged`<br>`_700pre_1500post_anonym_5b.csv` | `multitemp_pre700_post1500_centroparietal_cluster`<br>`_omission_trials_no_baseline_5b_with_ramp_subtraction.csv`, figure in `plots/` |
 
-## Analysis details
+**Analysis details**
 
 - Segments from −700 to 1500 ms relative to feedback (omission) onset, 250 Hz (550 sample points; sample point *i* corresponds to *i* × 4 − 704 ms), no baseline correction.
 - Electrode clusters: frontocentral (F3, Fz, F4, FC1, FCz, FC2) and centroparietal (CP1, CP2, P3, Pz, P4).
@@ -24,19 +24,19 @@ All scripts start with `FBOMISS_`.
 - Participants whose |PE| hardly varies (SD of |PE| < .05 in display or omission trials) are excluded from all PE analyses, as their participant-specific PE slopes cannot be estimated. The criterion is applied to the PEs of each model separately.
 - Grand averages for the PE plots use three quantiles of |PE| formed within participant and outcome valence.
 
-## Result files
+**Result files**
 
 `multitemp results files/` contains the LMM results (one row per sample point; estimates, standard errors, degrees of freedom, t and p values for each effect and the simple slopes). The scripts read and write data in `aggregated_data/` relative to the working directory; to rerun the plots, copy the result files there.
 
-## Data
+**Data**
 
 The merged EEG and PE data (`eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv`, `…_5b.csv`) are too large for GitHub and are available at [OSF](https://doi.org/10.17605/OSF.IO/FZCQJ). To rerun the analyses, place them in `aggregated_data/`. `FBOMISS_Read_and_Merge_Data_700Pre_1500Post.R` created these files from the single-trial BrainVision exports and is included for transparency only. It needs the non-anonymized exports and the participant key, which are not public.
 
-## How to run
+**How to run**
 
 Replace the working directory at the top of each script (`setwd()`) to the folder that contains `aggregated_data/` and create a folder `plots/`.
 
-## Required R packages
+**Required R packages**
 
 data.table, plyr, lmerTest (loads lme4), emmeans, effectsize, scales, viridis, yarrr
 
