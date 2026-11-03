@@ -88,6 +88,9 @@ behav$correct[late] <- as.integer(
 # Therefore I recode the correct column for these stimuli before evaluating accuracy rates.
 behav[which(behav$stim == 5|behav$stim == 6), "correct"] <- NA
 
+# Responses after the 3-s limit received no feedback (feedback = 9) and are no valid choices
+behav[which(behav$feedback == 9), "correct"] <- NA
+
 # Note: Trials without a response within the deadline received no feedback
 # (feedback = 9, context = NA) and are therefore not included in the GLMM.
 # With the recoding above, the GLMM comprises 15,300 trials.
