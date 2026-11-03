@@ -5,7 +5,7 @@
 The script contains seven parts. Part 1 refers to the observed data; parts 2–5 are run separately for each model (each marked by a section header `#### Best BIC Model (2.1) ####` / `#### 2nd best BIC Model (5.1) ####`); parts 6 and 7 refer to both models:
 
 1. **Choice accuracy:** exclusion of participants performing below chance (binomial test) and a GLMM of choice accuracy (trial × learning context × reward probability), with plots.
-2. **Posterior predictive check:** the same GLMM on choices simulated with each of the two models (25 simulated data sets per participant), with plots.
+2. **Posterior predictive check:** the same GLMM on choices simulated with each of the two models (25 simulated data sets per participant; random effects per simulated data set instead of per participant), with plots.
 3. **Learning rates:** linear mixed models of the fitted (cube-root transformed) learning rates of both models (M2.1: valence; M5.1: valence × feedback appearance), with plots.
 4. **Parameter recovery:** correlation of fitted and recovered parameters of both models (recovered parameters averaged across the 25 simulated data sets), one scatter plot per parameter. For M5.1, this part additionally tests the recovery of the difference between learning rates for displayed and omitted outcomes (section 3.2).
 5. **Action values:** trial-wise action values of the correct and incorrect action per stimulus, with plots. This part also writes the behavioural data merged with the trial-wise action values and prediction errors, which the EEG analysis (`EEG_multitemporal_analysis`) merges with the EEG data.
