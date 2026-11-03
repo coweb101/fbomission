@@ -88,9 +88,6 @@ behav$correct[late] <- as.integer(
 # Therefore I recode the correct column for these stimuli before evaluating accuracy rates.
 behav[which(behav$stim == 5|behav$stim == 6), "correct"] <- NA
 
-# Responses after the 3-s limit received no feedback (feedback = 9) and are no valid choices
-behav[which(behav$feedback == 9), "correct"] <- NA
-
 # Note: Trials without a response within the deadline received no feedback
 # (feedback = 9, context = NA) and are therefore not included in the GLMM.
 # With the recoding above, the GLMM comprises 15,300 trials.
@@ -117,7 +114,16 @@ for (i in 1:length(unique(behav$id))){
   
   # fill data frame 
   learnerlist[i,1] <- file
-  learnerlist[i,2] <- ifelse(n_correct <= n_below_chance, 1, 0)
+
+  # trials with responses (excluding responses after the deadline, which received no feedback)
+  valid <- which(behav$id == file & behav$feedback != 9)
+  size <- sum(!is.na(behav$correct[valid]))
+  n_correct <- sum(behav$correct[valid], na.rm = T)
+
+  # classified as below chance if the probability of n_correct or fewer correct
+  # responses under random choice (p = .5) is below .05
+  learnerlist[i,1] <- file
+  learnerlist[i,2] <- ifelse(pbinom(n_correct, size = size, prob = .5) < .05, 1, 0)
   
 }
 
