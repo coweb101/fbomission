@@ -808,8 +808,9 @@ for (i in 1:length(unique(data$id))){
   for (j in 1:num) {
     
     # Find the first occurrence where stim is current stim in loop
-    # Note: the correct/incorrect assignment is taken from the first trial with a
-    # valid choice; in the present data, correct and context are not NA in any of these trials.
+    # Note: the correct/incorrect assignment is taken from the first trial with a valid choice.
+    # For stimuli 1-4, correct is not NA in these trials in the present data; for stimuli 5/6,
+    # correct is NA by design and the assignment is set below (right key = "correct").
     first_index <- which(currdata$stim == j & !is.na(currdata$choice))[1]
     
     # Get the values for choice and correct at that index
@@ -856,6 +857,7 @@ for (i in 1:length(unique(data$id))){
     if (is.na(choice == 1 & correct == 1)| is.na(choice == 2 & correct == 1) |
         is.na(choice == 1 & correct == 0)| is.na(choice == 2 & correct == 0)){
       currdata[[Q_corr]] <- NA
+      currdata[[Q_incorr]] <- NA   
     } else if (choice == 1 & correct == 1) {
       currdata[[Q_corr]] <- currdata[[Q_l]]
       currdata[[Q_incorr]] <- currdata[[Q_r]]
@@ -1671,8 +1673,9 @@ for (i in 1:length(unique(data$id))){
   for (j in 1:num) {
     
     # Find the first occurrence where stim is current stim in loop
-    # Note: the correct/incorrect assignment is taken from the first trial with a
-    # valid choice; in the present data, correct and context are not NA in any of these trials.
+    # Note: the correct/incorrect assignment is taken from the first trial with a valid choice.
+    # For stimuli 1-4, correct is not NA in these trials in the present data; for stimuli 5/6,
+    # correct is NA by design and the assignment is set below (right key = "correct").
     first_index <- which(currdata$stim == j & !is.na(currdata$choice))[1]
     
     # Get the values for choice and correct at that index
@@ -1719,6 +1722,7 @@ for (i in 1:length(unique(data$id))){
     if (is.na(choice == 1 & correct == 1)| is.na(choice == 2 & correct == 1) |
         is.na(choice == 1 & correct == 0)| is.na(choice == 2 & correct == 0)){
       currdata[[Q_corr]] <- NA
+      currdata[[Q_incorr]] <- NA   
     } else if (choice == 1 & correct == 1) {
       currdata[[Q_corr]] <- currdata[[Q_l]]
       currdata[[Q_incorr]] <- currdata[[Q_r]]
