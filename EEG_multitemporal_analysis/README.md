@@ -4,7 +4,7 @@ Sample-wise linear mixed models (LMMs) of the effects of (contextual) feedback v
 
 ## Scripts (in the order in which they are run)
 
-| Script | What it does | Input | Output |
+| Script&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | What it does | Input | Output |
 |---|---|---|---|
 | `FBOMISS_Read_and_Merge_Data_700Pre_1500Post.R` | Reads the single-trial EEG exports (BrainVision Analyzer), adds empty rows for trials rejected during preprocessing, checks the trial order against the behavioural data via the feedback markers and merges EEG and PE data | BrainVision exports (.dat and .vmrk) and ID key (created within the MATLAB pipeline; both not public), `behav_and_pe_data_concatenated_BIC.csv` / `_5b.csv` (from `Behavioural_analysis`) | `eeg_and_pe_data_merged_700pre_1500post_anonym_BIC.csv` / `_5b.csv` |
 | `FBOMISS_Trial_Count_Table.R` | Number of valid trials per condition | merged data | console output |
