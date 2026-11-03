@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite it as below."
+title: "Computational pipeline for quantifying valence and prediction error coding in omission-related responses"
+authors:
+  - family-names: Weber
+    given-names: Constanze
+    affiliation: Heinrich Heine University Düsseldorf, Faculty of Mathematics and Natural Sciences, Institute of Experimental Psychology
+    orcid: "https://orcid.org/0000-0003-0174-8371"
+  - family-names: Jocham
+    given-names: Gerhard
+    affiliation: Heinrich Heine University Düsseldorf, Faculty of Mathematics and Natural Sciences, Institute of Experimental Psychology
+  - family-names: Bellebaum
+    given-names: Christian
+    affiliation: Heinrich Heine University Düsseldorf, Faculty of Mathematics and Natural Sciences, Institute of Experimental Psychology
+version: 1.0.0
+date-released: "2026-11-03"
+license: MIT
+repository-code: "https://github.com/coweb101/fbomission"
+abstract: >-
+  Code for the analysis of behavioural and EEG data of a probabilistic
+  reinforcement learning task with omissions of rewards and losses:
+  reinforcement learning modelling (MATLAB), behavioural analyses and
+  sample-wise linear mixed models of feedback- and omission-related EEG
+  amplitudes (R).
+keywords:
+  - reinforcement learning
+  - prediction error
+  - omission
+  - EEG
+  - event-related potentials
