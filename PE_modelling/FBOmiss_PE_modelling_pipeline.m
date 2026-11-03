@@ -28,7 +28,7 @@ read_data;
 % 'interim_datasets' (specified in dataprep script)
 [datastruc_stimuli, datastruc_choice,datastruc_not_choice,datastruc_feedback,datastruc_feedback_type,filenames,stim_rew_prob]=dataprep_PE_paper;
 
-% Calculate means of feedback for each stimuli and each participant to
+% Calculate means of feedback for each stimulus to
 % identify which stimulus had which reward probability
 stim_rew_prob.id = categorical(cellstr(stim_rew_prob.id));
 stim_rew_prob.stim = cell2mat(stim_rew_prob.stim);
@@ -41,7 +41,7 @@ stim_rew_prob.correct = cell2mat(stim_rew_prob.correct);
 omitnan_mean = @(x) mean(x, 'omitnan');
 
 
-% Calculate the mean of feedback grouped by id and correct answers to
+% Calculate the mean of feedback grouped by stimulus and correct answers to
 % verify stim numbering and positive outcome probability
 stim_rew_prob_proportion_rewards = grpstats(stim_rew_prob, {'stim', 'correct'}, omitnan_mean, 'DataVars', 'feedback');
 % stim 1&2 = 90% reward probability; stim 3&4 = 70%; stim 5&6 = 50% -
