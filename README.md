@@ -62,4 +62,4 @@ Weber, C., Jocham, G., & Bellebaum, C. (2026). *Computational pipeline for quant
 
 **License**
 
-The code in this repository is licensed under the MIT License (see `LICENSE`). The data on OSF are licensed under CC BY-NC 4.0 (Attribution-NonCommercial 4.0 International). Data files in this repository (in `Behavioural_analysis/aggregated_data/`, `PE_modelling/interim_datasets/`, `PE_modelling/comp_model_fit_export/` and `EEG_multitemporal_analysis/multitemp results files/`) are licensed under CC BY-NC 4.0, as the data on OSF.
+The code in this repository is licensed under the MIT License (see `LICENSE`). The data on OSF are licensed under CC BY-NC 4.0 (Attribution-NonCommercial 4.0 International). Data files in this repository (in `Behavioural_analysis/aggregated_data/`, `PE_modelling/interim_datasets/`, `PE_modelling/comp_model_fit_export/`, `EEG_multitemporal_analysis/multitemp results files/` and `EEG_multitemporal_analysis/ramp_subtraction_rebuttal/`) are licensed under CC BY-NC 4.0, as the data on OSF.
