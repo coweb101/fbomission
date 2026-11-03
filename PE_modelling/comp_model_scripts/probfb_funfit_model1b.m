@@ -47,7 +47,7 @@ for i = 1:nsubs
             sub_choice,sub_outcome,sub_not_choice,ntrials, sub_stimuli);
         
         % save optimized parameter of this iteration of fmincon fit
-        all_alpha_pos(j) = params(1);
+        all_alpha_pos(j) = params(1);         % note: models 1/1b have a single learning rate for all outcomes, stored as alpha_pos
         all_beta(j) = params(2);
         
         % save fit indices
