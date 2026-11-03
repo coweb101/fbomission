@@ -735,7 +735,7 @@ round(pe_coefficients[which(pe_coefficients$coef_valence == max(pe_coefficients$
 
 ## get more info for later time windows
 
-late_valence_effects <- significanteffect_valence[significanteffect_valence > 276]
+late_valence_effects <- significanteffect_valence[significanteffect_valence > 275]
 
 pe_coefficients$coef_valence[late_valence_effects] # coefficients are first negatively signed only later positive again, therefore we look for the minimum at first
 
