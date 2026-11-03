@@ -58,7 +58,8 @@ Weber, C., Jocham, G., & Bellebaum, C. (under review). Cortical prediction error
 
 and the archived version of the code:
 
-Weber, C., Jocham, G., & Bellebaum, C. (2026). *Computational pipeline for quantifying valence and prediction error coding in omission-related responses* (Version v1.0.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.[…]
+Weber, C., Jocham, G., & Bellebaum, C. (2026). Computational pipeline for quantifying valence and prediction error coding in omission-related responses (Version v1.0.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.23923852
+
 
 **License**
 
