@@ -24,6 +24,8 @@ All analyses based on PEs are run for the two best models according to BIC. File
 | `_BIC` | 2b | M2.1 (Valence-Only model) | separate for positive and negative outcomes,<br>with update of the unchosen action |
 | `_5b` | 5b | M5.1 (Valence-Context model) | separate for positive/negative × displayed/omitted outcomes,<br>with update of the unchosen action |
 
+In modelfits.csv and the MATLAB code, the models are labelled by their features: M2.1 as “valence (+ unchosen update)”, M5.1 as “valence + appearance (+ unchosen update)”, where “appearance” refers to displayed vs omitted feedback.
+
 **From scripts to figures and tables**
 
 The scripts create the individual plots of all figures (except for the figure showing the task and topographies, see below); the final figures were arranged and annotated (e.g. panel labels) in PowerPoint. Figures 3–5 and S4 combine panels from the two PNG files created per multitemporal analysis (one with fixed effects and grand averages, one with simple slopes and grand averages by PE). Fig. S7 combines the grand averages by PE (bottom rows) of the first PNG file of each of the four analyses. All plots created from scripts are saved in a folder `plots/` within the respective analysis folder.
