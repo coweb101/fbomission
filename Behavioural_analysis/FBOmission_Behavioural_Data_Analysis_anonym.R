@@ -165,8 +165,8 @@ emmeans::emtrends(accuracy_glmer,
 # All simple slopes are significant. However, contrasts between slopes show that
 # the slope for trial number is steeper for the 90% stimulus in the Get Reward 
 # Context vs the 90% stimulus in Avoid Loss Context (p=.0083), vs 70% stimulus 
-# in Avoid Loss Context (p=.0126), but not vs the 70% stimulus in Get Reward 
-# Context (p = .1521).
+# in Avoid Loss Context (p=.0125), but not vs the 70% stimulus in Get Reward 
+# Context (p = .1400).
 
 #### Visualization
 
