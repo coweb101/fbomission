@@ -22,7 +22,7 @@ All analyses based on PEs are run for the two best models according to BIC. File
 
 **From scripts to figures and tables**
 
-The scripts create the individual plots of all figures (except from the task and topographies, see below); the final figures were arranged and annotated (e.g. panel labels) in PowerPoint. Figures 3–5 and S4 were assembled from the two PNG files per analysis (fixed effects and grand averages; simple slopes and grand averages by PE). All figures are saved in a folder `plots/` within the respective analysis folder. All plots created from scripts are saved in a folder `plots/` within the respective analysis folder.
+The scripts create the individual plots of all figures (except from the task and topographies, see below); the final figures were arranged and annotated (e.g. panel labels) in PowerPoint. Figures 3–5, S4 and S7 were assembled from the two PNG files per analysis (fixed effects and grand averages; simple slopes and grand averages by PE). All figures are saved in a folder `plots/` within the respective analysis folder. All plots created from scripts are saved in a folder `plots/` within the respective analysis folder.
 
 | Manuscript | Script | Output |
 |:---|:---|:---|
@@ -41,7 +41,7 @@ The scripts create the individual plots of all figures (except from the task and
 | Table S3 (Trial Counts) | `FBOMISS_Trial_Count_Table.R` | console output |
 | Fig. S3, S5, S6 (Topographies) | – (created in BrainVision Analyzer) | – |
 | Fig. S4 (display, M5.1) | `…_Results_Plots_5b.R` | `multitemp_results_display_…_5b_<date>.png`, `…_simple_slopes_5b_<date>.png` |
-| Fig. S7 (ERPs by absolute PE) | `…_Results_Plots_BIC.R` | - |
+| Fig. S7 (ERPs by absolute PE) | `…_Results_Plots_BIC.R`, `…Results_Plots_5b.R` | bottom rows of `multitemp_results_display…<model><date>.png` and `multitemp_results_omission…<model><date>.png` |
 | Figure R1 (ramp subtraction, review only) | `EEG_multitemporal_analysis/`<br>`ramp_subtraction_rebuttal/FBOMISS_Follow_Up_Ramp_Subtraction.R` | `multitemp_results_omission_…_ramp_corrected_5b_<date>.png` |
 
 
