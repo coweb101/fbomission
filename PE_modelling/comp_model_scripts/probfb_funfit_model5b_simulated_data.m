@@ -1,5 +1,5 @@
 % Parameter recovery: fit model 5b (second-lowest BIC) to the simulated data
-% Model 5b: separate learning rates for valence x appearance (positive/negative feedback, presented/omitted) (+ update of chosen and unchosen option)
+% Model 5b: separate learning rates for valence x appearance (positive/negative feedback, displayed/omitted) (+ update of chosen and unchosen option)
 
 % Note: this script is called within FBOmiss_PE_modelling_pipeline.m and uses
 % nsim (number of simulated data sets, set in the simulation script) and niter
