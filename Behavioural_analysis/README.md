@@ -25,7 +25,7 @@ All input files are in `aggregated_data/`. They contain only anonymous participa
 | `FBOmiss_behav_recovered_BIC.csv`, `_5b.csv` | Choices simulated with the model (25 data sets per participant) | `PE_modelling`, step 4 |
 | `FBOmiss_learning_parameter_recovered_BIC.csv`, `_5b.csv` | Parameters recovered from the simulated data | `PE_modelling`, step 4 |
 
-The first file is written by `create_correct_response_key.m` (step 1 of the PE modelling, which requires the non-public logfiles) to `PE_modelling/interim_datasets/`; all other files are copies of the files of the same name in `PE_modelling/comp_model_fit_export/`. If you rerun the modelling, copy them here again.
+The first file is written by `create_correct_response_key.m` (step 1 of the PE modelling, which requires the non-public logfiles) to `PE_modelling/interim_datasets/` and is included in the repository only in this folder; all other files are copies of the files of the same name in `PE_modelling/comp_model_fit_export/`. If you rerun the modelling, copy them here again.
 
 **How to run**
 
