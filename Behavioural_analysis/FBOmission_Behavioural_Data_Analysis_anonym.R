@@ -446,7 +446,7 @@ par(mfrow = c(1, 2), mai = c(0.38, 0.4, 0.2, 0.05), mgp = c(1.4, 0.35, 0), tcl =
 
 for (ctx in c(1, -1)) { # loop through contexts
   
-  # subset predicted and observed data
+  # subset GLMM-predicted and simulated data
   plot_data <- plotdata[plotdata$context == ctx, ]
   obs_data <- agg_data[agg_data$context == ctx, ]
   
@@ -484,7 +484,7 @@ for (ctx in c(1, -1)) { # loop through contexts
     pd <- plot_data[plot_data$rew_prob == rw, ]
     od <- obs_data[obs_data$rew_prob == rw, ]
     
-    # plot redicted data
+    # plot predicted data
     
     # shaded areas for confidence intervals
     polygon(c(pd$trialno_centered, rev(pd$trialno_centered)),
@@ -1203,7 +1203,7 @@ par(mfrow = c(1, 2), mai = c(0.38, 0.4, 0.2, 0.05), mgp = c(1.4, 0.35, 0), tcl =
 
 for (ctx in c(1, -1)) { # loop through contexts
   
-  # subset predicted and observed data
+  # subset GLMM-predicted and simulated data
   plot_data <- plotdata[plotdata$context == ctx, ]
   obs_data <- agg_data[agg_data$context == ctx, ]
   
@@ -1241,7 +1241,7 @@ for (ctx in c(1, -1)) { # loop through contexts
     pd <- plot_data[plot_data$rew_prob == rw, ]
     od <- obs_data[obs_data$rew_prob == rw, ]
     
-    # plot redicted data
+    # plot predicted data
     
     # shaded areas for confidence intervals
     polygon(c(pd$trialno_centered, rev(pd$trialno_centered)),
